@@ -3,25 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/d4rEH4U.png">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/d4rEH4U.png">
     <title>Gravy Pass - Download App</title>
 
     <style>
         /* ==================================== */
-        /* ===== COLORS & VARIABLES (GRAVY PASS: DEEP NAVY / CYAN) ===== */
+        /* ===== COLORS & VARIABLES (GRAVY PASS: LIGHT CYAN) ===== */
         /* ==================================== */
         :root {
-            --bg: #04080F;
-            --text: #eef4ff;
-            --muted: #7A8BAA;
-            --brand: #5de2fd;
-            --brand2: #2dc8e8;
-            --brand3: #0aa8cc;
-            --accent-red: #ff4757;
-            --bg-card: #080E1A;
-            --border: #111d30;
-            --brand-glow: rgba(93, 226, 253, 0.22);
+            --bg: #eafaff;
+            --text: #0a1a22;
+            --muted: #4a7080;
+            --brand: #00bcd8;
+            --brand2: #0aa8cc;
+            --brand3: #0090b0;
+            --accent-red: #e03045;
+            --bg-card: #ffffff;
+            --border: #c2eef8;
+            --brand-glow: rgba(93, 226, 253, 0.35);
         }
 
         * { box-sizing: border-box; }
@@ -35,9 +33,9 @@
             font-weight: 400;
             background-color: var(--bg);
             background-image:
-                radial-gradient(ellipse at 15% 75%, rgba(93,226,253,.09) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 15%, rgba(44,200,232,.06) 0%, transparent 50%),
-                linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+                radial-gradient(ellipse at 10% 80%, rgba(93,226,253,.45) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(93,226,253,.3) 0%, transparent 50%),
+                linear-gradient(160deg, #d6f7ff 0%, #eafaff 50%, #c8f2ff 100%);
             position: relative;
         }
 
@@ -52,19 +50,19 @@
         }
         .orb1 {
             width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(93,226,253,.5), transparent);
+            background: radial-gradient(circle, rgba(93,226,253,.6), transparent);
             top: -150px; left: -120px;
             animation: float1 22s ease-in-out infinite;
         }
         .orb2 {
             width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(44,200,232,.4), transparent);
+            background: radial-gradient(circle, rgba(44,200,232,.5), transparent);
             bottom: -80px; right: -60px;
             animation: float2 17s ease-in-out infinite;
         }
         .orb3 {
             width: 200px; height: 200px;
-            background: radial-gradient(circle, rgba(93,226,253,.3), transparent);
+            background: radial-gradient(circle, rgba(93,226,253,.4), transparent);
             top: 50%; right: 10%;
             animation: float2 25s ease-in-out infinite reverse;
         }
@@ -137,12 +135,12 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 0 24px var(--brand-glow), 0 0 60px rgba(93,226,253,.15);
+            box-shadow: 0 0 24px var(--brand-glow), 0 0 60px rgba(93,226,253,.2);
         }
         .check-circle svg {
             width: 32px;
             height: 32px;
-            color: #04080F;
+            color: #fff;
         }
         .youre-in-text {
             font-size: 52px;
@@ -183,7 +181,7 @@
             gap: 12px;
             width: 100%;
             background: linear-gradient(135deg, var(--brand), var(--brand3));
-            color: var(--bg) !important;
+            color: #fff !important;
             font-weight: 800;
             font-size: 17px;
             text-transform: uppercase;
@@ -232,7 +230,7 @@
             border-radius: 24px;
             text-align: left;
             backdrop-filter: blur(20px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.8), 0 0 30px rgba(93,226,253,.08);
+            box-shadow: 0 4px 24px rgba(0,180,220,.12), 0 1px 4px rgba(0,0,0,.06);
             position: relative;
             padding: 0;
             margin-top: 40px;
@@ -270,7 +268,7 @@
             background: linear-gradient(135deg, var(--brand), var(--brand3));
             font-size: 13px;
             font-weight: 800;
-            color: var(--bg);
+            color: #fff;
             flex-shrink: 0;
             box-shadow: 0 0 12px var(--brand-glow);
         }
@@ -298,7 +296,7 @@
 
         /* Activation Notice */
         .activation-notice {
-            background: linear-gradient(135deg, #060d18 0%, #04080F 100%);
+            background: linear-gradient(135deg, #fff0f1 0%, #fff5f5 100%);
             border: 1.5px solid var(--accent-red);
             border-radius: 16px;
             padding: 20px;
