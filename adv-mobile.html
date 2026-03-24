@@ -26,31 +26,6 @@
             border-top: 5px solid #000;
             border-bottom: 1px solid #eee;
         }
-        .video-container {
-            background-color: #000;
-            width: 100%;
-            aspect-ratio: 16/9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        .play-button-overlay {
-            width: 70px;
-            height: 70px;
-            background: rgba(204, 0, 0, 0.95);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s ease;
-        }
-        .play-button-overlay:hover {
-            transform: scale(1.1);
-        }
         .ad-disclaimer {
             font-size: 11px;
             color: #999;
@@ -59,26 +34,16 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        /* Efeito de Pulsação para o novo banner */
-        @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-        .pulse {
-            animation: pulse-red 2s infinite;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Advertisement Label -->
+    <!-- Etiqueta de Publicidade -->
     <div class="ad-disclaimer border-b border-gray-50">
         Advertisement
     </div>
 
-    <!-- Main Header -->
+    <!-- Cabeçalho Principal -->
     <header class="bg-white mb-8">
         <div class="article-container header-top py-6 flex flex-col md:flex-row justify-between items-center md:items-end">
             <div class="text-center md:text-left">
@@ -96,17 +61,17 @@
 
     <main class="article-container">
         <article>
-            <!-- Headline -->
+            <!-- Título Principal -->
             <h1 class="text-3xl md:text-4xl font-bold mb-6 leading-tight text-gray-900">
                 Exposed: How ISPs Have Been Quietly Profiting Off Your Unused Internet (And How Americans Are Fighting Back)
             </h1>
 
-            <!-- Subhead -->
+            <!-- Subtítulo -->
             <h2 class="text-xl md:text-2xl text-gray-500 mb-8 font-normal italic leading-snug">
                 A retired logistics manager from Ohio discovered a legal loophole paying him $1,182/month from his home router.
             </h2>
 
-            <!-- Byline -->
+            <!-- Linha de Autor -->
             <div class="flex items-center justify-between border-y border-gray-100 py-3 mb-10">
                 <div class="text-[12px] font-bold text-gray-700 uppercase">
                     By Marcus Thorne <span class="text-gray-300 mx-2">|</span> Investigative Tech Reporter
@@ -116,7 +81,7 @@
                 </div>
             </div>
 
-            <!-- Content -->
+            <!-- Conteúdo -->
             <div class="text-[18px] text-gray-800 space-y-6">
                 <p><strong>[COLUMBUS, OH]</strong> — For decades, internet service providers have charged Americans full price for bandwidth they never actually use.</p>
 
@@ -128,7 +93,7 @@
                     </p>
                 </div>
 
-                <!-- Featured Image: Harold holding the check -->
+                <!-- Imagem em Destaque: Harold com o cheque -->
                 <div class="my-10">
                     <figure>
                         <img src="https://i.imgur.com/DHcP9cS.png" alt="[Imagem de Harold segurando um cheque de liquidação]" class="w-full h-auto rounded shadow-md border border-gray-100">
@@ -146,36 +111,14 @@
                 
                 <p>A new program allows homeowners to "lease" this unused signal automatically. Setup takes less than 10 minutes and requires no technical knowledge.</p>
 
-                <!-- New Red Pulse Banner (Replaces previous Video Section) -->
-                <div class="my-10 cursor-pointer overflow-hidden rounded-lg shadow-2xl transition-transform hover:scale-[1.02]" onclick="window.location.href='#link'">
-                    <div class="bg-red-700 p-8 flex flex-col items-center text-center text-white border-4 border-red-800">
-                        <h4 class="text-2xl md:text-3xl font-black uppercase mb-4 tracking-tighter">
-                            Check Your Eligibility Now
-                        </h4>
-                        <p class="text-sm md:text-base font-bold mb-8 opacity-90 uppercase">
-                            Warning: Video presentation may be removed soon
-                        </p>
-                        
-                        <!-- Pulsing Play Button -->
-                        <div class="pulse bg-white text-red-700 w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-xl">
-                            <svg class="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M4.5 14.5v-9l8 4.5-8 4.5z"/>
-                            </svg>
-                        </div>
-                        
-                        <p class="text-lg font-black uppercase tracking-widest animate-bounce">
-                            Click to Watch Presentation
-                        </p>
-                    </div>
-                </div>
-
-                <p class="text-center text-gray-500 italic text-base">
-                    Click the banner above to verify if your current home router qualifies for the 2024 network settlement.
+                <!-- Texto de chamada -->
+                <p class="text-center text-gray-500 italic text-base mt-12 mb-4">
+                    The video presentation below explains the setup process and how to check if your current router qualifies.
                 </p>
 
-                <!-- CTA Button -->
-                <div class="text-center pt-2 pb-8">
-                    <a href="#link" class="inline-block bg-[#cc0000] hover:bg-black text-white font-bold text-xl px-12 py-6 rounded-md transition-all transform hover:scale-105 uppercase tracking-tighter shadow-lg">
+                <!-- Botão CTA -->
+                <div class="text-center pb-12">
+                    <a href="https://go.dailybonus.app/click" class="inline-block bg-[#cc0000] hover:bg-black text-white font-bold text-2xl px-14 py-7 rounded-md transition-all transform hover:scale-105 uppercase tracking-tighter shadow-xl">
                         Watch Free Presentation
                     </a>
                 </div>
@@ -187,7 +130,7 @@
         </article>
     </main>
 
-    <!-- Footer -->
+    <!-- Rodapé -->
     <footer class="mt-20 border-t border-gray-100 py-20 px-4">
         <div class="article-container text-center">
             <div class="text-xl font-black uppercase mb-8">NATIONAL<span class="text-red-700">FINANCE</span>DAILY</div>
