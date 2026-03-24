@@ -59,6 +59,16 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        /* Efeito de Pulsação para o novo banner */
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .pulse {
+            animation: pulse-red 2s infinite;
+        }
     </style>
 </head>
 <body>
@@ -112,8 +122,6 @@
 
                 <p>The average household uses just 10% to 15% of their available connection. The other 85% doesn't disappear. ISPs have been quietly monetizing this excess capacity through third-party data agreements — and keeping every penny of the profit.</p>
 
-                <p>But a growing number of Americans have discovered a way to claim their share.</p>
-
                 <div class="py-6 px-8 border-l-4 border-red-600 bg-gray-50 my-10">
                     <p class="italic text-xl text-gray-700 font-serif">
                         "I pay $89/month for my fiber connection," says Harold, 58, from Ohio. "I found out my ISP was making almost triple that off my unused bandwidth. Now, I'm the one getting the deposit."
@@ -123,7 +131,7 @@
                 <!-- Featured Image: Harold holding the check -->
                 <div class="my-10">
                     <figure>
-                        <img src="https://i.imgur.com/eB3LpWn.png" alt="" class="w-full h-auto rounded shadow-md border border-gray-100" onerror="this.src='https://via.placeholder.com/680x380?text=Resident+with+Settlement+Check'">
+                        <img src="https://i.imgur.com/DHcP9cS.png" alt="[Imagem de Harold segurando um cheque de liquidação]" class="w-full h-auto rounded shadow-md border border-gray-100">
                         <figcaption class="text-[12px] text-gray-500 italic mt-2 text-center font-bold uppercase">
                             Harold R. showing his latest monthly earnings check from the leasing network.
                         </figcaption>
@@ -134,35 +142,46 @@
 
                 <h3 class="text-2xl font-bold text-gray-900 pt-2">How it works:</h3>
 
-                <p>Your router broadcasts a constant signal, but most of it remains idle. Global data companies need this excess capacity for processing micro-transactions and secure cloud routing for cloud infrastructure.</p>
+                <p>Your router broadcasts a constant signal, but most of it remains idle. Global data companies need this excess capacity for processing micro-transactions and secure cloud routing.</p>
                 
                 <p>A new program allows homeowners to "lease" this unused signal automatically. Setup takes less than 10 minutes and requires no technical knowledge.</p>
 
-                <!-- Video Section -->
-                <div class="video-container rounded-sm shadow-xl" onclick="window.location.href='#link'">
-                    <div class="play-button-overlay shadow-2xl">
-                        <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M4.5 14.5v-9l8 4.5-8 4.5z"/>
-                        </svg>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-sm font-bold uppercase tracking-wider">Tutorial: Activating Your Router Loophole</div>
+                <!-- New Red Pulse Banner (Replaces previous Video Section) -->
+                <div class="my-10 cursor-pointer overflow-hidden rounded-lg shadow-2xl transition-transform hover:scale-[1.02]" onclick="window.location.href='#link'">
+                    <div class="bg-red-700 p-8 flex flex-col items-center text-center text-white border-4 border-red-800">
+                        <h4 class="text-2xl md:text-3xl font-black uppercase mb-4 tracking-tighter">
+                            Check Your Eligibility Now
+                        </h4>
+                        <p class="text-sm md:text-base font-bold mb-8 opacity-90 uppercase">
+                            Warning: Video presentation may be removed soon
+                        </p>
+                        
+                        <!-- Pulsing Play Button -->
+                        <div class="pulse bg-white text-red-700 w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-xl">
+                            <svg class="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4.5 14.5v-9l8 4.5-8 4.5z"/>
+                            </svg>
+                        </div>
+                        
+                        <p class="text-lg font-black uppercase tracking-widest animate-bounce">
+                            Click to Watch Presentation
+                        </p>
                     </div>
                 </div>
 
                 <p class="text-center text-gray-500 italic text-base">
-                    The video presentation below explains the setup process and how to check if your current router qualifies.
+                    Click the banner above to verify if your current home router qualifies for the 2024 network settlement.
                 </p>
 
                 <!-- CTA Button -->
-                <div class="text-center pt-4 pb-8">
-                    <a href="#link" class="inline-block bg-[#cc0000] hover:bg-black text-white font-bold text-xl px-12 py-6 rounded-md transition-all transform hover:scale-105 uppercase tracking-tighter">
+                <div class="text-center pt-2 pb-8">
+                    <a href="#link" class="inline-block bg-[#cc0000] hover:bg-black text-white font-bold text-xl px-12 py-6 rounded-md transition-all transform hover:scale-105 uppercase tracking-tighter shadow-lg">
                         Watch Free Presentation
                     </a>
                 </div>
 
                 <div class="bg-gray-50 p-6 border border-gray-100 rounded text-sm text-gray-600 leading-relaxed">
-                    <strong>IMPORTANT NOTICE:</strong> Major Internet Service Providers have already filed legal petitions to have this information suppressed. If the link above is inactive, the video has likely been removed due to corporate pressure.
+                    <strong>IMPORTANT NOTICE:</strong> Major Internet Service Providers have already filed legal petitions to have this information suppressed. If the link above is inactive, the presentation has likely been removed due to corporate pressure.
                 </div>
             </div>
         </article>
