@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer News: The ISP Loophole</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Arial&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            font-family: 'Georgia', serif;
+            letter-spacing: -0.01em;
+        }
+        .article-container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .header-top {
+            border-top: 5px solid #000;
+            border-bottom: 1px solid #eee;
+        }
+        .video-container {
+            background-color: #000;
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .play-button-overlay {
+            width: 70px;
+            height: 70px;
+            background: rgba(204, 0, 0, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        .play-button-overlay:hover {
+            transform: scale(1.1);
+        }
+        .ad-disclaimer {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            padding: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Advertisement Label -->
+    <div class="ad-disclaimer border-b border-gray-50">
+        Advertisement
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white mb-8">
+        <div class="article-container header-top py-6 flex flex-col md:flex-row justify-between items-center md:items-end">
+            <div class="text-center md:text-left">
+                <div class="text-3xl font-black tracking-tighter uppercase mb-1">NATIONAL<span class="text-red-700">FINANCE</span>DAILY</div>
+                <div class="text-[11px] text-gray-400 font-bold tracking-widest">CONSUMER PROTECTION DIVISION</div>
+            </div>
+            <div class="text-center md:text-right mt-4 md:mt-0">
+                <div class="text-[11px] text-gray-500 font-bold uppercase">
+                    <span id="current-date"></span><br>
+                    <span class="text-red-600">Special Report</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-container">
+        <article>
+            <!-- Headline -->
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 leading-tight text-gray-900">
+                Exposed: How ISPs Have Been Quietly Profiting Off Your Unused Internet (And How Americans Are Fighting Back)
+            </h1>
+
+            <!-- Subhead -->
+            <h2 class="text-xl md:text-2xl text-gray-500 mb-8 font-normal italic leading-snug">
+                A retired logistics manager from Ohio discovered a legal loophole paying him $1,182/month from his home router.
+            </h2>
+
+            <!-- Byline -->
+            <div class="flex items-center justify-between border-y border-gray-100 py-3 mb-10">
+                <div class="text-[12px] font-bold text-gray-700 uppercase">
+                    By Marcus Thorne <span class="text-gray-300 mx-2">|</span> Investigative Tech Reporter
+                </div>
+                <div class="text-[11px] text-gray-400 font-bold">
+                    UPDATED: <span id="update-time"></span>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="text-[18px] text-gray-800 space-y-6">
+                <p><strong>[COLUMBUS, OH]</strong> — For decades, internet service providers have charged Americans full price for bandwidth they never actually use.</p>
+
+                <p>The average household uses just 10% to 15% of their available connection. The other 85% doesn't disappear. ISPs have been quietly monetizing this excess capacity through third-party data agreements — and keeping every penny of the profit.</p>
+
+                <p>But a growing number of Americans have discovered a way to claim their share.</p>
+
+                <div class="py-6 px-8 border-l-4 border-red-600 bg-gray-50 my-10">
+                    <p class="italic text-xl text-gray-700 font-serif">
+                        "I pay $89/month for my fiber connection," says Harold, 58, from Ohio. "I found out my ISP was making almost triple that off my unused bandwidth. Now, I'm the one getting the deposit."
+                    </p>
+                </div>
+
+                <!-- Proof Box -->
+                <div class="my-10 border-2 border-gray-100 p-8 rounded-lg">
+                    <div class="text-[11px] font-bold text-blue-600 uppercase tracking-widest mb-4">Transaction Confirmed: Harold R.</div>
+                    <div class="flex flex-col md:flex-row justify-between items-baseline gap-2">
+                        <div class="text-5xl font-bold text-gray-900">$1,182.44</div>
+                        <div class="text-sm font-bold text-green-600 bg-green-50 px-3 py-1 rounded">✓ ACH DEPOSIT CLEARED</div>
+                    </div>
+                    <div class="mt-4 text-[12px] text-gray-400">
+                        Method: Bandwidth Lease Network Settlement
+                    </div>
+                </div>
+
+                <p>The method is called <strong>"Bandwidth Leasing"</strong> — and it is a completely legal and secure process.</p>
+
+                <h3 class="text-2xl font-bold text-gray-900 pt-2">How it works:</h3>
+
+                <p>Your router broadcasts a constant signal, but most of it remains idle. Global data companies need this excess capacity for processing micro-transactions and secure cloud routing for cloud infrastructure.</p>
+                
+                <p>A new program allows homeowners to "lease" this unused signal automatically. Setup takes less than 10 minutes and requires no technical knowledge.</p>
+
+                <!-- Video Section (Reduced Margins) -->
+                <div class="video-container rounded-sm shadow-xl" onclick="window.location.href='#link'">
+                    <div class="play-button-overlay shadow-2xl">
+                        <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4.5 14.5v-9l8 4.5-8 4.5z"/>
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                        <div class="text-white text-sm font-bold uppercase tracking-wider">Tutorial: Activating Your Router Loophole</div>
+                    </div>
+                </div>
+
+                <p class="text-center text-gray-500 italic text-base">
+                    The video presentation below explains the setup process and how to check if your current router qualifies.
+                </p>
+
+                <!-- CTA Button (Moved Closer to Video/Text) -->
+                <div class="text-center pt-4 pb-8">
+                    <a href="#link" class="inline-block bg-[#cc0000] hover:bg-black text-white font-bold text-xl px-12 py-6 rounded-md transition-all transform hover:scale-105 uppercase tracking-tighter">
+                        Watch Free Presentation
+                    </a>
+                </div>
+
+                <div class="bg-gray-50 p-6 border border-gray-100 rounded text-sm text-gray-600 leading-relaxed">
+                    <strong>IMPORTANT NOTICE:</strong> Major Internet Service Providers have already filed legal petitions to have this information suppressed. If the link above is inactive, the video has likely been removed due to corporate pressure.
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-gray-100 py-20 px-4">
+        <div class="article-container text-center">
+            <div class="text-xl font-black uppercase mb-8">NATIONAL<span class="text-red-700">FINANCE</span>DAILY</div>
+            
+            <p class="text-[11px] text-gray-400 leading-relaxed mb-8 max-w-lg mx-auto uppercase tracking-wide">
+                Advertorial: This content is sponsored and is not news. The story depicted is for illustrative purposes. Results will vary based on ISP terms, location, and hardware.
+            </p>
+            
+            <div class="flex justify-center gap-8 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+                <a href="#" class="hover:text-black transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-black transition-colors">Terms of Use</a>
+                <a href="#" class="hover:text-black transition-colors">Contact</a>
+            </div>
+            
+            <div class="mt-10 text-[10px] text-gray-300 font-bold uppercase">
+                &copy; <span id="year"></span> All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const dateEl = document.getElementById('current-date');
+        const options = { month: 'long', day: 'numeric', year: 'numeric' };
+        dateEl.textContent = new Date().toLocaleDateString('en-US', options);
+        
+        document.getElementById('update-time').textContent = new Date().getHours() + ":04 AM EST";
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
