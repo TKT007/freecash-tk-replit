@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -18,7 +17,6 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=2466641977039062&ev=PageView&noscript=1"
 /></noscript>
-<!-- End Facebook Pixel Code -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="https://i.imgur.com/d4rEH4U.png">
@@ -237,7 +235,7 @@ src="https://www.facebook.com/tr?id=2466641977039062&ev=PageView&noscript=1"
                 Complete 2 Offers &amp; Unlock Unlimited Earnings
             </p>
 
-            <a id="cta" class="cta trxbutton" href="https://go.dailyappflow.com/click>
+            <a id="cta" class="cta trxbutton" href="https://go.dailyappflow.com/click">
                 <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
@@ -285,6 +283,21 @@ src="https://www.facebook.com/tr?id=2466641977039062&ev=PageView&noscript=1"
         </section>
     </div>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchParams = window.location.search;
+        if (searchParams) {
+            document.querySelectorAll('.trxbutton').forEach(function(btn) {
+                var href = btn.getAttribute('href');
+                if (href && href !== '#') {
+                    var separator = href.indexOf('?') !== -1 ? '&' : '?';
+                    var params = searchParams.startsWith('?') ? searchParams.substring(1) : searchParams;
+                    btn.setAttribute('href', href + separator + params);
+                }
+            });
+        }
+    });
+    </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"581b6059657a41199e82826c10f0ed37","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
