@@ -99,7 +99,7 @@
             <div class="headline">Get Paid to<br><span class="text-neon">Play Games</span></div>
             <p class="subtitle">Surveys, videos &amp; shopping — redeemable for gift cards or PayPal cash.</p>
 
-            <a id="cta" class="cta" href="https://go.unlockbonusapp.com/click" onclick="handleClick(event)">
+            <a id="cta" class="cta" href="https://tk.unlockbonusapp.com/click" onclick="handleClick(event)">
                 <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
@@ -209,7 +209,7 @@
         } catch (error) { console.error('❌ Erro server-side:', error); }
 
         /* 3. Redirect — preserves any existing query params */
-        const baseUrl = 'https://go.unlockbonusapp.com/click';
+        const baseUrl = 'https://tk.unlockbonusapp.com/click';
         const qs = window.location.search;
         const redirect = qs ? baseUrl + (baseUrl.includes('?') ? '&' : '?') + qs.substring(1) : baseUrl;
         console.log('🔀 Redirecionando para:', redirect);
