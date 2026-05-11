@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proverbs Profits — Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Lora:ital,wght@0,400;0,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0D0A06;
+    color: #F5EDD8;
+    font-family: 'Lora', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 60px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .quiz-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .topbar {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .topbar-text {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #C9A84C;
+    opacity: 0.8;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #C9A84C;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .step { display: none; }
+  .step.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #C9A84C;
+    margin-bottom: 14px;
+  }
+
+  .step-question {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(19px, 4vw, 24px);
+    font-weight: 700;
+    line-height: 1.4;
+    color: #F5EDD8;
+    margin-bottom: 28px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .opt-btn {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    padding: 16px 20px;
+    font-size: 15px;
+    font-family: 'Lora', Georgia, serif;
+    color: #EDE0C4;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s;
+    line-height: 1.5;
+  }
+
+  .opt-btn:hover {
+    border-color: #C9A84C;
+    background: rgba(201,168,76,0.08);
+    color: #F5EDD8;
+  }
+
+  .opt-btn:active {
+    background: rgba(201,168,76,0.12);
+  }
+
+  /* Loading */
+  .loading-wrap { text-align: center; padding: 20px 0; }
+
+  .loading-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #C9A84C;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .loading-bar {
+    height: 4px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 0 16px;
+  }
+
+  .loading-fill {
+    height: 100%;
+    background: #C9A84C;
+    border-radius: 2px;
+    width: 0;
+    animation: loadUp 1.8s ease forwards;
+  }
+
+  @keyframes loadUp {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .loading-text {
+    font-size: 14px;
+    color: #7A6A50;
+    font-style: italic;
+  }
+
+  /* Result */
+  .result { text-align: center; padding: 8px 0; }
+
+  .result-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0D0A06;
+    background: #C9A84C;
+    padding: 6px 18px;
+    margin-bottom: 24px;
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 700;
+    color: #F5EDD8;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .result-title em {
+    font-style: italic;
+    color: #E8C97A;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .divider-icon { font-size: 16px; color: #C9A84C; }
+
+  .result-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #EDE0C4;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .result-text strong {
+    color: #F5EDD8;
+    font-weight: 600;
+  }
+
+  .result-highlight {
+    background: rgba(201,168,76,0.06);
+    border-left: 3px solid #C9A84C;
+    padding: 16px 18px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #EDE0C4;
+    text-align: left;
+  }
+
+  .cta-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7A6A50;
+    display: block;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .cta-main {
+    display: block;
+    background: linear-gradient(135deg, #C9A84C 0%, #E8C97A 50%, #C9A84C 100%);
+    color: #0D0A06;
+    font-family: 'Lora', Georgia, serif;
+    font-size: clamp(15px, 3vw, 17px);
+    font-weight: 600;
+    padding: 20px 32px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.2s;
+    animation: pulseGold 3s ease-in-out infinite;
+  }
+
+  .cta-main:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  @keyframes pulseGold {
+    0%, 100% { box-shadow: 0 4px 30px rgba(201,168,76,0.25); }
+    50% { box-shadow: 0 4px 50px rgba(201,168,76,0.5); }
+  }
+
+  .cta-sub-text {
+    font-size: 12px;
+    color: #7A6A50;
+    font-style: italic;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    color: rgba(122,106,80,0.5);
+    text-align: center;
+    margin-top: 32px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-wrap">
+
+  <div class="topbar">
+    <span class="topbar-text">Proverbs 13:11 — "Wealth gained gradually grows"</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog" style="width:0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="step active" id="s0">
+    <div class="step-label">Question 1 of 4</div>
+    <div class="step-question">Have you ever felt like you were one unexpected bill away from a real problem?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="next(0,0)">Yes — I've been there more than once</button>
+      <button class="opt-btn" onclick="next(0,1)">Sometimes — it depends on the month</button>
+      <button class="opt-btn" onclick="next(0,2)">Not really, but I'd still like more income</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="step" id="s1">
+    <div class="step-label">Question 2 of 4</div>
+    <div class="step-question">When you hear about a simple trick to make money from your phone — what's your first reaction?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="next(1,0)">Skeptical — I've heard it before</button>
+      <button class="opt-btn" onclick="next(1,1)">Curious — but I'd need to see proof first</button>
+      <button class="opt-btn" onclick="next(1,2)">Open — if someone I trust showed me, I'd try it</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="step" id="s2">
+    <div class="step-label">Question 3 of 4</div>
+    <div class="step-question">Do you have a smartphone and at least 60 seconds of free time today?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="next(2,0)">Yes — both</button>
+      <button class="opt-btn" onclick="next(2,1)">I have the phone, barely have the time</button>
+      <button class="opt-btn" onclick="next(2,2)">I want to understand what it is first</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="step" id="s3">
+    <div class="step-label">Question 4 of 4</div>
+    <div class="step-question">What would an extra $1,000–$5,000 a month actually change for you right now?</div>
+    <div class="options">
+      <button class="opt-btn" onclick="showLoading()">It would change everything — I'm barely getting by</button>
+      <button class="opt-btn" onclick="showLoading()">It would relieve a lot of pressure on my family</button>
+      <button class="opt-btn" onclick="showLoading()">I'd finally stop worrying about retirement</button>
+      <button class="opt-btn" onclick="showLoading()">It would let me stop working so many hours</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="step" id="s-loading">
+    <div class="loading-wrap">
+      <span class="loading-label">Analyzing your answers...</span>
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+      <div class="loading-text">Finding out if this works for your situation...</div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="step" id="s-result">
+    <div class="result">
+      <div class="result-badge">✓ You qualify</div>
+      <div class="result-title">
+        You're exactly who this<br><em>was built for.</em>
+      </div>
+
+      <div class="divider"><span class="divider-icon">✦</span></div>
+
+      <div class="result-text">
+        Based on your answers, you already have everything you need to try this.<br><br>
+        The 60-second wifi trick doesn't require experience, investment, or a special background. It works from any smartphone. <strong>Thousands of people have already set it up in under a minute</strong> — most of them were skeptical before they watched the video.
+      </div>
+
+      <div class="result-highlight">
+        The short video below explains exactly what it is, how it works, and why most people have never heard of it. Watch it and decide for yourself.
+      </div>
+
+      <span class="cta-label">You were shown this for a reason</span>
+      <a href="https://go.unlockbonusapp.com/click" class="cta-main">
+        🙏 Watch The Free Video Now
+      </a>
+      <div class="cta-sub-text">Just press play. You'll understand in the first 60 seconds.</div>
+
+      <div class="disclaimer">
+        This site is not affiliated with Facebook or any social media platform.<br>
+        Results are not typical. Individual results may vary.<br>
+        © 2025 · Privacy Policy · Disclaimer
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showStep(id) {
+    document.querySelectorAll('.step').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
+
+  function updateProgress(step) {
+    var pct = Math.round((step / 4) * 100);
+    document.getElementById('prog').style.width = pct + '%';
+  }
+
+  function next(qIndex, aIndex) {
+    updateProgress(qIndex + 1);
+    if (qIndex < 3) {
+      showStep('s' + (qIndex + 1));
+    } else {
+      showLoading();
+    }
+  }
+
+  function showLoading() {
+    updateProgress(4);
+    showStep('s-loading');
+    setTimeout(function() {
+      showStep('s-result');
+      document.getElementById('prog').style.width = '100%';
+    }, 2200);
+  }
+</script>
+
+</body>
+</html>
