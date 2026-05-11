@@ -139,6 +139,7 @@
       box-shadow: 0 6px 32px rgba(14,165,233,.5);
       transition: transform .15s, box-shadow .15s;
       animation: fadeUp .6s .1s ease both, cta-pulse 3s 1s ease-in-out infinite;
+      display: block; text-decoration: none; text-align: center; line-height: normal;
       touch-action: manipulation;
       -webkit-appearance: none;
     }
@@ -242,7 +243,7 @@
     </div>
 
     <!-- CTA -->
-    <button class="cta-btn" id="ctaBtn" type="button">Download Now →</button>
+    <a class="cta-btn" href="https://go.unlockbonusapp.com/click">Download Now →</a>
 
     <!-- Trust -->
     <div class="trust">
@@ -310,49 +311,6 @@
   </div>
 </div>
 
-<script>
-(function () {
-  'use strict';
-
-  // ── Particles ──
-  var bg = document.getElementById('bgLayer');
-  for (var i = 0; i < 18; i++) {
-    var p = document.createElement('div');
-    p.className = 'particle';
-    var size = Math.random() * 4 + 2;
-    p.style.cssText = [
-      'width:' + size + 'px',
-      'height:' + size + 'px',
-      'left:' + Math.random() * 100 + '%',
-      'bottom:' + (Math.random() * 20 - 10) + '%',
-      'animation-duration:' + (Math.random() * 10 + 8) + 's',
-      'animation-delay:' + (Math.random() * 8) + 's',
-      'opacity:0'
-    ].join(';');
-    bg.appendChild(p);
-  }
-
-  // ── CTA redirect ──
-  var OFFER_URL = 'https://go.unlockbonusapp.com/click';
-  var btn = document.getElementById('ctaBtn');
-  var fired = false;
-
-  btn.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (fired) return;
-    fired = true;
-    btn.disabled = true;
-    try {
-      var dest = new URL(OFFER_URL);
-      var inc = new URL(window.location.href);
-      inc.searchParams.forEach(function (v, k) { dest.searchParams.set(k, v); });
-      window.location.href = dest.toString();
-    } catch (err) {
-      window.location.href = OFFER_URL;
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
