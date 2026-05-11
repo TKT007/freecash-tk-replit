@@ -112,13 +112,16 @@
       animation: fadeUp .5s ease both;
     }
     .logo-icon {
-      width: 32px; height: 32px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary2), var(--primary3));
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 20px rgba(168,85,247,.5);
+      width: 44px; height: 44px; border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.4);
       animation: pulse 2s ease-in-out infinite;
     }
-    .logo-icon svg { width: 16px; height: 16px; fill: white; }
+    .logo-x {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.3rem; font-weight: 900;
+      color: var(--muted2);
+      padding: 0 2px;
+    }
     @keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(168,85,247,.5)} 50%{box-shadow:0 0 32px rgba(168,85,247,.85)} }
     .wordmark-text {
       font-family: 'Nunito', sans-serif;
@@ -458,8 +461,9 @@
 
     <!-- Wordmark -->
     <div class="wordmark">
+      <img src="https://img.freepik.com/vetores-premium/logo-do-tik-tok_578229-290.jpg" class="logo-icon" alt="TikTok" style="object-fit:cover;">
+      <div class="logo-x">×</div>
       <img src="https://play-lh.googleusercontent.com/Lx-lkUUlaa-VfYYO_bgxW4Cp5a-4X3nfjnEHXt1iHn2FZW15s3ewUH5PT-kq9MrI5vs" class="logo-icon" alt="Playful Rewards" style="object-fit:cover;">
-      <div class="wordmark-text">playful<span>rewards</span></div>
     </div>
 
     <!-- Step Bar -->
