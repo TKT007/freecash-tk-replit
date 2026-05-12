@@ -11,20 +11,20 @@
 
   <style>
     :root {
-      --bg:        #06040f;
-      --surface:   #120d24;
-      --surface2:  #1a0d2e;
-      --border:    rgba(167,108,248,.18);
-      --primary:   #a76cf8;
-      --primary2:  #c44fd4;
-      --primary3:  #7c3aed;
-      --glow:      rgba(167,108,248,.5);
-      --glow2:     rgba(167,108,248,.15);
-      --text:      #f5f0ff;
-      --muted:     #a89bbf;
-      --muted2:    #5a4a72;
-      --accent:    #f472b6;
-      --accent2:   #fbbf24;
+      --bg:        #1a1630;
+      --surface:   #221c3a;
+      --surface2:  #2a2248;
+      --border:    rgba(160,130,255,.2);
+      --primary:   #9b7ff4;
+      --primary2:  #c86dd8;
+      --primary3:  #e8719a;
+      --glow:      rgba(155,127,244,.55);
+      --text:      #f4f0ff;
+      --muted:     #b0a8cc;
+      --muted2:    #5c5080;
+      --accent:    #f4a261;
+      --pink:      #e879b8;
+      --blue:      #6b9ef8;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,15 +48,16 @@
       content: '';
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(167,108,248,.18) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(196,79,212,.14) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 90% 10%, rgba(251,191,36,.08) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 30% at 10% 90%, rgba(244,114,182,.1) 0%, transparent 50%);
+        radial-gradient(ellipse 90% 55% at 15% 0%, rgba(107,158,248,.28) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 85% 0%, rgba(155,127,244,.22) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 45% at 80% 100%, rgba(232,113,154,.2) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 10% 90%, rgba(244,162,97,.12) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(200,109,216,.1) 0%, transparent 60%);
     }
     .bg-layer::after {
       content: '';
       position: absolute; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a76cf8' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239b7ff4' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
     .particle {
@@ -66,7 +67,7 @@
       animation: rise linear infinite;
     }
     @keyframes rise {
-      0%   { transform: translateY(0) scale(1); opacity: .4; }
+      0%   { transform: translateY(0) scale(1); opacity: .5; }
       100% { transform: translateY(-110vh) scale(.3); opacity: 0; }
     }
 
@@ -76,8 +77,8 @@
       border-radius: 20%;
       object-fit: cover;
       pointer-events: none;
-      opacity: .18;
-      filter: blur(.8px) saturate(1.2);
+      opacity: .16;
+      filter: blur(.8px) saturate(1.3);
       animation: floatIcon ease-in-out infinite;
     }
     @keyframes floatIcon {
@@ -102,22 +103,25 @@
       animation: fadeUp .5s ease both;
     }
     .logo-icon {
-      width: 44px; height: 44px; border-radius: 12px;
+      width: 48px; height: 48px; border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(167,108,248,.55);
+      box-shadow: 0 4px 20px rgba(107,158,248,.45), 0 0 0 1px rgba(255,255,255,.1);
       flex-shrink: 0;
-      animation: pulse 2s ease-in-out infinite;
+      animation: pulse 2.5s ease-in-out infinite;
     }
     .logo-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    @keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(167,108,248,.5)} 50%{box-shadow:0 0 32px rgba(196,79,212,.85)} }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(107,158,248,.45), 0 0 0 1px rgba(255,255,255,.1); }
+      50%      { box-shadow: 0 4px 32px rgba(200,109,216,.7), 0 0 0 1px rgba(255,255,255,.15); }
+    }
     .wordmark-text {
       font-family: 'Nunito', sans-serif;
-      font-size: 1.65rem; font-weight: 900;
+      font-size: 1.7rem; font-weight: 900;
       letter-spacing: -.03em;
     }
     .wordmark-text .w1 { color: var(--text); }
     .wordmark-text .w2 {
-      background: linear-gradient(90deg, #a76cf8, #f472b6);
+      background: linear-gradient(90deg, #9b7ff4, #c86dd8, #e879b8);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
@@ -143,15 +147,15 @@
       position: relative; z-index: 1;
     }
     .step-num.active {
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
-      border-color: var(--primary);
+      background: linear-gradient(135deg, #6b9ef8, #9b7ff4, #c86dd8);
+      border-color: #9b7ff4;
       color: #fff;
-      box-shadow: 0 0 16px rgba(167,108,248,.6);
+      box-shadow: 0 0 16px rgba(155,127,244,.65);
       transform: scale(1.1);
     }
     .step-num.done {
-      background: var(--primary3);
-      border-color: var(--primary2);
+      background: linear-gradient(135deg, #9b7ff4, #c86dd8);
+      border-color: #c86dd8;
       color: #fff;
     }
     .step-lbl {
@@ -167,7 +171,7 @@
       transition: background .4s;
       max-width: 48px;
     }
-    .step-connector.done { background: var(--primary3); }
+    .step-connector.done { background: linear-gradient(90deg, #9b7ff4, #c86dd8); }
 
     /* ── Screen transitions ── */
     .screen { width: 100%; }
@@ -178,8 +182,9 @@
     .pick-head { text-align: center; margin-bottom: 24px; }
     .pick-eyebrow {
       font-size: .65rem; font-weight: 800; letter-spacing: .12em;
-      color: var(--primary); text-transform: uppercase;
-      margin-bottom: 8px;
+      background: linear-gradient(90deg, #6b9ef8, #9b7ff4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-transform: uppercase; margin-bottom: 8px;
     }
     .pick-title {
       font-family: 'Nunito', sans-serif;
@@ -193,13 +198,12 @@
       gap: 12px; width: 100%; margin-bottom: 20px;
     }
 
-    /* ── Sequential card highlight ── */
     .game-card-wrap {
       border-radius: 22px;
       position: relative;
       transition: transform .18s;
       cursor: pointer;
-      border: 1.5px solid rgba(167,108,248,.18);
+      border: 1.5px solid rgba(155,127,244,.2);
     }
     .game-card-wrap:hover { transform: translateY(-3px); }
 
@@ -215,8 +219,8 @@
     .game-card-wrap.seq-glow canvas.arc-canvas,
     .game-card-wrap.selected-card canvas.arc-canvas { opacity: 1; }
 
-    .game-card-wrap.seq-glow .game-card { background: rgba(167,108,248,.08); }
-    .game-card-wrap.selected-card .game-card { background: rgba(196,79,212,.14); }
+    .game-card-wrap.seq-glow .game-card { background: rgba(107,158,248,.08); }
+    .game-card-wrap.selected-card .game-card { background: rgba(155,127,244,.16); }
     .game-card-wrap.selected-card .check-badge { opacity: 1 !important; transform: scale(1) !important; }
 
     .game-card {
@@ -232,7 +236,7 @@
     .game-card::before {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(167,108,248,.07), transparent);
+      background: linear-gradient(135deg, rgba(107,158,248,.08), rgba(200,109,216,.06));
       opacity: 0; transition: opacity .25s;
     }
     .game-card-wrap:hover .game-card::before,
@@ -241,7 +245,7 @@
     .check-badge {
       position: absolute; top: 10px; right: 10px;
       width: 20px; height: 20px; border-radius: 50%;
-      background: var(--primary2);
+      background: linear-gradient(135deg, #9b7ff4, #c86dd8);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: scale(0);
       transition: opacity .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
@@ -250,7 +254,7 @@
     .game-icon {
       width: 68px; height: 68px; border-radius: 18px;
       object-fit: cover;
-      box-shadow: 0 4px 16px rgba(0,0,0,.4);
+      box-shadow: 0 4px 18px rgba(0,0,0,.35);
       transition: transform .2s;
     }
     .game-card-wrap:hover .game-icon,
@@ -264,7 +268,9 @@
     .game-name {
       font-family: 'Nunito', sans-serif;
       font-size: 1rem; font-weight: 900;
-      color: var(--primary); line-height: 1.2;
+      background: linear-gradient(90deg, #9b7ff4, #c86dd8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.2;
     }
 
     /* ── STEP 2: Main LP ── */
@@ -275,7 +281,7 @@
       line-height: 1.1; color: var(--text);
     }
     .hero h1 .hl {
-      background: linear-gradient(90deg, #a76cf8, #c44fd4, #f472b6);
+      background: linear-gradient(90deg, #6b9ef8, #9b7ff4, #c86dd8, #e879b8);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero p { margin-top: 8px; font-size: .92rem; color: var(--muted); font-weight: 500; }
@@ -283,22 +289,22 @@
     .badge-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(167,108,248,.12);
-      border: 1px solid rgba(167,108,248,.32);
+      background: rgba(155,127,244,.14);
+      border: 1px solid rgba(155,127,244,.35);
       border-radius: 999px; padding: 5px 14px;
       font-size: .75rem; font-weight: 700;
       letter-spacing: .02em;
     }
-    .badge svg { width: 13px; height: 13px; fill: var(--accent2); flex-shrink: 0; }
+    .badge svg { width: 13px; height: 13px; fill: #f4c261; flex-shrink: 0; }
     .badge-text {
-      background: linear-gradient(90deg, #a76cf8, #f472b6);
+      background: linear-gradient(90deg, #9b7ff4, #e879b8);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
     .game-pill {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(196,79,212,.15);
-      border: 1px solid rgba(167,108,248,.25);
+      background: rgba(107,158,248,.15);
+      border: 1px solid rgba(155,127,244,.28);
       border-radius: 999px; padding: 4px 12px 4px 6px;
       font-size: .75rem; font-weight: 700; color: var(--primary);
     }
@@ -310,22 +316,22 @@
     .cta-btn {
       width: 100%; margin: 20px 0 12px;
       padding: 17px;
-      background: linear-gradient(135deg, #5b8af8 0%, #a76cf8 35%, #c44fd4 65%, #f472b6 100%);
+      background: linear-gradient(135deg, #6b9ef8 0%, #9b7ff4 40%, #c86dd8 70%, #e879b8 100%);
       border: none; border-radius: 14px;
       font-family: 'Nunito', sans-serif;
       font-size: 1.1rem; font-weight: 900;
       color: #fff; cursor: pointer;
-      box-shadow: 0 6px 36px rgba(167,108,248,.55);
+      box-shadow: 0 6px 36px rgba(155,127,244,.5);
       transition: transform .15s, box-shadow .15s;
       animation: fadeUp .55s .1s ease both, cta-pulse 3s 1.5s ease-in-out infinite;
       display: block; text-decoration: none; text-align: center; line-height: normal;
       touch-action: manipulation; -webkit-appearance: none;
       letter-spacing: .01em;
-      text-shadow: 0 1px 4px rgba(0,0,0,.2);
+      text-shadow: 0 1px 4px rgba(0,0,0,.15);
     }
     @keyframes cta-pulse {
-      0%,100% { box-shadow: 0 6px 36px rgba(167,108,248,.55); }
-      50%      { box-shadow: 0 10px 50px rgba(196,79,212,.85); }
+      0%,100% { box-shadow: 0 6px 36px rgba(155,127,244,.5); }
+      50%      { box-shadow: 0 10px 52px rgba(200,109,216,.8); }
     }
     .cta-btn:active { transform: scale(.97); }
 
@@ -337,39 +343,40 @@
       flex-wrap: wrap;
     }
     .trust-item { display: flex; align-items: center; gap: 5px; }
-    .trust-item::before { content: '✓'; color: var(--accent); font-weight: 800; font-size: .8rem; }
+    .trust-item::before { content: '✓'; color: #6b9ef8; font-weight: 800; font-size: .8rem; }
 
     /* ── How it works card ── */
     .how-card {
       width: 100%;
       background: var(--surface);
-      border: 1px solid rgba(167,108,248,.2);
+      border: 1px solid rgba(155,127,244,.22);
       border-radius: 20px;
       overflow: hidden;
       margin-bottom: 22px;
       animation: fadeUp .65s .2s ease both;
-      box-shadow: 0 12px 40px rgba(0,0,0,.6), 0 0 30px rgba(167,108,248,.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 30px rgba(107,158,248,.08);
     }
     .how-title {
       padding: 16px 20px;
       font-size: .65rem; font-weight: 700; letter-spacing: .1em;
       text-transform: uppercase; color: var(--muted);
-      border-bottom: 1px solid rgba(167,108,248,.12);
+      border-bottom: 1px solid rgba(155,127,244,.14);
       text-align: center;
     }
     .how-item {
       display: flex; align-items: flex-start; gap: 14px;
-      padding: 20px; border-bottom: 1px solid rgba(167,108,248,.1);
+      padding: 20px; border-bottom: 1px solid rgba(155,127,244,.1);
     }
     .how-num {
       width: 30px; height: 30px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--primary), var(--primary2));
       display: flex; align-items: center; justify-content: center;
       font-family: 'Nunito', sans-serif;
       font-size: .8rem; font-weight: 900; color: #fff;
       flex-shrink: 0; margin-top: 1px;
-      box-shadow: 0 0 12px rgba(167,108,248,.45);
     }
+    .how-num.n1 { background: linear-gradient(135deg, #6b9ef8, #9b7ff4); box-shadow: 0 0 14px rgba(107,158,248,.4); }
+    .how-num.n2 { background: linear-gradient(135deg, #9b7ff4, #c86dd8); box-shadow: 0 0 14px rgba(155,127,244,.4); }
+    .how-num.n3 { background: linear-gradient(135deg, #c86dd8, #e879b8); box-shadow: 0 0 14px rgba(200,109,216,.4); }
     .how-text { display: flex; flex-direction: column; gap: 3px; }
     .how-text b { font-size: .95rem; font-weight: 700; color: var(--text); }
     .how-text span { font-size: .8rem; color: var(--muted); line-height: 1.45; }
@@ -377,8 +384,8 @@
     /* ── Challenge banner ── */
     .activation-banner {
       width: 100%;
-      background: linear-gradient(135deg, var(--surface2) 0%, #150a22 100%);
-      border: 1.5px solid rgba(196,79,212,.3);
+      background: linear-gradient(135deg, rgba(107,158,248,.08) 0%, rgba(155,127,244,.1) 40%, rgba(232,121,184,.08) 100%);
+      border: 1.5px solid rgba(155,127,244,.35);
       border-radius: 16px;
       padding: 16px 18px;
       display: flex;
@@ -388,14 +395,13 @@
       position: relative;
       overflow: hidden;
       animation: fadeUp .68s .22s ease both;
-      box-shadow: 0 0 24px rgba(196,79,212,.12);
     }
     .activation-banner::before {
       content: '';
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(167,108,248,.07), transparent);
+      background: linear-gradient(90deg, transparent, rgba(155,127,244,.08), transparent);
       animation: shimmer-banner 4s ease-in-out infinite;
     }
     @keyframes shimmer-banner {
@@ -404,7 +410,7 @@
     }
     .activation-tag {
       position: absolute; top: -1px; right: -1px;
-      background: linear-gradient(135deg, #a76cf8, #c44fd4);
+      background: linear-gradient(135deg, #9b7ff4, #c86dd8);
       color: #fff;
       font-size: .6rem; font-weight: 800; letter-spacing: .08em;
       padding: 4px 10px;
@@ -413,12 +419,13 @@
     .activation-icon {
       font-size: 1.6rem;
       flex-shrink: 0;
-      filter: drop-shadow(0 2px 6px rgba(196,79,212,.4));
     }
     .activation-body { flex: 1; text-align: left; padding-right: 52px; }
     .activation-label {
       font-size: .6rem; font-weight: 800; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--primary2);
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #6b9ef8, #9b7ff4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       margin-bottom: 4px;
     }
     .activation-title {
@@ -426,14 +433,12 @@
       font-size: .92rem; font-weight: 800; color: var(--text);
       line-height: 1.3; margin-bottom: 3px;
     }
-    .activation-title .free { color: var(--accent); }
+    .activation-title .free { color: #6bd9a4; }
     .activation-title .amount {
-      background: linear-gradient(90deg, #f472b6, #fbbf24);
+      background: linear-gradient(90deg, #e879b8, #f4c261);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .activation-desc {
-      font-size: .72rem; color: var(--muted); line-height: 1.4;
-    }
+    .activation-desc { font-size: .72rem; color: var(--muted); line-height: 1.4; }
 
     /* ── Stats ── */
     .stats {
@@ -487,7 +492,7 @@
     <!-- Wordmark -->
     <div class="wordmark">
       <div class="logo-icon">
-        <img src="https://play-lh.googleusercontent.com/DiVZQT6nkJjZBPV0Wg_RGLzL3F5Dq6ytDEnu1-z1n9rVKlVzdFzdSWRRmM4eUxh6z797=w480-h960-rw" alt="Reco Social">
+        <img src="/mnt/user-data/uploads/1778609223279_image.png" alt="Reco Social">
       </div>
       <div class="wordmark-text"><span class="w1">reco</span><span class="w2">social</span></div>
     </div>
@@ -585,7 +590,6 @@
         Back
       </button>
 
-      <!-- Hero -->
       <div class="hero">
         <h1>Get Paid To <span class="hl">Play</span></h1>
         <p>Earn real cash playing games &amp; completing tasks!</p>
@@ -602,35 +606,32 @@
         <p class="hero-sub">🎮 Play games, take surveys &amp; watch videos for cash</p>
       </div>
 
-      <!-- CTA -->
       <a class="cta-btn" href="https://tk.unlockbonusapp.com/click" onclick="handleClick(event)">Download Now — It's Free →</a>
 
-      <!-- Trust -->
       <div class="trust">
         <div class="trust-item">Free</div>
         <div class="trust-item">Instant Payout</div>
         <div class="trust-item">No Credit Card</div>
       </div>
 
-      <!-- How it works -->
       <div class="how-card">
         <div class="how-title">HOW IT WORKS</div>
         <div class="how-item">
-          <div class="how-num">1</div>
+          <div class="how-num n1">1</div>
           <div class="how-text">
             <b>Download &amp; Get Your $10 Bonus</b>
             <span>iOS &amp; Android — takes less than 60 seconds</span>
           </div>
         </div>
         <div class="how-item">
-          <div class="how-num">2</div>
+          <div class="how-num n2">2</div>
           <div class="how-text">
             <b>Play Games &amp; Complete Offers</b>
             <span>Block Blast, Clash Royale, Subway Surfers, Roblox &amp; more</span>
           </div>
         </div>
         <div class="how-item" style="border-bottom:none;">
-          <div class="how-num">3</div>
+          <div class="how-num n3">3</div>
           <div class="how-text">
             <b>Cash Out Instantly</b>
             <span>PayPal, CashApp, Venmo, Crypto &amp; Wire</span>
@@ -638,7 +639,6 @@
         </div>
       </div>
 
-      <!-- Challenge banner -->
       <div class="activation-banner">
         <div class="activation-tag">NEW USER</div>
         <span class="activation-icon">🎁</span>
@@ -649,7 +649,6 @@
         </div>
       </div>
 
-      <!-- Stats -->
       <div class="stats">
         <span>10M+ Users</span>
         <span class="stats-sep">·</span>
@@ -663,20 +662,18 @@
 </div>
 
 <script>
-/* ── Particles ── */
 (function() {
   const layer = document.getElementById('bgLayer');
-  const colors = ['#a76cf8','#c44fd4','#f472b6','#5b8af8','#fbbf24'];
-  for (let i = 0; i < 18; i++) {
+  const colors = ['#6b9ef8','#9b7ff4','#c86dd8','#e879b8','#f4c261'];
+  for (let i = 0; i < 20; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
-    const size = Math.random() * 4 + 2;
+    const size = Math.random() * 4 + 1.5;
     p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
     layer.appendChild(p);
   }
 })();
 
-/* ── Canvas arc spinner ── */
 const canvases = document.querySelectorAll('canvas.arc-canvas');
 let arcAngle = 0;
 
@@ -697,9 +694,7 @@ function drawArc(cv, angle) {
   const w = cv._w, h = cv._h;
   if (!w) return;
   ctx.clearRect(0, 0, w, h);
-  const radius = 20;
-  const lw = 3;
-  const half = lw / 2;
+  const radius = 20, lw = 3, half = lw / 2;
   const x = half, y = half, rw = w - lw, rh = h - lw;
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -715,16 +710,17 @@ function drawArc(cv, angle) {
   const perim = 2 * ((rw - 2*radius) + (rh - 2*radius)) + 2 * Math.PI * radius;
   const arcLen = perim * 0.28;
   const grad = ctx.createLinearGradient(0, 0, w, h);
-  grad.addColorStop(0,   'rgba(167,108,248,0)');
-  grad.addColorStop(0.3, '#a76cf8');
-  grad.addColorStop(0.6, '#c44fd4');
-  grad.addColorStop(1,   'rgba(244,114,182,0.8)');
+  grad.addColorStop(0,   'rgba(107,158,248,0)');
+  grad.addColorStop(0.25, '#6b9ef8');
+  grad.addColorStop(0.5, '#9b7ff4');
+  grad.addColorStop(0.75, '#c86dd8');
+  grad.addColorStop(1,   'rgba(232,121,184,0.8)');
   ctx.strokeStyle = grad;
   ctx.lineWidth = lw;
   ctx.lineCap = 'round';
   ctx.setLineDash([arcLen, perim - arcLen]);
   ctx.lineDashOffset = -angle * perim;
-  ctx.shadowColor = '#a76cf8';
+  ctx.shadowColor = '#9b7ff4';
   ctx.shadowBlur = 8;
   ctx.stroke();
 }
@@ -739,15 +735,10 @@ function arcLoop() {
   requestAnimationFrame(arcLoop);
 }
 
-window.addEventListener('load', () => {
-  canvases.forEach(initCanvas);
-  arcLoop();
-});
+window.addEventListener('load', () => { canvases.forEach(initCanvas); arcLoop(); });
 window.addEventListener('resize', () => canvases.forEach(initCanvas));
 
-/* ── Sequential card sequencer ── */
-let _seqIndex = 0;
-let _seqTimer = null;
+let _seqIndex = 0, _seqTimer = null;
 const SEQ_INTERVAL = 900;
 
 function startSequence() {
@@ -767,9 +758,7 @@ function stopSequence() {
 
 startSequence();
 
-/* ── Game selection ── */
-let _selectedGame = null;
-let _selectedImg  = null;
+let _selectedGame = null, _selectedImg = null;
 
 function selectGame(wrap, name, img) {
   stopSequence();
@@ -780,7 +769,6 @@ function selectGame(wrap, name, img) {
   setTimeout(goToStep2, 380);
 }
 
-/* ── Step transitions ── */
 function goToStep2() {
   if (!_selectedGame) return;
   document.getElementById('sn1').classList.remove('active');
@@ -813,7 +801,6 @@ function goBack() {
   window.scrollTo(0, 0);
 }
 
-/* ── CTA click handler ── */
 async function handleClick(event) {
   event.preventDefault();
   const urlParams = new URLSearchParams(window.location.search);
