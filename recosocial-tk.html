@@ -197,63 +197,64 @@
     }
 
     /* ===== CHALLENGE BANNER ===== */
-    .challenge-banner {
+    /* ── Challenge banner ── */
+    .activation-banner {
       width: 100%;
-      background: linear-gradient(135deg, #1a0d2e 0%, #150a22 100%);
-      border: 1px solid rgba(196,79,212,.3);
+      background: linear-gradient(135deg, rgba(107,158,248,.08) 0%, rgba(155,127,244,.1) 40%, rgba(232,121,184,.08) 100%);
+      border: 1.5px solid rgba(155,127,244,.35);
       border-radius: 16px;
       padding: 16px 18px;
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       position: relative;
       overflow: hidden;
       animation: fadeUp .68s .22s ease both;
-      box-shadow: 0 0 24px rgba(196,79,212,.12);
     }
-    .challenge-banner::before {
+    .activation-banner::before {
       content: '';
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(167,108,248,.07), transparent);
+      background: linear-gradient(90deg, transparent, rgba(155,127,244,.08), transparent);
       animation: shimmer-banner 4s ease-in-out infinite;
     }
     @keyframes shimmer-banner {
       0%,100% { left: -100%; }
       50% { left: 100%; }
     }
-    .challenge-icon {
+    .activation-tag {
+      position: absolute; top: -1px; right: -1px;
+      background: linear-gradient(135deg, #9b7ff4, #c86dd8);
+      color: #fff;
+      font-size: .6rem; font-weight: 800; letter-spacing: .08em;
+      padding: 4px 10px;
+      border-radius: 0 14px 0 10px;
+    }
+    .activation-icon {
       font-size: 1.6rem;
       flex-shrink: 0;
-      filter: drop-shadow(0 2px 6px rgba(196,79,212,.4));
     }
-    .challenge-body { flex: 1; text-align: left; }
-    .challenge-label {
-      font-size: .6rem;
-      font-weight: 800;
-      letter-spacing: 1px;
+    .activation-body { flex: 1; text-align: left; padding-right: 52px; }
+    .activation-label {
+      font-size: .6rem; font-weight: 800; letter-spacing: .08em;
       text-transform: uppercase;
-      color: #c44fd4;
+      background: linear-gradient(90deg, #6b9ef8, #9b7ff4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       margin-bottom: 4px;
     }
-    .challenge-title {
-      font-size: .92rem;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.3;
+    .activation-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: .92rem; font-weight: 800; color: var(--text);
+      line-height: 1.3; margin-bottom: 3px;
     }
-    .challenge-title .free { color: #f472b6; }
-    .challenge-title .amount {
-      background: linear-gradient(90deg, #f472b6, #fbbf24);
+    .activation-title .free { color: #6bd9a4; }
+    .activation-title .amount {
+      background: linear-gradient(90deg, #e879b8, #f4c261);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .challenge-sub {
-      font-size: .7rem;
-      color: var(--muted);
-      margin-top: 3px;
-    }
+    .activation-desc { font-size: .72rem; color: var(--muted); line-height: 1.4; }
 
     .stats {
       display: flex; align-items: center; justify-content: center;
@@ -335,14 +336,15 @@
     </div>
 
     <!-- Challenge banner -->
-    <div class="challenge-banner">
-      <div class="challenge-icon">🎁</div>
-      <div class="challenge-body">
-        <div class="challenge-label">New User Challenge</div>
-        <div class="challenge-title">Finish 3 offers in 24h → <span class="free">FREE</span> <span class="amount">$250</span></div>
-        <div class="challenge-sub">Auto-credited to your balance. No catch.</div>
+    <div class="activation-banner">
+        <div class="activation-tag">IMPORTANT</div>
+        <span class="activation-icon">🔒</span>
+        <div class="activation-body">
+          <div class="activation-label">Activation Required</div>
+          <div class="activation-title">New users: Complete <span class="free">2 quick offers</span> to unlock full access and start earning</div>
+        </div>
       </div>
-    </div>
+
 
     <div class="stats">
       <span>10M+ Users</span>
