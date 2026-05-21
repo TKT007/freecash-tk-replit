@@ -174,6 +174,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
   display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,20,0.75);backdrop-filter:blur(6px);
   opacity:0;pointer-events:none;transition:opacity 0.4s ease;
+  overflow:hidden;
 }
 .overlay.visible{opacity:1;pointer-events:all}
 /* THANKS */
@@ -205,7 +206,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
    ═══════════════════════════════════════════════ */
 #fc-overlay{z-index:700}
 #fc-popup{
-  width:min(340px,90vw);
+  width:min(320px,86vw);
+  max-width:320px;
   background:#111a12;
   border-radius:26px;
   border:2px solid rgba(0,255,68,0.25);
@@ -217,7 +219,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
     0 0 40px rgba(0,255,68,0.18),
     0 0 80px rgba(0,200,50,0.10),
     0 30px 80px rgba(0,0,0,0.9);
-  animation:none;
 }
 #fc-overlay.visible #fc-popup{transform:scale(1) translateY(0);opacity:1}
 
@@ -235,7 +236,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
   50%{box-shadow:0 0 45px rgba(0,255,68,0.55),0 0 80px rgba(0,220,60,0.25)}
 }
 
-.fc-content{padding:26px 24px 24px;position:relative;z-index:2;text-align:center}
+.fc-content{padding:22px 18px 20px;position:relative;z-index:2;text-align:center;overflow:hidden;box-sizing:border-box;width:100%}
 
 /* Logo row — real image + text fallback */
 .fc-logo-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px}
@@ -297,11 +298,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
 /* Big money amount */
 .fc-money{
   font-family:'Fredoka One',cursive;
-  font-size:clamp(60px,16vw,72px);
+  font-size:clamp(48px,12vw,58px);
   color:#00ff66;line-height:1;
   text-shadow:0 0 50px rgba(0,255,100,0.65),0 4px 0 rgba(0,60,20,0.9);
-  letter-spacing:-2px;
+  letter-spacing:-1px;
   margin-bottom:6px;
+  max-width:100%;
+  word-break:break-all;
 }
 
 .fc-subtitle{font-size:13px;color:#555;margin-bottom:18px;line-height:1.4}
@@ -312,9 +315,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
   background:rgba(0,0,0,0.35);
   border:1px solid rgba(0,255,68,0.1);
   border-radius:14px;
-  padding:14px 20px;
+  padding:12px 16px;
   display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:16px;
+  margin-bottom:14px;
+  overflow:hidden;
 }
 .fc-bal-label{font-size:15px;color:#444;font-weight:700}
 .fc-bal-amount{font-family:'Fredoka One',cursive;font-size:22px;color:#00ff66}
@@ -622,9 +626,18 @@ function showThanks(){
 
 function showFreeCash(){
   gamePhase='freecash';
-  document.getElementById('fc-overlay').classList.add('visible');
-  animateMoney('fc-amount',912.64,2200);
-  animateMoney('fc-balance',912.64,2400);
+  // Fade out thanks popup first, then show freecash
+  const thanksOv = document.getElementById('thanks-overlay');
+  thanksOv.style.transition='opacity 0.4s ease';
+  thanksOv.style.opacity='0';
+  setTimeout(()=>{
+    thanksOv.classList.remove('visible');
+    thanksOv.style.opacity='';
+    thanksOv.style.transition='';
+    document.getElementById('fc-overlay').classList.add('visible');
+    animateMoney('fc-amount',912.64,2200);
+    animateMoney('fc-balance',912.64,2400);
+  },400);
 }
 
 function animateMoney(id,target,duration,cb){
