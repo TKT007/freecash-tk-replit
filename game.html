@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Block Puzzle</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+:root{
+  --gold:#FFD700;--gold2:#FFA500;--blue-dark:#0a1628;--blue-mid:#0d2444;--blue-gem:#1a3a6e;
+  --cell:#0f2d52;--cell-border:#1a4a7a;
+  --red1:#ff4444;--red2:#cc0000;
+  --yellow1:#FFD700;--yellow2:#cc9900;
+  --green1:#44cc44;--green2:#228822;
+  --blue1:#4488ff;--blue2:#2255cc;
+  --purple1:#aa44ff;--purple2:#772299;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+#app{
+  width:390px;height:844px;
+  position:relative;overflow:hidden;
+  margin:0 auto;
+  background:radial-gradient(ellipse at 30% 10%,#0d3080 0%,#0a1628 50%,#060e1f 100%);
+  font-family:'Nunito',sans-serif;
+}
+
+/* STARS BG */
+#stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,2s) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0.2}50%{opacity:0.9}}
+
+/* HEADER */
+#header{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px 8px;
+}
+.score-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,215,0,0.15);border:1.5px solid rgba(255,215,0,0.4);
+  border-radius:20px;padding:6px 14px;
+}
+.crown{font-size:20px}
+.score-num{font-family:'Fredoka One',cursive;font-size:18px;color:var(--gold);letter-spacing:1px}
+.progress-wrap{flex:1;margin:0 14px;position:relative}
+.progress-bar{
+  height:18px;background:rgba(0,0,0,0.4);border-radius:9px;
+  border:1.5px solid rgba(255,215,0,0.3);overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,#e6a800,#FFD700,#fff9aa,#FFD700);
+  border-radius:9px;transition:width 0.4s ease;
+  background-size:200% 100%;animation:shimmer 2s linear infinite;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.progress-pct{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#5a3a00;
+}
+.gear-btn{
+  width:36px;height:36px;background:rgba(255,255,255,0.08);border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;position:relative;
+}
+.new-badge{
+  position:absolute;top:-6px;right:-6px;background:#ff4400;
+  font-size:9px;font-weight:900;color:#fff;border-radius:4px;padding:1px 4px;
+}
+.big-score{
+  font-family:'Fredoka One',cursive;font-size:52px;color:#fff;
+  text-align:center;position:relative;z-index:10;
+  margin:0 0 6px;
+  text-shadow:0 0 20px rgba(255,215,0,0.4);
+  letter-spacing:2px;
+}
+.big-score::after{
+  content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:100px;height:100px;background:rgba(120,0,255,0.15);
+  border-radius:50%;z-index:-1;
+  box-shadow:0 0 40px 20px rgba(120,0,255,0.1);
+}
+
+/* BOARD */
+#board-wrap{
+  position:relative;z-index:10;
+  margin:0 12px;
+  background:rgba(10,30,70,0.7);border-radius:16px;
+  border:2px solid rgba(100,160,255,0.2);
+  padding:10px;box-shadow:0 4px 24px rgba(0,0,0,0.5),inset 0 0 30px rgba(0,0,50,0.3);
+}
+#board{
+  display:grid;grid-template-columns:repeat(8,1fr);
+  gap:3px;width:100%;aspect-ratio:1;
+}
+.cell{
+  border-radius:4px;background:var(--cell);
+  border:1px solid var(--cell-border);
+  aspect-ratio:1;position:relative;overflow:hidden;
+  transition:background 0.15s;
+}
+.cell.placed{animation:place-pop 0.2s ease;}
+@keyframes place-pop{0%{transform:scale(0.6)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+/* GEM blocks */
+.gem{
+  width:100%;height:100%;border-radius:4px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform 0.1s;
+}
+.gem::before{content:'';position:absolute;top:6%;left:15%;width:35%;height:30%;background:rgba(255,255,255,0.55);border-radius:50%;transform:rotate(-30deg)}
+.gem::after{content:'';position:absolute;inset:0;border-radius:4px;border:2px solid rgba(255,255,255,0.15)}
+.gem-red{background:linear-gradient(135deg,#ff6666,#cc0000,#880000);box-shadow:inset 0 1px 0 rgba(255,150,150,0.5),0 2px 4px rgba(0,0,0,0.5)}
+.gem-yellow{background:linear-gradient(135deg,#ffe066,#cc9900,#886600);box-shadow:inset 0 1px 0 rgba(255,255,150,0.5),0 2px 4px rgba(0,0,0,0.5)}
+.gem-green{background:linear-gradient(135deg,#66ff66,#228822,#115511);box-shadow:inset 0 1px 0 rgba(150,255,150,0.5),0 2px 4px rgba(0,0,0,0.5)}
+.gem-blue{background:linear-gradient(135deg,#6699ff,#2255cc,#112288);box-shadow:inset 0 1px 0 rgba(150,150,255,0.5),0 2px 4px rgba(0,0,0,0.5)}
+.gem-purple{background:linear-gradient(135deg,#cc66ff,#7722cc,#441166);box-shadow:inset 0 1px 0 rgba(200,150,255,0.5),0 2px 4px rgba(0,0,0,0.5)}
+
+/* TRAY */
+#tray{
+  display:flex;justify-content:space-around;align-items:center;
+  margin:10px 12px 0;padding:8px 10px;
+  background:rgba(5,15,40,0.6);border-radius:14px;
+  border:1.5px solid rgba(100,160,255,0.15);
+  min-height:100px;
+}
+.piece-slot{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:grab;flex:1;max-width:110px;
+  transition:transform 0.15s,filter 0.15s;
+}
+.piece-slot:active{cursor:grabbing;transform:scale(0.92)}
+.piece-slot.selected{filter:drop-shadow(0 0 8px rgba(255,215,0,0.8));transform:scale(1.05)}
+.piece-slot.used{opacity:0.2;pointer-events:none}
+.mini-board{display:grid;gap:2px}
+.mini-cell{border-radius:3px;width:18px;height:18px}
+
+/* CLEAR FLASH */
+.row-flash{animation:row-clear 0.4s ease forwards}
+@keyframes row-clear{0%{opacity:1}50%{opacity:0;transform:scaleY(0.3)}100%{opacity:1;background:var(--cell)}}
+
+/* AWESOME banner */
+#awesome{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  z-index:100;pointer-events:none;
+  font-family:'Fredoka One',cursive;font-size:56px;color:#FFD700;
+  text-shadow:0 0 30px rgba(255,215,0,0.8),0 4px 0 rgba(150,100,0,0.6);
+  white-space:nowrap;letter-spacing:3px;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s;
+}
+#awesome.show{transform:translate(-50%,-50%) scale(1);opacity:1}
+#awesome.hide{transform:translate(-50%,-50%) scale(1.4);opacity:0}
+
+/* SPARKLES */
+.sparkle{
+  position:absolute;pointer-events:none;z-index:99;
+  font-size:20px;animation:sparkle-fly 0.8s ease forwards;
+}
+@keyframes sparkle-fly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+
+/* OVERLAY */
+.overlay{
+  position:absolute;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity 0.4s;
+}
+.overlay.visible{opacity:1;pointer-events:all}
+
+/* THANKS POPUP */
+#thanks-popup{
+  background:linear-gradient(160deg,#0d2857 0%,#0a1e45 60%,#061228 100%);
+  border-radius:22px;border:2px solid rgba(100,160,255,0.35);
+  padding:32px 28px;width:310px;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 40px rgba(50,100,255,0.15);
+  transform:scale(0.5);transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+#thanks-overlay.visible #thanks-popup{transform:scale(1)}
+.thanks-title{font-family:'Fredoka One',cursive;font-size:28px;color:#fff;margin-bottom:8px}
+.thanks-sub{font-size:16px;color:#88aaff;margin-bottom:6px;font-weight:700}
+.thanks-amount{
+  font-family:'Fredoka One',cursive;font-size:56px;color:#FFD700;
+  text-shadow:0 0 20px rgba(255,215,0,0.6);letter-spacing:1px;
+  margin:8px 0;
+}
+.coin-rain{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;border-radius:22px}
+.coin{position:absolute;font-size:22px;animation:coin-fall var(--d,1s) var(--delay,0s) ease-in forwards}
+@keyframes coin-fall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(200px) rotate(360deg);opacity:0}}
+
+/* FREECASH POPUP */
+#fc-overlay{z-index:300}
+#fc-popup{
+  background:#0d1a0f;border-radius:24px;
+  border:2px solid #00ff6640;
+  padding:0;width:320px;overflow:hidden;
+  transform:scale(0.4) translateY(60px);opacity:0;
+  transition:transform 0.55s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;
+  box-shadow:0 0 0 1px #00ff2215,0 0 60px #00ff4430,0 20px 60px rgba(0,0,0,0.8);
+  position:relative;
+}
+#fc-overlay.visible #fc-popup{transform:scale(1) translateY(0);opacity:1}
+.fc-glow-ring{
+  position:absolute;inset:-2px;border-radius:26px;
+  background:transparent;border:2px solid transparent;
+  background-clip:padding-box;
+  animation:glow-rotate 3s linear infinite;pointer-events:none;z-index:1;
+}
+@keyframes glow-rotate{
+  0%{box-shadow:0 0 15px #00ff44,0 0 30px #00ff4440}
+  50%{box-shadow:0 0 25px #00ff88,0 0 50px #00ff6650}
+  100%{box-shadow:0 0 15px #00ff44,0 0 30px #00ff4440}
+}
+.fc-inner{padding:28px 24px;position:relative;z-index:2}
+.fc-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+.fc-logo-icon{
+  width:32px;height:32px;background:#00cc44;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.fc-logo-text{font-family:'Fredoka One',cursive;font-size:22px;color:#fff}
+.fc-logo-text span{color:#00ff66}
+.fc-milestone{
+  font-size:11px;font-weight:800;letter-spacing:2px;color:#00cc44;
+  text-align:center;margin:8px 0;
+}
+.fc-trophy{
+  width:64px;height:64px;background:#00ff3315;border-radius:50%;
+  border:2px solid #00ff4430;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;font-size:30px;
+  box-shadow:0 0 20px #00ff4440;
+  animation:trophy-pulse 2s ease-in-out infinite;
+}
+@keyframes trophy-pulse{0%,100%{box-shadow:0 0 20px #00ff4440}50%{box-shadow:0 0 35px #00ff6680}}
+.fc-level{font-family:'Fredoka One',cursive;font-size:26px;color:#fff;text-align:center;margin-bottom:14px}
+.fc-amount{
+  font-family:'Fredoka One',cursive;font-size:62px;color:#00ff66;
+  text-align:center;letter-spacing:-1px;
+  text-shadow:0 0 30px #00ff6660;
+  line-height:1;margin-bottom:4px;
+}
+.fc-added{font-size:13px;color:#aaa;text-align:center;margin-bottom:16px}
+.fc-added span{color:#00ff66;font-weight:700}
+.fc-balance{
+  background:#1a2e1a;border-radius:12px;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;
+}
+.fc-balance-label{font-size:14px;color:#888}
+.fc-balance-val{font-family:'Fredoka One',cursive;font-size:20px;color:#00ff66}
+.fc-btn{
+  width:100%;padding:16px;background:#00cc44;border-radius:14px;border:none;
+  font-family:'Fredoka One',cursive;font-size:20px;color:#001a08;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform 0.1s,background 0.1s;
+  box-shadow:0 4px 20px #00cc4440;
+}
+.fc-btn:active{transform:scale(0.97);background:#00aa33}
+.fc-btn-icon{font-size:22px}
+
+/* INSTRUCTIONS */
+#instructions{
+  position:absolute;bottom:8px;left:0;right:0;
+  text-align:center;font-size:12px;color:rgba(255,255,255,0.35);
+  z-index:10;pointer-events:none;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stars"></div>
+
+  <div id="header">
+    <div class="score-badge"><span class="crown">👑</span><span class="score-num" id="score-display">0</span></div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-pct" id="progress-pct">0%</div>
+    </div>
+    <div class="gear-btn">⚙️<div class="new-badge">NEW</div></div>
+  </div>
+
+  <div class="big-score" id="big-score">0</div>
+
+  <div id="board-wrap">
+    <div id="board"></div>
+  </div>
+
+  <div id="tray"></div>
+
+  <div id="instructions">Toque em uma peça, depois toque no tabuleiro para colocar</div>
+
+  <div id="awesome" class="">Awesome! 🔥</div>
+
+  <!-- THANKS POPUP -->
+  <div class="overlay" id="thanks-overlay">
+    <div id="thanks-popup">
+      <div class="coin-rain" id="coin-rain"></div>
+      <div class="thanks-title">Thanks For Playing!</div>
+      <div class="thanks-sub">You've Earned:</div>
+      <div class="thanks-amount" id="thanks-amount">$0.00</div>
+    </div>
+  </div>
+
+  <!-- FREECASH POPUP -->
+  <div class="overlay" id="fc-overlay">
+    <div id="fc-popup">
+      <div class="fc-glow-ring"></div>
+      <div class="fc-inner">
+        <div class="fc-logo">
+          <div class="fc-logo-icon">💱</div>
+          <div class="fc-logo-text">FREE<span>CASH</span></div>
+        </div>
+        <div class="fc-milestone">✦ MILESTONE REACHED ✦</div>
+        <div class="fc-trophy">🏆</div>
+        <div class="fc-level">Level 62 Complete</div>
+        <div class="fc-amount" id="fc-amount">$0.00</div>
+        <div class="fc-added">added to your <span>FreeCash</span> balance</div>
+        <div class="fc-balance">
+          <span class="fc-balance-label">Total Balance</span>
+          <span class="fc-balance-val" id="fc-balance-val">$0.00</span>
+        </div>
+        <button class="fc-btn" id="fc-continue">
+          <span class="fc-btn-icon">🎮</span> Continue playing
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// STARS
+(function(){
+  const s=document.getElementById('stars');
+  for(let i=0;i<60;i++){
+    const d=document.createElement('div');
+    d.className='star';
+    const sz=Math.random()*2+1;
+    d.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s`;
+    s.appendChild(d);
+  }
+})();
+
+// GAME STATE
+const COLS=8,ROWS=8;
+const COLORS=['red','yellow','green','blue','purple'];
+let board=Array.from({length:ROWS},()=>Array(COLS).fill(null));
+let score=0,progress=0;
+let selectedPiece=null;
+let pieces=[];
+let gamePhase='playing'; // playing -> awesome -> thanks -> freecash
+
+// PIECES LIBRARY
+const PIECE_SHAPES=[
+  [[1,1],[1,0],[1,0],[1,0]], // L vertical
+  [[1],[1],[1],[1]],         // I vertical
+  [[1,1],[1,1]],             // 2x2
+  [[1,1,1],[0,1,0]],         // T
+  [[1,1,1]],                 // I-3
+  [[1,0],[1,1],[0,1]],       // Z
+  [[0,1],[1,1],[1,0]],       // S
+  [[1,1],[1,0]],             // corner
+  [[1]],                     // single
+  [[1,1,1],[1,0,0]],         // L
+  [[1,1],[0,1],[0,1]],       // J
+  [[1,1,1,1]],               // I-4 horiz
+];
+
+// PRE-SET BOARD — 3 rows partially filled, with a gap row 4 that will be completed
+function initBoard(){
+  const presets=[
+    // row 0: red red red _ _ yellow _ _
+    {r:0,c:0,color:'red'},{r:0,c:1,color:'red'},{r:0,c:2,color:'red'},
+    {r:1,c:0,color:'red'},
+    // yellow cluster top right
+    {r:0,c:5,color:'yellow'},
+    {r:1,c:3,color:'yellow'},{r:1,c:4,color:'yellow'},{r:1,c:5,color:'yellow'},{r:1,c:6,color:'yellow'},
+    {r:2,c:3,color:'yellow'},{r:2,c:4,color:'yellow'},{r:2,c:5,color:'yellow'},
+    // blue right side
+    {r:2,c:7,color:'blue'},{r:3,c:6,color:'blue'},{r:3,c:7,color:'blue'},{r:4,c:7,color:'blue'},{r:4,c:6,color:'blue'},
+    {r:5,c:6,color:'blue'},{r:5,c:7,color:'blue'},
+    // green left
+    {r:3,c:0,color:'green'},{r:4,c:0,color:'green'},{r:5,c:0,color:'green'},
+    // bottom area
+    {r:6,c:3,color:'green'},{r:6,c:4,color:'green'},
+    {r:6,c:5,color:'red'},{r:6,c:6,color:'red'},
+    {r:7,c:0,color:'blue'},{r:7,c:1,color:'blue'},
+  ];
+  presets.forEach(p=>{board[p.r][p.c]=p.color});
+}
+
+// RENDER BOARD
+function renderBoard(){
+  const el=document.getElementById('board');
+  el.innerHTML='';
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const cell=document.createElement('div');
+      cell.className='cell';
+      cell.dataset.r=r;cell.dataset.c=c;
+      if(board[r][c]){
+        const gem=document.createElement('div');
+        gem.className=`gem gem-${board[r][c]}`;
+        cell.appendChild(gem);
+      }
+      cell.addEventListener('click',()=>onCellClick(r,c));
+      el.appendChild(cell);
+    }
+  }
+}
+
+// RENDER TRAY
+function renderTray(){
+  const el=document.getElementById('tray');
+  el.innerHTML='';
+  pieces.forEach((piece,idx)=>{
+    const slot=document.createElement('div');
+    slot.className='piece-slot'+(piece.used?' used':'')+(selectedPiece===idx?' selected':'');
+    slot.addEventListener('click',()=>selectPiece(idx));
+    if(!piece.used){
+      const rows=piece.shape.length,cols=piece.shape[0].length;
+      const mb=document.createElement('div');
+      mb.className='mini-board';
+      mb.style.gridTemplateColumns=`repeat(${cols},18px)`;
+      mb.style.gap='2px';
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+          const mc=document.createElement('div');
+          mc.className='mini-cell';
+          if(piece.shape[r][c]){
+            mc.style.background=`var(--${piece.color}1)`;
+            mc.style.boxShadow=`inset 0 1px 0 rgba(255,255,255,0.4)`;
+            mc.style.borderRadius='3px';
+          } else {
+            mc.style.background='transparent';
+          }
+          mb.appendChild(mc);
+        }
+      }
+      slot.appendChild(mb);
+    }
+    el.appendChild(slot);
+  });
+}
+
+function selectPiece(idx){
+  if(pieces[idx].used)return;
+  selectedPiece=selectedPiece===idx?null:idx;
+  renderTray();
+}
+
+function canPlace(shape,r,c){
+  for(let dr=0;dr<shape.length;dr++)
+    for(let dc=0;dc<shape[0].length;dc++)
+      if(shape[dr][dc]){
+        const nr=r+dr,nc=c+dc;
+        if(nr>=ROWS||nc>=COLS||board[nr][nc])return false;
+      }
+  return true;
+}
+
+function placePiece(shape,r,c,color){
+  const cells=[];
+  for(let dr=0;dr<shape.length;dr++)
+    for(let dc=0;dc<shape[0].length;dc++)
+      if(shape[dr][dc]){
+        board[r+dr][c+dc]=color;
+        cells.push({r:r+dr,c:c+dc});
+      }
+  return cells;
+}
+
+function checkLines(){
+  let cleared=0;
+  // Check rows
+  for(let r=0;r<ROWS;r++){
+    if(board[r].every(c=>c!==null)){
+      board[r]=Array(COLS).fill(null);
+      cleared++;
+      // flash animation
+      flashRow(r);
+    }
+  }
+  // Check cols
+  for(let c=0;c<COLS;c++){
+    if(board.every(row=>row[c]!==null)){
+      for(let r=0;r<ROWS;r++)board[r][c]=null;
+      cleared++;
+    }
+  }
+  return cleared;
+}
+
+function flashRow(r){
+  const cells=document.querySelectorAll(`[data-r="${r}"]`);
+  cells.forEach(c=>{c.classList.add('row-flash');setTimeout(()=>c.classList.remove('row-flash'),400)});
+}
+
+function spawnSparkles(x,y){
+  const emojis=['✨','⭐','💥','🌟','💫'];
+  for(let i=0;i<8;i++){
+    const s=document.createElement('div');
+    s.className='sparkle';
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*60;
+    s.style.cssText=`left:${x}px;top:${y}px;--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px`;
+    s.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    document.getElementById('app').appendChild(s);
+    setTimeout(()=>s.remove(),800);
+  }
+}
+
+function updateScore(pts){
+  score+=pts;
+  progress=Math.min(100,progress+pts*0.3);
+  document.getElementById('score-display').textContent=score;
+  document.getElementById('big-score').textContent=score;
+  const pf=document.getElementById('progress-fill');
+  const pp=document.getElementById('progress-pct');
+  pf.style.width=progress+'%';
+  pp.textContent=Math.round(progress)+'%';
+}
+
+function onCellClick(r,c){
+  if(gamePhase!=='playing')return;
+  if(selectedPiece===null)return;
+  const piece=pieces[selectedPiece];
+  if(piece.used)return;
+  if(!canPlace(piece.shape,r,c)){
+    // shake
+    document.getElementById('board-wrap').style.animation='none';
+    setTimeout(()=>{document.getElementById('board-wrap').style.animation=''},50);
+    return;
+  }
+  const placedCells=placePiece(piece.shape,r,c,piece.color);
+  piece.used=true;
+  selectedPiece=null;
+
+  // animate placed cells
+  renderBoard();
+  placedCells.forEach(({r:pr,c:pc})=>{
+    const idx=pr*COLS+pc;
+    const cells=document.querySelectorAll('.cell');
+    if(cells[idx])cells[idx].classList.add('placed');
+  });
+
+  // sparkle on center of placed
+  const mid=placedCells[Math.floor(placedCells.length/2)];
+  const boardRect=document.getElementById('board').getBoundingClientRect();
+  const appRect=document.getElementById('app').getBoundingClientRect();
+  const cellW=boardRect.width/COLS;
+  const sx=(boardRect.left-appRect.left)+(mid.c+0.5)*cellW;
+  const sy=(boardRect.top-appRect.top)+(mid.r+0.5)*cellW;
+  spawnSparkles(sx,sy);
+
+  const cleared=checkLines();
+  const pts=placedCells.length*10+(cleared*100);
+  updateScore(pts);
+
+  renderBoard();
+  renderTray();
+
+  // check if all pieces used
+  if(pieces.every(p=>p.used)){
+    triggerWin();
+  } else if(pieces.filter(p=>!p.used).length===0){
+    triggerWin();
+  }
+}
+
+function triggerWin(){
+  if(gamePhase!=='playing')return;
+  gamePhase='awesome';
+
+  // progress to 100%
+  progress=100;
+  document.getElementById('progress-fill').style.width='100%';
+  document.getElementById('progress-pct').textContent='100%';
+
+  // Show AWESOME
+  const aw=document.getElementById('awesome');
+  aw.classList.add('show');
+  // big sparkle burst
+  for(let i=0;i<5;i++){
+    setTimeout(()=>spawnSparkles(195,400),i*100);
+  }
+
+  setTimeout(()=>{
+    aw.classList.remove('show');
+    aw.classList.add('hide');
+    setTimeout(()=>{aw.classList.remove('hide');showThanks()},300);
+  },1800);
+}
+
+function showThanks(){
+  gamePhase='thanks';
+  const overlay=document.getElementById('thanks-overlay');
+  overlay.classList.add('visible');
+  spawnCoins();
+  animateMoney('thanks-amount',538.14,1800,()=>{
+    setTimeout(showFreeCash,1000);
+  });
+}
+
+function spawnCoins(){
+  const rain=document.getElementById('coin-rain');
+  rain.innerHTML='';
+  for(let i=0;i<18;i++){
+    const coin=document.createElement('div');
+    coin.className='coin';
+    coin.textContent=['💰','🪙','💵','💸'][Math.floor(Math.random()*4)];
+    coin.style.cssText=`left:${Math.random()*100}%;--d:${(0.8+Math.random()*0.8).toFixed(1)}s;--delay:${(Math.random()*1.5).toFixed(1)}s`;
+    rain.appendChild(coin);
+  }
+}
+
+function animateMoney(id,target,duration,cb){
+  const el=document.getElementById(id);
+  const start=performance.now();
+  function tick(now){
+    const t=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-t,3);
+    const val=(target*ease).toFixed(2);
+    el.textContent='$'+val;
+    if(t<1)requestAnimationFrame(tick);
+    else{el.textContent='$'+target.toFixed(2);if(cb)cb();}
+  }
+  requestAnimationFrame(tick);
+}
+
+function showFreeCash(){
+  gamePhase='freecash';
+  const overlay=document.getElementById('fc-overlay');
+  overlay.classList.add('visible');
+  animateMoney('fc-amount',912.64,2000);
+  animateMoney('fc-balance-val',912.64,2200);
+}
+
+document.getElementById('fc-continue').addEventListener('click',()=>{
+  document.getElementById('fc-overlay').classList.remove('visible');
+  document.getElementById('thanks-overlay').classList.remove('visible');
+  gamePhase='playing';
+  resetGame();
+});
+
+function resetGame(){
+  score=0;progress=0;
+  board=Array.from({length:ROWS},()=>Array(COLS).fill(null));
+  updateScore(0);
+  initBoard();
+  spawnPieces();
+  renderBoard();
+  renderTray();
+}
+
+function spawnPieces(){
+  // Spawn 3 pieces — last one will complete a line
+  const color1=COLORS[Math.floor(Math.random()*COLORS.length)];
+  const color2=COLORS[Math.floor(Math.random()*COLORS.length)];
+  // Special winning piece: single row that fills columns 1-3 of row 4 (gap)
+  // We pre-place columns 4-7 in row 4, so placing a 4-block on 4,0 completes it
+  board[4][4]=color1;board[4][5]=color1;board[4][6]=color1;
+  renderBoard();
+
+  pieces=[
+    {shape:[[1,1],[1,0],[1,0]],color:color1,used:false},     // L piece
+    {shape:[[1,1],[0,1]],color:color2,used:false},             // reverse L
+    {shape:[[1],[1],[1],[1]],color:'yellow',used:false},        // winning piece: 4-tall fits row 4 cols 0-3? No — let's do 3-wide horizontal
+  ];
+  // Override last piece to be specifically 3-wide horizontal that completes row 4
+  // row 4 currently has cols 4,5,6 filled. We need cols 0,1,2,3 to complete.
+  // But that's 4 cells. Let's place 2 cells (col4=color, col5=color, col6=color already there)
+  // Actually simpler: row 4 has cols 4-7 filled (4 cells), pieces[2] = 4-wide horizontal for cols 0-3
+  board[4][7]=color1;
+  pieces[2]={shape:[[1,1,1,1]],color:'green',used:false};
+  // This piece at row4,col0 will complete the entire row 4!
+  renderBoard();
+}
+
+// INITIAL setup
+initBoard();
+spawnPieces();
+updateScore(0);
+renderBoard();
+renderTray();
+
+// Auto-play demo: after 2s, auto-place piece 0, then piece 1, then piece 2 (win)
+let autoStep=0;
+const autoMoves=[
+  ()=>{selectPiece(0);setTimeout(()=>onCellClick(6,0),300)},
+  ()=>{selectPiece(1);setTimeout(()=>onCellClick(7,2),300)},
+  ()=>{selectPiece(2);setTimeout(()=>onCellClick(4,0),300)},
+];
+function autoPlay(){
+  if(autoStep<autoMoves.length&&gamePhase==='playing'){
+    autoMoves[autoStep]();
+    autoStep++;
+    if(autoStep<autoMoves.length)setTimeout(autoPlay,1200);
+  }
+}
+setTimeout(autoPlay,1500);
+</script>
+</body>
+</html>
