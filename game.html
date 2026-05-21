@@ -190,15 +190,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
 .popup-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .popup-star{position:absolute;background:#fff;border-radius:50%;animation:pop-star var(--d,2s) ease-in-out infinite alternate}
 @keyframes pop-star{0%{opacity:0.1}100%{opacity:0.7}}
-.thanks-title{font-family:'Fredoka One',cursive;font-size:26px;color:#fff;margin-bottom:6px;letter-spacing:0.5px}
-.thanks-sub{font-size:16px;color:#88aaff;margin-bottom:4px;font-weight:800}
+.thanks-icon{
+  width:60px;height:60px;margin:0 auto 12px;
+  background:rgba(255,215,0,0.08);
+  border:1.5px solid rgba(255,215,0,0.25);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+}
+.thanks-title{font-family:'Fredoka One',cursive;font-size:26px;color:#fff;margin-bottom:6px;letter-spacing:0.5px;position:relative;z-index:1}
+.thanks-sub{font-size:16px;color:#88aaff;margin-bottom:4px;font-weight:800;position:relative;z-index:1}
 .thanks-amount{
   font-family:'Fredoka One',cursive;font-size:clamp(52px,14vw,64px);color:#FFD700;
   text-shadow:0 0 30px rgba(255,215,0,0.7),0 3px 0 rgba(100,60,0,0.8);
   letter-spacing:1px;margin:8px 0 0;line-height:1;
+  position:relative;z-index:1;
 }
-.coin-rain{position:absolute;inset:0;pointer-events:none;border-radius:24px;overflow:hidden}
-.coin-particle{position:absolute;animation:coin-fall var(--d,0.9s) var(--delay,0s) ease-in forwards;font-size:var(--sz,22px)}
+.coin-rain{position:absolute;inset:0;pointer-events:none;border-radius:24px;overflow:hidden;z-index:0}
+.coin-particle{position:absolute;animation:coin-fall var(--d,0.9s) var(--delay,0s) ease-in forwards}
 @keyframes coin-fall{0%{transform:translateY(-20px) rotate(0deg) scale(1);opacity:1}80%{opacity:0.8}100%{transform:translateY(320px) rotate(var(--rot,360deg)) scale(0.5);opacity:0}}
 
 /* PWA Banner */
@@ -373,6 +382,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
     <div id="thanks-popup">
       <div class="coin-rain" id="coin-rain"></div>
       <div class="popup-stars" id="popup-stars"></div>
+      <div class="thanks-icon">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" stroke="#FFD700" stroke-width="1.5"/>
+          <path d="M12 6v1.5M12 16.5V18M8.5 9.5C8.5 8.12 10.07 7 12 7s3.5 1.12 3.5 2.5c0 1.5-1.5 2.5-3.5 2.5v2" stroke="#FFD700" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="15.5" r="0.8" fill="#FFD700"/>
+        </svg>
+      </div>
       <div class="thanks-title">Thanks For Playing!</div>
       <div class="thanks-sub">You've Earned:</div>
       <div class="thanks-amount" id="thanks-amount">$0.00</div>
@@ -409,7 +425,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#060e1f;font-family:
           <span class="fcp-bal-label">Total Balance</span>
           <span class="fcp-bal-val" id="fc-balance">$0.00</span>
         </div>
-        <button class="fcp-btn" id="fc-btn">🎮 Continue playing</button>
+        <button class="fcp-btn" id="fc-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
+            <rect x="2" y="6" width="20" height="12" rx="6" stroke="white" stroke-width="1.8"/>
+            <path d="M8 12H12M10 10V14" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="15.5" cy="11" r="1" fill="white"/>
+            <circle cx="17.5" cy="13" r="1" fill="white"/>
+          </svg>
+          Continue playing
+        </button>
 
       </div>
     </div>
@@ -576,8 +600,17 @@ function showThanks(){
   const c=document.getElementById('popup-stars');
   for(let i=0;i<20;i++){const s=document.createElement('div');s.className='popup-star';const sz=Math.random()*2+1;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(1.5+Math.random()*2).toFixed(1)}s;animation-delay:${(Math.random()*2).toFixed(1)}s`;c.appendChild(s);}
   const rain=document.getElementById('coin-rain');rain.innerHTML='';
-  const items=['💰','🪙','💵','💸','✨'];
-  for(let i=0;i<22;i++){const p=document.createElement('div');p.className='coin-particle';const sz=16+Math.floor(Math.random()*14),delay=(Math.random()*2.5).toFixed(2),dur=(0.7+Math.random()*0.8).toFixed(2),rot=(Math.random()>0.5?1:-1)*(180+Math.floor(Math.random()*360));p.style.cssText=`left:${Math.random()*100}%;top:0;--d:${dur}s;--delay:${delay}s;--sz:${sz}px;--rot:${rot}deg`;p.textContent=items[Math.floor(Math.random()*items.length)];rain.appendChild(p);}
+  for(let i=0;i<16;i++){
+    const p=document.createElement('div');
+    p.className='coin-particle';
+    const sz=10+Math.floor(Math.random()*10);
+    const delay=(Math.random()*2.8).toFixed(2);
+    const dur=(1.2+Math.random()*1.0).toFixed(2);
+    const rot=(Math.random()>0.5?1:-1)*(90+Math.floor(Math.random()*180));
+    const opacity=(0.15+Math.random()*0.25).toFixed(2);
+    p.style.cssText=`left:${Math.random()*100}%;top:0;--d:${dur}s;--delay:${delay}s;--sz:${sz}px;--rot:${rot}deg;--op:${opacity}`;
+    p.innerHTML=`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/><text x="12" y="16" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#FFD700" opacity="0.8">$</text></svg>`;
+    rain.appendChild(p);}
   document.getElementById('thanks-overlay').classList.add('visible');
   animateMoney('thanks-amount',538.14,2000,()=>setTimeout(showFreeCash,1200));
 }
