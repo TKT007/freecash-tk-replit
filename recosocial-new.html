@@ -175,6 +175,37 @@
       box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 20px rgba(167,108,248,.1);
     }
 
+    /* ===== STICKY BOTTOM CTA ===== */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(6,4,15,1) 60%, rgba(6,4,15,0) 100%);
+      transform: translateY(110%);
+      transition: transform .3s ease;
+      pointer-events: none;
+    }
+    .sticky-cta.visible {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .sticky-cta a {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 16px;
+      background: linear-gradient(135deg, #5b8af8 0%, #a76cf8 35%, #c44fd4 65%, #f472b6 100%);
+      border: none; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 800;
+      color: #fff; cursor: pointer;
+      box-shadow: 0 6px 32px rgba(167,108,248,.55);
+      text-decoration: none; text-align: center;
+      text-shadow: 0 1px 4px rgba(0,0,0,.2);
+      animation: cta-pulse 3s ease-in-out infinite;
+    }
+
     /* ===== EARN CALCULATOR ===== */
     .earn-calc {
       width: 100%;
@@ -455,11 +486,11 @@
       <div class="video-sub">Real users share their experience — from download to first payout</div>
       <div class="video-wrap">
         <iframe
-  src="https://play.tynk.ai/p/1dc57629-c402-4b2b-aa82-501a1f60c531"
-  style="width: 100%; aspect-ratio: 16/9; border: 0; display: block;"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
+          src="https://play.tynk.ai/p/1dc57629-c402-4b2b-aa82-501a1f60c531"
+          style="width:100%;aspect-ratio:16/9;border:0;display:block;border-radius:14px;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
 
@@ -511,6 +542,11 @@
   </div>
 </div>
 
+<!-- STICKY BOTTOM CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="https://go.dailybonus.app/click" onclick="handleClick(event)">Download Now →</a>
+</div>
+
 <script>
 (function(){
   const layer = document.getElementById('bgLayer');
@@ -522,6 +558,22 @@
     p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
     layer.appendChild(p);
   }
+})();
+
+// Sticky CTA observer
+(function(){
+  const mainBtn = document.querySelector('.cta-btn');
+  const stickyCta = document.getElementById('stickyCta');
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        stickyCta.classList.remove('visible');
+      } else {
+        stickyCta.classList.add('visible');
+      }
+    });
+  }, { threshold: 0 });
+  observer.observe(mainBtn);
 })();
 
 // Earn Calculator
