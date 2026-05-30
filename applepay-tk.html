@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <title>Apple Pay Rewards – Get Your Apple Pay Bonus</title>
+  <style>
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f0f4ff;
+      --primary:   #0050c8;
+      --primary2:  #003a96;
+      --text:      #0a0f1e;
+      --muted:     #4a5578;
+      --muted2:    #8a96b8;
+      --green:     #1a7a3c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-layer::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,80,200,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,58,150,.05) 0%, transparent 55%);
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: rise linear infinite;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0) scale(1); opacity: .3; }
+      100% { transform: translateY(-110vh) scale(.3); opacity: 0; }
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 100px;
+    }
+    .inner { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+
+    /* WORDMARK */
+    .wordmark {
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .logo-icon {
+      width: 72px; height: 72px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+    /* HERO */
+    .hero { text-align: center; margin-bottom: 20px; animation: fadeUp .55s .05s ease both; width: 100%; }
+    .hero h1 { font-size: 2.1rem; font-weight: 900; line-height: 1.1; color: var(--text); }
+    .hero h1 .hl { color: var(--primary); }
+    .hero p { margin-top: 8px; font-size: .95rem; color: var(--muted); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      background: rgba(0,80,200,.07);
+      border: 1px solid rgba(0,80,200,.22);
+      border-radius: 999px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 700;
+      color: var(--primary);
+    }
+    .badge svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* CTA */
+    .cta-btn {
+      width: 100%; margin: 18px 0 10px;
+      padding: 17px;
+      background: var(--primary);
+      border: none; border-radius: 14px;
+      font-size: 1.08rem; font-weight: 800;
+      color: #fff; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(0,80,200,.3);
+      transition: transform .15s, box-shadow .15s;
+      animation: fadeUp .6s .1s ease both, cta-pulse 3s 1s ease-in-out infinite;
+      display: block; text-decoration: none; text-align: center; line-height: normal;
+      touch-action: manipulation; -webkit-appearance: none;
+      letter-spacing: .01em;
+    }
+    @keyframes cta-pulse {
+      0%,100% { box-shadow: 0 6px 24px rgba(0,80,200,.3); }
+      50%      { box-shadow: 0 8px 36px rgba(0,58,150,.55); }
+    }
+    .cta-btn:active { transform: scale(.97); }
+
+    /* TRUST */
+    .trust {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      font-size: .72rem; color: var(--muted); margin-bottom: 20px;
+      animation: fadeUp .6s .15s ease both;
+    }
+    .trust span::before { content: '✓ '; color: var(--primary); font-weight: 700; }
+
+    /* STEPS CARD */
+    .steps-card {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid rgba(0,80,200,.15);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,80,200,.08);
+      margin-bottom: 20px;
+      animation: fadeUp .65s .2s ease both;
+    }
+    .steps-title {
+      font-size: .7rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0,80,200,.1);
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(0,80,200,.08);
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(0,80,200,.3);
+    }
+    .step-body { flex: 1; text-align: left; }
+    .step-body b { display: block; font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .step-body span { font-size: .78rem; color: var(--muted); line-height: 1.4; }
+
+    /* ACTIVATION BANNER */
+    .challenge-banner {
+      width: 100%;
+      background: #f0f4ff;
+      border: 1px solid rgba(0,80,200,.22);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .68s .22s ease both;
+    }
+    .ch-badge {
+      position: absolute; top: -1px; right: -1px;
+      background: var(--primary);
+      border-radius: 0 16px 0 10px;
+      padding: 5px 12px;
+      font-size: .6rem; font-weight: 800; letter-spacing: 1px;
+      color: #fff; text-transform: uppercase;
+    }
+    .challenge-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .challenge-body { flex: 1; text-align: left; }
+    .challenge-label { font-size: .6rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
+    .challenge-title { font-size: .92rem; color: var(--text); line-height: 1.4; font-weight: 400; }
+    .challenge-title .green { color: var(--green); font-weight: 700; }
+
+    /* STATS */
+    .stats {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; font-size: .72rem; color: var(--muted);
+      animation: fadeUp .7s .25s ease both;
+    }
+    .stats-sep { color: var(--muted2); }
+
+    /* STICKY CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+      transform: translateY(110%);
+      transition: transform .3s ease;
+      pointer-events: none;
+    }
+    .sticky-cta.visible {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .sticky-cta a {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 16px;
+      background: var(--primary);
+      border: none; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 800;
+      color: #fff; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(0,80,200,.4);
+      text-decoration: none; text-align: center;
+      animation: cta-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 360px) {
+      .hero h1 { font-size: 1.75rem; }
+      .step-item { padding: 16px; gap: 12px; }
+    }
+    @media (max-width: 360px) {
+      .hero h1 { font-size: 1.75rem; }
+      .step-item { padding: 16px; gap: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1; pointer-events: auto;
+    }
+    .modal-box {
+      background: #fff;
+      border: 1.5px solid rgba(0,80,200,.25);
+      border-radius: 20px;
+      padding: 32px 24px 28px;
+      width: 100%; max-width: 360px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,80,200,.15);
+      transform: translateY(16px);
+      transition: transform .25s ease;
+    }
+    .modal-overlay.open .modal-box {
+      transform: translateY(0);
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; color: var(--muted2); line-height: 1;
+      padding: 4px;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(0,80,200,.1);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .modal-icon svg { width: 28px; height: 28px; color: var(--primary); }
+    .modal-box h2 { font-size: 1.25rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
+    .modal-box p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .modal-box p strong { color: var(--primary); font-weight: 800; }
+    .modal-confirm {
+      display: block; width: 100%;
+      padding: 15px;
+      background: var(--primary);
+      color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(0,80,200,.3);
+    }
+    .modal-confirm:hover { background: var(--primary2); }
+  </style>
+</head>
+<body>
+
+<!-- AGE MODAL -->
+<div class="modal-overlay" id="ageModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <h2>Age Requirement</h2>
+    <p>You must be <strong>18 or older</strong> to access Apple Pay Rewards and unlock all earning opportunities.</p>
+    <a class="modal-confirm" href="https://tk.unlockbonusapp.com/click" onclick="modalConfirm(event)">I'm 18 or older — Continue →</a>
+  </div>
+</div>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<div class="page">
+  <div class="inner">
+
+    <!-- WORDMARK -->
+    <div class="wordmark">
+      <div class="logo-icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968630.png" alt="Apple Pay">
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Get Your <span class="hl">Apple Pay Bonus</span></h1>
+      <p>Complete simple tasks &amp; get rewarded instantly!</p>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Real cash — paid directly to your Apple Pay.</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a class="cta-btn" href="#" onclick="handleClick(event)">Start Earning Now →</a>
+
+    <!-- TRUST -->
+    <div class="trust">
+      <span>No Credit Card</span>
+      <span>Quick &amp; Easy</span>
+      <span>Instant Rewards</span>
+    </div>
+
+    <!-- STEPS CARD -->
+    <div class="steps-card">
+      <div class="steps-title">Your Rewards Steps</div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <b>Click on "Start Earning Now"</b>
+          <span>Tap the button above to get started — it only takes seconds.</span>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <b>Complete at least 2–5 suggested deals</b>
+          <span>Most people cash out at least $250 in cashable payouts with just a few deals!</span>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <b>Claim your deposit &amp; repeat anytime</b>
+          <span>Many top users complete multiple deals for bonus payouts.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVATION BANNER -->
+    <div class="challenge-banner">
+      <div class="ch-badge">⚠️ Important</div>
+      <div class="challenge-icon">🔓</div>
+      <div class="challenge-body">
+        <div class="challenge-label">Activation Required</div>
+        <div class="challenge-title">New users: Complete <span class="green">2 quick offers in a single day</span> to receive an additional cash bonus!</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <span>🔒 Secure &amp; Private</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- STICKY BOTTOM CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#" onclick="handleClick(event)">Start Earning Now →</a>
+</div>
+
+<script>
+(function(){
+  const layer = document.getElementById('bgLayer');
+  const colors = ['#0050c8','#003a96','#185fa5','#378add','#b5d4f4'];
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const sz = Math.random()*4+2;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
+    layer.appendChild(p);
+  }
+})();
+
+(function(){
+  const mainBtn = document.querySelector('.cta-btn');
+  const stickyCta = document.getElementById('stickyCta');
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        stickyCta.classList.remove('visible');
+      } else {
+        stickyCta.classList.add('visible');
+      }
+    });
+  }, { threshold: 0 });
+  observer.observe(mainBtn);
+})();
+
+function handleClick(event) {
+  event.preventDefault();
+  document.getElementById('ageModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('ageModal').classList.remove('open');
+}
+
+function modalConfirm(event) {
+  event.preventDefault();
+  const baseUrl = 'https://tk.unlockbonusapp.com/click';
+  const qs = window.location.search;
+  const redirect = qs ? baseUrl + (baseUrl.includes('?') ? '&' : '?') + qs.substring(1) : baseUrl;
+  window.location.href = redirect;
+}
+
+document.getElementById('ageModal').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>
