@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <title>Shein Codes – Claim Your Gift Card</title>
+  <style>
+    :root {
+      --bg:        #ffffff;
+      --surface:   #fff5f0;
+      --primary:   #e8470a;
+      --primary2:  #c23a06;
+      --text:      #1a0a05;
+      --muted:     #6b4030;
+      --muted2:    #b89080;
+      --green:     #1a7a3c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-layer::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(232,71,10,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(194,58,6,.05) 0%, transparent 55%);
+    }
+
+    .particle {
+      position: absolute; border-radius: 50%; opacity: 0;
+      animation: rise linear infinite;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0) scale(1); opacity: .3; }
+      100% { transform: translateY(-110vh) scale(.3); opacity: 0; }
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 100px;
+    }
+    .inner { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+
+    /* LOGO */
+    .wordmark {
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      animation: fadeUp .5s ease both;
+    }
+    .logo-icon {
+      width: 68px; height: 68px;
+      border-radius: 16px; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* HERO */
+    .hero { text-align: center; margin-bottom: 16px; animation: fadeUp .55s .05s ease both; width: 100%; }
+    .hero h1 { font-size: 2rem; font-weight: 900; line-height: 1.1; color: var(--text); }
+    .hero h1 .hl { color: var(--primary); }
+    .hero p { margin-top: 7px; font-size: .9rem; color: var(--muted); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      background: rgba(232,71,10,.07);
+      border: 1px solid rgba(232,71,10,.22);
+      border-radius: 999px; padding: 5px 14px;
+      font-size: .73rem; font-weight: 700;
+      color: var(--primary);
+    }
+    .badge svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+    /* VALUE COUNTER */
+    .value-counter {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid rgba(232,71,10,.18);
+      border-radius: 18px;
+      padding: 22px 20px 18px;
+      text-align: center;
+      margin-bottom: 4px;
+      animation: fadeUp .58s .08s ease both;
+      box-shadow: 0 4px 20px rgba(232,71,10,.07);
+    }
+    .counter-amount {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .counter-label {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .counter-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(232,71,10,.15);
+      border-radius: 99px;
+      margin-top: 14px;
+      overflow: hidden;
+    }
+    .counter-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f07040, var(--primary));
+      border-radius: 99px;
+      transition: width 2s cubic-bezier(.1,.9,.2,1);
+    }
+
+    /* CTA */
+    .cta-btn {
+      width: 100%; margin: 14px 0 10px;
+      padding: 17px;
+      background: var(--primary);
+      border: none; border-radius: 14px;
+      font-size: 1.08rem; font-weight: 800;
+      color: #fff; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(232,71,10,.3);
+      transition: transform .15s, box-shadow .15s;
+      animation: fadeUp .6s .1s ease both, cta-pulse 3s 1s ease-in-out infinite;
+      display: block; text-decoration: none; text-align: center; line-height: normal;
+      touch-action: manipulation; -webkit-appearance: none;
+      letter-spacing: .01em;
+    }
+    @keyframes cta-pulse {
+      0%,100% { box-shadow: 0 6px 24px rgba(232,71,10,.3); }
+      50%      { box-shadow: 0 8px 36px rgba(194,58,6,.55); }
+    }
+    .cta-btn:active { transform: scale(.97); }
+
+    /* TRUST */
+    .trust {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-size: .71rem; color: var(--muted); margin-bottom: 18px;
+      animation: fadeUp .6s .15s ease both;
+    }
+    .trust span::before { content: '✓ '; color: var(--primary); font-weight: 700; }
+
+    /* STEPS CARD */
+    .steps-card {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid rgba(232,71,10,.15);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(232,71,10,.08);
+      margin-bottom: 18px;
+      animation: fadeUp .65s .2s ease both;
+    }
+    .steps-title {
+      font-size: .68rem; font-weight: 700; text-align: center;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(232,71,10,.1);
+    }
+    .step-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(232,71,10,.08);
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 800; color: #fff; flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(232,71,10,.3);
+    }
+    .step-body { flex: 1; text-align: left; }
+    .step-body b { display: block; font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .step-body span { font-size: .76rem; color: var(--muted); line-height: 1.4; }
+
+    /* ACTIVATION BANNER */
+    .challenge-banner {
+      width: 100%;
+      background: #fff5f0;
+      border: 1px solid rgba(232,71,10,.22);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px;
+      position: relative; overflow: hidden;
+      animation: fadeUp .68s .22s ease both;
+    }
+    .ch-badge {
+      position: absolute; top: -1px; right: -1px;
+      background: var(--primary);
+      border-radius: 0 16px 0 10px;
+      padding: 4px 10px;
+      font-size: .58rem; font-weight: 800; letter-spacing: 1px;
+      color: #fff; text-transform: uppercase;
+    }
+    .challenge-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .challenge-body { flex: 1; text-align: left; }
+    .challenge-label { font-size: .58rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--primary); margin-bottom: 3px; }
+    .challenge-title { font-size: .88rem; color: var(--text); line-height: 1.4; font-weight: 400; }
+    .challenge-title .green { color: var(--green); font-weight: 700; }
+
+    /* STATS */
+    .stats {
+      display: flex; align-items: center; justify-content: center;
+      font-size: .71rem; color: var(--muted);
+      animation: fadeUp .7s .25s ease both;
+    }
+
+    /* STICKY CTA */
+    .sticky-cta {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+      transform: translateY(110%);
+      transition: transform .3s ease;
+      pointer-events: none;
+    }
+    .sticky-cta.visible { transform: translateY(0); pointer-events: auto; }
+    .sticky-cta a {
+      display: block; width: 100%; max-width: 400px; margin: 0 auto;
+      padding: 16px;
+      background: var(--primary); border: none; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 800; color: #fff; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(232,71,10,.4);
+      text-decoration: none; text-align: center;
+      animation: cta-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 360px) {
+      .hero h1 { font-size: 1.75rem; }
+      .counter-amount { font-size: 2.7rem; }
+      .step-item { padding: 14px; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-box {
+      background: #fff;
+      border: 1.5px solid rgba(232,71,10,.25);
+      border-radius: 20px; padding: 32px 24px 28px;
+      width: 100%; max-width: 360px; text-align: center;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(232,71,10,.15);
+      transform: translateY(16px); transition: transform .25s ease;
+    }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; color: var(--muted2); line-height: 1; padding: 4px;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(232,71,10,.1);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .modal-icon svg { width: 28px; height: 28px; color: var(--primary); }
+    .modal-box h2 { font-size: 1.25rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
+    .modal-box p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .modal-box p strong { color: var(--primary); font-weight: 800; }
+    .modal-confirm {
+      display: block; width: 100%; padding: 15px;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 800; cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(232,71,10,.3);
+    }
+    .modal-confirm:hover { background: var(--primary2); }
+  </style>
+</head>
+<body>
+
+<!-- AGE MODAL -->
+<div class="modal-overlay" id="ageModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <h2>Age Requirement</h2>
+    <p>You must be <strong>18 or older</strong> to access Shein Codes and unlock your gift card.</p>
+    <a class="modal-confirm" href="https://tk.unlockbonusapp.com/click" onclick="modalConfirm(event)">I'm 18 or older — Continue →</a>
+  </div>
+</div>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<div class="page">
+  <div class="inner">
+
+    <!-- LOGO -->
+    <div class="wordmark">
+      <div class="logo-icon">
+        <img src="https://img.icons8.com/color/512/shein.png" alt="Shein">
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Get Started with <span class="hl">Shein Codes</span></h1>
+      <p>Complete simple tasks &amp; get your gift card instantly!</p>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Shein Gift Card — delivered directly to your inbox.</span>
+      </div>
+    </div>
+
+    <!-- VALUE COUNTER -->
+    <div class="value-counter">
+      <div class="counter-amount" id="counterAmount">$0.00</div>
+      <div class="counter-label">Instantly sent to you</div>
+      <div class="counter-bar-wrap">
+        <div class="counter-bar" id="counterBar"></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a class="cta-btn" href="#" onclick="handleClick(event)">Claim Your Rewards →</a>
+
+    <!-- TRUST -->
+    <div class="trust">
+      <span>No Credit Card</span>
+      <span>Quick &amp; Easy</span>
+      <span>Instant Rewards</span>
+    </div>
+
+    <!-- STEPS CARD -->
+    <div class="steps-card">
+      <div class="steps-title">How It Works</div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <b>Tap "Claim Your Rewards"</b>
+          <span>Get started in seconds — no credit card needed.</span>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <b>Complete 2–5 quick deals</b>
+          <span>Unlock up to $750 in Shein Gift Card value.</span>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <b>Receive your Gift Card code</b>
+          <span>Delivered to your inbox — redeem on Shein anytime.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVATION BANNER -->
+    <div class="challenge-banner">
+      <div class="ch-badge">⚠️ Important</div>
+      <div class="challenge-icon">🔓</div>
+      <div class="challenge-body">
+        <div class="challenge-label">Activation Required</div>
+        <div class="challenge-title">New users: Complete <span class="green">2 quick offers in a single day</span> to receive an additional Shein bonus rewards!</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <span>⚡ Over 10,000 gift cards claimed this week</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- STICKY BOTTOM CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#" onclick="handleClick(event)">Claim Your Rewards →</a>
+</div>
+
+<script>
+// Particles
+(function(){
+  const layer = document.getElementById('bgLayer');
+  const colors = ['#e8470a','#c23a06','#f07040','#f5a080','#fdd0b8'];
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const sz = Math.random()*4+2;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
+    layer.appendChild(p);
+  }
+})();
+
+// Sticky CTA
+(function(){
+  const mainBtn = document.querySelector('.cta-btn');
+  const stickyCta = document.getElementById('stickyCta');
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      stickyCta.classList.toggle('visible', !entry.isIntersecting);
+    });
+  }, { threshold: 0 });
+  observer.observe(mainBtn);
+})();
+
+// Counter animation
+(function(){
+  const target = 750;
+  const duration = 2000;
+  const el = document.getElementById('counterAmount');
+  const bar = document.getElementById('counterBar');
+  const start = performance.now();
+
+  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function tick(now){
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeOut(progress);
+    const value = eased * target;
+    el.textContent = '$' + value.toFixed(2);
+    bar.style.width = (eased * 100) + '%';
+    if(progress < 1) requestAnimationFrame(tick);
+    else { el.textContent = '$750.00'; bar.style.width = '100%'; }
+  }
+
+  // Start after a short delay so the page paints first
+  setTimeout(function(){ requestAnimationFrame(tick); }, 400);
+})();
+
+function handleClick(event) {
+  event.preventDefault();
+  document.getElementById('ageModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('ageModal').classList.remove('open');
+}
+
+function modalConfirm(event) {
+  event.preventDefault();
+  const baseUrl = 'https://tk.unlockbonusapp.com/click';
+  const qs = window.location.search;
+  const redirect = qs ? baseUrl + (baseUrl.includes('?') ? '&' : '?') + qs.substring(1) : baseUrl;
+  window.location.href = redirect;
+}
+
+document.getElementById('ageModal').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>
