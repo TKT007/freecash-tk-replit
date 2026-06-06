@@ -145,15 +145,21 @@
     .section {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity .32s ease, transform .32s ease;
+      transition: opacity .48s cubic-bezier(.4,0,.2,1), transform .48s cubic-bezier(.4,0,.2,1);
     }
 
     .section.is-exiting {
       opacity: 0;
-      transform: translateY(-12px);
+      transform: translateY(-20px);
+      pointer-events: none;
     }
 
     .section.is-hidden { display: none; }
+
+    .section.is-entering {
+      opacity: 0;
+      transform: translateY(24px);
+    }
 
     /* ── HERO ── */
     .hero {
@@ -1088,11 +1094,11 @@
           class="btn js-download-cta nav-cta"
           href="#download"
           data-cta-source="scroll_lander_final"
-          data-label-ios="Download on the App Store"
-          data-label-android="Get it on Google Play"
-          data-label-web="Download Free"
+          data-label-ios="Download Now"
+          data-label-android="Download Now"
+          data-label-web="Download Now"
           data-label-logged-in="Open PlayCash"
-        ><span data-cta-label>Download Free</span></a>
+        ><span data-cta-label>Download Now</span></a>
 
         <!-- JOURNEY -->
         <div class="journey" aria-label="How it works">
@@ -1212,9 +1218,9 @@
     function ctaDownloadLabel(el) {
       var platform = clientPlatform();
       if (boot.isLoggedIn) return el.getAttribute('data-label-logged-in') || 'Open PlayCash';
-      if (platform === 'ios')     return el.getAttribute('data-label-ios')     || 'Download on the App Store';
-      if (platform === 'android') return el.getAttribute('data-label-android') || 'Get it on Google Play';
-      return el.getAttribute('data-label-web') || 'Download Free';
+      if (platform === 'ios')     return el.getAttribute('data-label-ios')     || 'Download Now';
+      if (platform === 'android') return el.getAttribute('data-label-android') || 'Download Now';
+      return el.getAttribute('data-label-web') || 'Download Now';
     }
 
     /* ── STEP FADE ── */
@@ -1228,15 +1234,25 @@
           resultCopy.textContent = "You're pre-qualified for full game & app access. Download PlayCash free and start earning today.";
         }
       }
+
+      // Exit step 1
       stepOne.classList.add('is-exiting');
+
       window.setTimeout(function () {
         stepOne.classList.add('is-hidden');
+
+        // Prepare step 2 in translated state before showing
+        stepTwo.classList.add('is-entering');
         stepTwo.classList.remove('is-hidden');
+
+        // Trigger enter animation on next frame
         requestAnimationFrame(function () {
-          stepTwo.classList.remove('is-exiting');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          requestAnimationFrame(function () {
+            stepTwo.classList.remove('is-entering');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
         });
-      }, 320);
+      }, 400);
     }
 
     /* ── BIND: age choice buttons ── */
