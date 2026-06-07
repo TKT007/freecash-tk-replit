@@ -3,7 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Activity – PayPal</title>
+<title>PayPal</title>
+
+<!-- PWA / iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PayPal">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f0f2f8">
+
+<!-- Favicon & Apple Touch Icon -->
+<link rel="icon" type="image/png" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="120x120" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="152x152" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="180x180" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="167x167" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+
+<!-- Web App Manifest inline -->
+<script>
+  const manifest = {
+    name: "PayPal",
+    short_name: "PayPal",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#f0f2f8",
+    theme_color: "#f0f2f8",
+    orientation: "portrait",
+    icons: [
+      { src: "https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600", sizes: "192x192", type: "image/png" },
+      { src: "https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600", sizes: "512x512", type: "image/png" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = url;
+  document.currentScript.after(link);
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -477,7 +515,7 @@
     <div class="section-month">May 2026</div>
   </div>
 
-  <!-- TRANSACTION CARD -->
+  <!-- TRANSACTION CARD 1 -->
   <div class="tx-card">
     <div class="tx-row">
       <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/lchdDqp.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
@@ -487,7 +525,73 @@
         <div class="tx-type">Money received</div>
         <div class="tx-message">"Congratulations on completing your offers! 🎉✨"</div>
       </div>
-      <div class="tx-amount">+$0.96</div>
+      <div class="tx-amount">+$312.50</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 2 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/lchdDqp.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">PlayCash</div>
+        <div class="tx-date">May 3, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Your weekly earnings have been sent! 💸"</div>
+      </div>
+      <div class="tx-amount">+$487.00</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 3 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/lchdDqp.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">PlayCash</div>
+        <div class="tx-date">Apr 29, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Payment processed successfully! 🚀"</div>
+      </div>
+      <div class="tx-amount">+$254.75</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- SECTION HEADER APR -->
+  <div class="section-header" style="margin-top:24px;">
+    <div class="section-title">Completed</div>
+    <div class="section-month">April 2026</div>
+  </div>
+
+  <!-- TRANSACTION CARD 4 -->
+  <div class="tx-card" style="margin-top:8px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/lchdDqp.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">PlayCash</div>
+        <div class="tx-date">Apr 22, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Great work! Keep it up 🔥"</div>
+      </div>
+      <div class="tx-amount">+$198.20</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 5 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/lchdDqp.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">PlayCash</div>
+        <div class="tx-date">Apr 15, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Your offers payout is here! 🎯"</div>
+      </div>
+      <div class="tx-amount">+$376.40</div>
     </div>
     <button class="details-btn">Details</button>
   </div>
