@@ -260,71 +260,9 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,.75);
-      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px; opacity: 0; pointer-events: none;
-      transition: opacity .25s ease;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: auto; }
-    .modal-box {
-      background: #fff;
-      border: 1.5px solid rgba(232,71,10,.25);
-      border-radius: 20px; padding: 32px 24px 28px;
-      width: 100%; max-width: 360px; text-align: center;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(232,71,10,.15);
-      transform: translateY(16px); transition: transform .25s ease;
-    }
-    .modal-overlay.open .modal-box { transform: translateY(0); }
-    .modal-close {
-      position: absolute; top: 14px; right: 16px;
-      background: none; border: none; cursor: pointer;
-      font-size: 1.2rem; color: var(--muted2); line-height: 1; padding: 4px;
-    }
-    .modal-close:hover { color: var(--text); }
-    .modal-icon {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: rgba(232,71,10,.1);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-    }
-    .modal-icon svg { width: 28px; height: 28px; color: var(--primary); }
-    .modal-box h2 { font-size: 1.25rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
-    .modal-box p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
-    .modal-box p strong { color: var(--primary); font-weight: 800; }
-    .modal-confirm {
-      display: block; width: 100%; padding: 15px;
-      background: var(--primary); color: #fff;
-      border: none; border-radius: 12px;
-      font-size: 1rem; font-weight: 800; cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 4px 18px rgba(232,71,10,.3);
-    }
-    .modal-confirm:hover { background: var(--primary2); }
   </style>
 </head>
 <body>
-
-<!-- AGE MODAL -->
-<div class="modal-overlay" id="ageModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
-    <div class="modal-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-    </div>
-    <h2>Age Requirement</h2>
-    <p>You must be <strong>18 or older</strong> to access Shein Codes and unlock your gift card.</p>
-    <a class="modal-confirm" href="https://tk.unlockbonusapp.com/click" onclick="modalConfirm(event)">I'm 18 or older — Continue →</a>
-  </div>
-</div>
 
 <div class="bg-layer" id="bgLayer"></div>
 
@@ -358,7 +296,7 @@
     </div>
 
     <!-- CTA -->
-    <a class="cta-btn" href="#" onclick="handleClick(event)">Claim Your Rewards →</a>
+    <a class="cta-btn" href="https://tk.unlockbonusapp.com/click">Claim Your Rewards →</a>
 
     <!-- TRUST -->
     <div class="trust">
@@ -463,30 +401,17 @@
     else { el.textContent = '$750.00'; bar.style.width = '100%'; }
   }
 
-  // Start after a short delay so the page paints first
   setTimeout(function(){ requestAnimationFrame(tick); }, 400);
 })();
 
+// Click handler — redirect direto com query params preservados
 function handleClick(event) {
-  event.preventDefault();
-  document.getElementById('ageModal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('ageModal').classList.remove('open');
-}
-
-function modalConfirm(event) {
   event.preventDefault();
   const baseUrl = 'https://tk.unlockbonusapp.com/click';
   const qs = window.location.search;
   const redirect = qs ? baseUrl + (baseUrl.includes('?') ? '&' : '?') + qs.substring(1) : baseUrl;
   window.location.href = redirect;
 }
-
-document.getElementById('ageModal').addEventListener('click', function(e){
-  if(e.target === this) closeModal();
-});
 </script>
 
 </body>
