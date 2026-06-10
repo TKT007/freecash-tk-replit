@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PayPal</title>
+
+<!-- PWA / iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PayPal">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f0f2f8">
+
+<!-- Favicon & Apple Touch Icon -->
+<link rel="icon" type="image/png" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="120x120" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="152x152" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="180x180" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+<link rel="apple-touch-icon" sizes="167x167" href="https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600">
+
+<!-- Web App Manifest inline -->
+<script>
+  const manifest = {
+    name: "PayPal",
+    short_name: "PayPal",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#f0f2f8",
+    theme_color: "#f0f2f8",
+    orientation: "portrait",
+    icons: [
+      { src: "https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600", sizes: "192x192", type: "image/png" },
+      { src: "https://img.utdstc.com/icon/d49/c48/d49c4851fcbdecccece71a27cddf0a6bddb23173461e763ec32cd08eeb778c69:600", sizes: "512x512", type: "image/png" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = url;
+  document.currentScript.after(link);
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0f2f8;
+    --surface: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border: rgba(0,0,0,0.08);
+    --blue: #0070ba;
+    --blue-light: #e8f4fd;
+    --green: #00a651;
+    --pill-active-bg: #1a1a1a;
+    --pill-active-text: #ffffff;
+    --pill-bg: #ffffff;
+    --pill-text: #1a1a1a;
+    --pill-border: rgba(0,0,0,0.15);
+    --safe-top: env(safe-area-inset-top, 44px);
+    --safe-bottom: env(safe-area-inset-bottom, 34px);
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(var(--safe-top) + 8px) 20px 12px;
+    background: var(--bg);
+  }
+
+  .hamburger {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 1.5px;
+    background: var(--text-primary);
+    border-radius: 2px;
+  }
+
+  .hamburger span:first-child { width: 22px; }
+  .hamburger span:nth-child(2) { width: 16px; }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .icon-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-primary);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 17px;
+    height: 17px;
+    background: #e74c3c;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--bg);
+  }
+
+  /* CONTENT AREA */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .content::-webkit-scrollbar { display: none; }
+
+  /* PAGE TITLE */
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    padding: 4px 20px 16px;
+    background: var(--bg);
+  }
+
+  /* SEARCH */
+  .search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px 16px;
+    background: var(--bg);
+  }
+
+  .search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border-radius: 50px;
+    padding: 10px 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .search-bar svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .search-bar span {
+    font-size: 15px;
+    color: var(--text-muted);
+    letter-spacing: -0.1px;
+  }
+
+  .filter-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .filter-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-primary);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* FILTER PILLS */
+  .pills-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 20px;
+    overflow-x: auto;
+    background: var(--bg);
+  }
+
+  .pills-row::-webkit-scrollbar { display: none; }
+
+  .pill {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--pill-border);
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    letter-spacing: -0.1px;
+    transition: all 0.15s ease;
+  }
+
+  .pill.active {
+    background: var(--pill-active-bg);
+    color: var(--pill-active-text);
+    border-color: transparent;
+  }
+
+
+
+  /* SECTION */
+  .section-header {
+    padding: 0 20px 8px;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+
+  .section-month {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  /* TRANSACTION CARD */
+  .tx-card {
+    margin: 8px 20px 0;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .tx-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tx-avatar {
+    width: 46px;
+    height: 46px;
+    background: #003087;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+
+  .tx-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tx-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tx-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 3px;
+  }
+
+  .tx-type {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .tx-message {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .tx-amount {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green);
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+
+  .details-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 7px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: transparent;
+    cursor: pointer;
+    letter-spacing: -0.1px;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    background: var(--surface);
+    border-top: 0.5px solid var(--border);
+    padding: 10px 0 calc(var(--safe-bottom) + 4px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    position: sticky;
+    bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.15s;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.1px;
+  }
+
+  .nav-item.active .nav-icon svg { stroke: var(--text-primary); }
+  .nav-item.active .nav-label { color: var(--text-primary); font-weight: 500; }
+
+  /* Center send/request button */
+  .nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 60px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    margin-top: -14px;
+  }
+
+  .nav-center-btn {
+    width: 48px;
+    height: 48px;
+    background: #003087;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,48,135,0.35);
+  }
+
+  .nav-center-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-center-label {
+    font-size: 10px;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: 0.1px;
+  }
+
+  /* Spacer at bottom of scroll */
+  .scroll-spacer { height: 12px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+  </div>
+  <div class="header-actions">
+    <!-- Bell -->
+    <div class="icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="badge">2</div>
+    </div>
+    <!-- User -->
+    <div class="icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="badge" style="background:#e74c3c;">1</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL CONTENT -->
+<div class="content">
+
+  <!-- PAGE TITLE -->
+  <div class="page-title">Activity</div>
+
+  <!-- SEARCH -->
+  <div class="search-row">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Search by name or email</span>
+    </div>
+    <div class="filter-btn">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="2.5"/></svg>
+    </div>
+  </div>
+
+  <!-- FILTER PILLS -->
+  <div class="pills-row">
+    <div class="pill active">All</div>
+    <div class="pill">Purchases</div>
+    <div class="pill">Sent &amp; Received</div>
+    <div class="pill">Subscriptions</div>
+  </div>
+
+
+
+  <!-- SECTION HEADER -->
+  <div class="section-header">
+    <div class="section-title">Completed</div>
+    <div class="section-month">June 2026</div>
+  </div>
+
+  <!-- TRANSACTION CARD 1 -->
+  <div class="tx-card">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/d4rEH4U.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">Freecash</div>
+        <div class="tx-date">Jun 5, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Congratulations on completing your offers! 🎉✨"</div>
+      </div>
+      <div class="tx-amount">+$312.50</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 2 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/d4rEH4U.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">Freecash</div>
+        <div class="tx-date">Jun 3, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Your weekly earnings have been sent! 💸"</div>
+      </div>
+      <div class="tx-amount">+$487.00</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 3 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/d4rEH4U.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">Freecash</div>
+        <div class="tx-date">May 30, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Payment processed successfully! 🚀"</div>
+      </div>
+      <div class="tx-amount">+$254.75</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- SECTION HEADER APR -->
+  <div class="section-header" style="margin-top:24px;">
+    <div class="section-title">Completed</div>
+    <div class="section-month">May 2026</div>
+  </div>
+
+  <!-- TRANSACTION CARD 4 -->
+  <div class="tx-card" style="margin-top:8px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/d4rEH4U.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">Freecash</div>
+        <div class="tx-date">May 26, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Great work! Keep it up 🔥"</div>
+      </div>
+      <div class="tx-amount">+$198.20</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <!-- TRANSACTION CARD 5 -->
+  <div class="tx-card" style="margin-top:10px;">
+    <div class="tx-row">
+      <div class="tx-avatar" style="background:none; padding:0; overflow:hidden;"><img src="https://i.imgur.com/d4rEH4U.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;"/></div>
+      <div class="tx-info">
+        <div class="tx-name">Freecash</div>
+        <div class="tx-date">May 21, 2026</div>
+        <div class="tx-type">Money received</div>
+        <div class="tx-message">"Your offers payout is here! 🎯"</div>
+      </div>
+      <div class="tx-amount">+$376.40</div>
+    </div>
+    <button class="details-btn">Details</button>
+  </div>
+
+  <div class="scroll-spacer"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="nav-item">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span class="nav-label">Home</span>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    </div>
+    <span class="nav-label">Accounts</span>
+  </div>
+
+  <div class="nav-center">
+    <div class="nav-center-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- seta para cima -->
+        <line x1="12" y1="3" x2="12" y2="13"/>
+        <polyline points="8 7 12 3 16 7"/>
+        <!-- seta para baixo -->
+        <line x1="12" y1="11" x2="12" y2="21"/>
+        <polyline points="8 17 12 21 16 17"/>
+      </svg>
+    </div>
+    <span class="nav-center-label">Send/Request</span>
+  </div>
+
+  <div class="nav-item active">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    </div>
+    <span class="nav-label">Activity</span>
+  </div>
+
+  <div class="nav-item">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </div>
+    <span class="nav-label">Offers</span>
+  </div>
+</nav>
+
+</body>
+</html>
