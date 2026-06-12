@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <title>PlayCash – Get Paid To Play Games</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #0d0a18;
+      --surface:   #13102200;
+      --surface-s: #1a1630;
+      --surface2:  #201c38;
+      --border:    rgba(160,120,255,.18);
+      --primary:   #a855f7;
+      --primary2:  #7c3aed;
+      --primary3:  #38bdf8;
+      --glow:      rgba(168,85,247,.45);
+      --text:      #f5f0ff;
+      --muted:     #9b93b8;
+      --muted2:    #3d3560;
+      --accent:    #f472b6;
+      --pink:      #e879f9;
+      --blue:      #38bdf8;
+      --grad:      linear-gradient(135deg, #f472b6 0%, #a855f7 45%, #38bdf8 100%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Background ── */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-layer::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 20% 0%, rgba(168,85,247,.28) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 80% 5%, rgba(56,189,248,.16) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 45% at 75% 95%, rgba(244,114,182,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 10% 85%, rgba(124,58,237,.18) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 35% at 50% 50%, rgba(168,85,247,.06) 0%, transparent 60%);
+    }
+    .bg-layer::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a855f7' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .particle {
+      position: absolute; border-radius: 50%; opacity: 0;
+      animation: rise linear infinite;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0) scale(1); opacity: .5; }
+      100% { transform: translateY(-110vh) scale(.3); opacity: 0; }
+    }
+
+    .float-icon {
+      position: fixed; border-radius: 20%; object-fit: cover;
+      pointer-events: none; opacity: .13;
+      filter: blur(.8px) saturate(1.4);
+      animation: floatIcon ease-in-out infinite;
+    }
+    @keyframes floatIcon {
+      0%,100% { transform: translateY(0) rotate(var(--r)); }
+      50%      { transform: translateY(-14px) rotate(var(--r)); }
+    }
+
+    /* ── Layout ── */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 40px;
+    }
+    .inner { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+
+    /* ── Wordmark ── */
+    .wordmark {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .logo-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 22px rgba(168,85,247,.5), 0 0 0 1px rgba(255,255,255,.1);
+      flex-shrink: 0;
+      animation: logopulse 2.5s ease-in-out infinite;
+    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @keyframes logopulse {
+      0%,100% { box-shadow: 0 4px 22px rgba(168,85,247,.5), 0 0 0 1px rgba(255,255,255,.1); }
+      50%      { box-shadow: 0 4px 32px rgba(244,114,182,.75), 0 0 0 1px rgba(255,255,255,.18); }
+    }
+    .wordmark-text {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.75rem; font-weight: 900;
+      letter-spacing: -.03em;
+    }
+    .wordmark-text .w1 { color: var(--text); }
+    .wordmark-text .w2 {
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Step bar ── */
+    .step-bar {
+      display: flex; align-items: center;
+      margin-bottom: 32px; width: 100%; max-width: 280px;
+      animation: fadeUp .52s .04s ease both;
+    }
+    .step-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Nunito', sans-serif; font-size: .7rem; font-weight: 900;
+      border: 1.5px solid var(--border); color: var(--muted2);
+      background: var(--surface-s);
+      transition: all .4s cubic-bezier(.34,1.56,.64,1); position: relative; z-index: 1;
+    }
+    .step-num.active {
+      background: linear-gradient(135deg, #f472b6, #a855f7, #38bdf8);
+      border-color: #a855f7; color: #fff;
+      box-shadow: 0 0 16px rgba(168,85,247,.65);
+      transform: scale(1.1);
+    }
+    .step-num.done {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      border-color: #7c3aed; color: #fff;
+    }
+    .step-lbl {
+      font-size: .58rem; font-weight: 600; letter-spacing: .04em;
+      color: var(--muted2); text-transform: uppercase; transition: color .3s;
+    }
+    .step-lbl.active { color: var(--primary); }
+    .step-connector {
+      flex: 1; height: 1.5px; background: var(--border);
+      margin: 0 4px; margin-bottom: 20px; transition: background .4s; max-width: 48px;
+    }
+    .step-connector.done { background: linear-gradient(90deg, #a855f7, #38bdf8); }
+
+    /* ── Screens ── */
+    .screen { width: 100%; }
+    .screen.hidden { display: none; }
+    .screen.enter { animation: fadeUp .4s ease both; }
+
+    /* ── Screen 1: Game Picker ── */
+    .pick-head { text-align: center; margin-bottom: 24px; }
+    .pick-eyebrow {
+      font-size: .65rem; font-weight: 800; letter-spacing: .12em;
+      background: linear-gradient(90deg, #f472b6, #a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .pick-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 2rem; font-weight: 900; line-height: 1.1;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .pick-sub { font-size: .85rem; color: var(--muted); font-weight: 500; }
+
+    .game-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; width: 100%; margin-bottom: 20px;
+    }
+
+    .game-card-wrap {
+      border-radius: 22px; position: relative;
+      transition: transform .18s; cursor: pointer;
+      border: 1.5px solid rgba(168,85,247,.2);
+    }
+    .game-card-wrap:hover { transform: translateY(-3px); }
+
+    .game-card-wrap canvas.arc-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      border-radius: 22px; pointer-events: none; z-index: 5;
+      opacity: 0; transition: opacity .2s;
+    }
+    .game-card-wrap.seq-glow canvas.arc-canvas,
+    .game-card-wrap.selected-card canvas.arc-canvas { opacity: 1; }
+    .game-card-wrap.seq-glow .game-card { background: rgba(168,85,247,.09); }
+    .game-card-wrap.selected-card .game-card { background: rgba(168,85,247,.18); }
+    .game-card-wrap.selected-card .check-badge { opacity: 1 !important; transform: scale(1) !important; }
+
+    .game-card {
+      background: var(--surface-s);
+      border-radius: 20px; padding: 20px 14px 16px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 12px; transition: background .25s;
+      -webkit-tap-highlight-color: transparent;
+      position: relative; overflow: hidden;
+    }
+    .game-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(168,85,247,.09), rgba(56,189,248,.06));
+      opacity: 0; transition: opacity .25s;
+    }
+    .game-card-wrap:hover .game-card::before,
+    .game-card-wrap.seq-glow .game-card::before { opacity: 1; }
+
+    .check-badge {
+      position: absolute; top: 10px; right: 10px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0);
+      transition: opacity .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .check-badge svg { width: 11px; height: 11px; stroke: white; stroke-width: 2.5; fill: none; }
+
+    .game-icon {
+      width: 68px; height: 68px; border-radius: 18px; object-fit: cover;
+      box-shadow: 0 4px 18px rgba(0,0,0,.4); transition: transform .2s;
+    }
+    .game-card-wrap:hover .game-icon,
+    .game-card-wrap.seq-glow .game-icon,
+    .game-card-wrap.selected-card .game-icon { transform: scale(1.05); }
+
+    .game-meta { display: flex; flex-direction: column; gap: 3px; }
+    .game-tag {
+      font-size: .58rem; font-weight: 800; letter-spacing: .08em;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .game-name {
+      font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 900;
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    /* ── Screen 2 ── */
+    .hero { text-align: center; margin-bottom: 22px; animation: fadeUp .5s ease both; }
+    .hero h1 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 2.2rem; font-weight: 900; line-height: 1.1; color: var(--text);
+    }
+    .hero h1 .hl {
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { margin-top: 8px; font-size: .92rem; color: var(--muted); font-weight: 500; }
+
+    .badge-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; flex-wrap: wrap; margin-top: 12px;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(168,85,247,.14);
+      border: 1px solid rgba(168,85,247,.35);
+      border-radius: 999px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .02em;
+    }
+    .badge svg { width: 13px; height: 13px; fill: #f472b6; flex-shrink: 0; }
+    .badge-text {
+      background: linear-gradient(90deg, #f472b6, #a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .game-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(168,85,247,.15);
+      border: 1px solid rgba(168,85,247,.28);
+      border-radius: 999px; padding: 4px 12px 4px 6px;
+      font-size: .75rem; font-weight: 700; color: var(--primary);
+    }
+    .game-pill img { width: 22px; height: 22px; border-radius: 6px; }
+
+    .hero-sub { margin-top: 10px; font-size: .77rem; color: var(--muted); font-weight: 500; }
+
+    /* ── CTA ── */
+    .cta-btn {
+      width: 100%; margin: 20px 0 12px; padding: 17px;
+      background: linear-gradient(135deg, #f472b6 0%, #a855f7 45%, #38bdf8 100%);
+      border: none; border-radius: 14px;
+      font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 900;
+      color: #fff; cursor: pointer;
+      box-shadow: 0 6px 36px rgba(168,85,247,.5);
+      transition: transform .15s, box-shadow .15s;
+      animation: fadeUp .55s .1s ease both, cta-pulse 3s 1.5s ease-in-out infinite;
+      display: block; text-decoration: none; text-align: center; line-height: normal;
+      touch-action: manipulation; -webkit-appearance: none;
+      letter-spacing: .01em; text-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+    @keyframes cta-pulse {
+      0%,100% { box-shadow: 0 6px 36px rgba(168,85,247,.5); }
+      50%      { box-shadow: 0 10px 52px rgba(244,114,182,.8); }
+    }
+    .cta-btn:active { transform: scale(.97); }
+
+    /* ── Trust ── */
+    .trust {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-size: .73rem; color: var(--muted); margin-bottom: 22px;
+      animation: fadeUp .6s .15s ease both; flex-wrap: wrap;
+    }
+    .trust-item { display: flex; align-items: center; gap: 5px; }
+    .trust-item::before { content: '✓'; color: #a855f7; font-weight: 800; font-size: .8rem; }
+
+    /* ── Earn Calculator ── */
+    .earn-calc {
+      width: 100%;
+      background: var(--surface-s);
+      border: 1px solid rgba(168,85,247,.22);
+      border-radius: 20px;
+      padding: 24px 20px 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 28px rgba(168,85,247,.1);
+      animation: fadeUp .62s .18s ease both;
+    }
+    .earn-calc-title {
+      text-align: center; font-family: 'Nunito', sans-serif;
+      font-size: 1.45rem; font-weight: 900; color: var(--text);
+      margin-bottom: 6px; line-height: 1.2;
+    }
+    .earn-calc-title .t-grad {
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .earn-calc-sub {
+      text-align: center; font-size: .88rem; color: var(--muted); margin-bottom: 18px;
+    }
+    .earn-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
+    }
+    .earn-card {
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px; padding: 16px 12px 14px; text-align: center;
+    }
+    .earn-card.highlighted { border: 1.5px solid rgba(168,85,247,.45); }
+    .earn-card-label {
+      font-size: .58rem; font-weight: 700; letter-spacing: .1em;
+      color: var(--muted2); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .earn-card-value {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.7rem; font-weight: 900; color: var(--text); line-height: 1;
+    }
+    .earn-card.highlighted .earn-card-value {
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .earn-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px; border-radius: 4px;
+      outline: none; cursor: pointer; margin-bottom: 10px;
+      background: #2d2540;
+    }
+    .earn-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #a855f7; cursor: pointer; border: none;
+      box-shadow: 0 0 0 4px rgba(168,85,247,.25);
+    }
+    .earn-slider::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #a855f7; cursor: pointer; border: none;
+    }
+    .slider-labels {
+      display: flex; justify-content: space-between;
+      font-size: .7rem; color: var(--muted2); font-weight: 600;
+    }
+
+    /* ── How it works ── */
+    .how-card {
+      width: 100%; background: var(--surface-s);
+      border: 1px solid rgba(168,85,247,.22); border-radius: 20px;
+      overflow: hidden; margin-bottom: 22px;
+      animation: fadeUp .65s .2s ease both;
+      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 28px rgba(168,85,247,.06);
+    }
+    .how-title {
+      padding: 16px 20px; font-size: .65rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      border-bottom: 1px solid rgba(168,85,247,.14); text-align: center;
+    }
+    .how-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 20px; border-bottom: 1px solid rgba(168,85,247,.1);
+    }
+    .how-num {
+      width: 30px; height: 30px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Nunito', sans-serif; font-size: .8rem; font-weight: 900; color: #fff;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .how-num.n1 { background: linear-gradient(135deg, #f472b6, #a855f7); box-shadow: 0 0 14px rgba(244,114,182,.4); }
+    .how-num.n2 { background: linear-gradient(135deg, #a855f7, #7c3aed); box-shadow: 0 0 14px rgba(168,85,247,.4); }
+    .how-num.n3 { background: linear-gradient(135deg, #7c3aed, #38bdf8); box-shadow: 0 0 14px rgba(56,189,248,.4); }
+    .how-text { display: flex; flex-direction: column; gap: 3px; }
+    .how-text b { font-size: .95rem; font-weight: 700; color: var(--text); }
+    .how-text span { font-size: .8rem; color: var(--muted); line-height: 1.45; }
+
+    /* ── Activation banner ── */
+    .activation-banner {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(220,38,38,.12) 0%, rgba(168,85,247,.08) 100%);
+      border: 1px solid rgba(220,38,38,.35);
+      border-radius: 14px;
+      padding: 0;
+      display: flex; flex-direction: column;
+      margin-bottom: 22px; overflow: hidden;
+      animation: fadeUp .68s .22s ease both;
+    }
+    .activation-tag {
+      align-self: flex-start;
+      background: #dc2626;
+      color: #fff; font-size: .62rem; font-weight: 800; letter-spacing: .08em;
+      padding: 5px 12px; border-radius: 0 0 8px 0;
+      text-transform: uppercase;
+    }
+    .activation-inner {
+      padding: 12px 16px 16px;
+    }
+    .activation-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem; font-weight: 900; color: var(--text);
+      line-height: 1.3; margin-bottom: 6px;
+    }
+    .activation-sub {
+      font-size: .8rem; color: var(--muted); line-height: 1.5;
+    }
+    .activation-sub strong { color: var(--text); font-weight: 700; }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; font-size: .73rem; color: var(--muted);
+      animation: fadeUp .7s .25s ease both;
+    }
+    .stats-sep { color: var(--muted2); }
+
+    /* ── Back btn ── */
+    .back-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: .8rem; font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+      margin-bottom: 20px; padding: 6px 0; transition: color .2s;
+    }
+    .back-btn:hover { color: var(--primary); }
+    .back-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    /* ── Proof strip ── */
+    .proof-strip {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      width: 100%; margin-bottom: 20px; padding: 14px 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(168,85,247,.18); border-radius: 14px;
+      animation: fadeUp .54s .06s ease both;
+    }
+    .proof-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .proof-item strong {
+      font-size: 1.05rem; font-weight: 900; letter-spacing: -.03em;
+      background: linear-gradient(90deg, #f472b6, #a855f7, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .proof-item span { font-size: .62rem; font-weight: 700; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+    .proof-divider { width: 1px; height: 28px; background: rgba(168,85,247,.2); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 360px) {
+      .pick-title, .hero h1 { font-size: 1.75rem; }
+      .game-card { padding: 16px 10px 12px; }
+      .game-icon { width: 58px; height: 58px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<img class="float-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" style="width:58px;height:58px;top:8%;left:6%;--r:-10deg;animation-duration:4.2s;" alt="">
+<img class="float-icon" src="https://i.ibb.co/7d28L07C/app-blocks-BETcljm-M.png" style="width:50px;height:50px;top:22%;right:7%;--r:9deg;animation-duration:3.7s;animation-delay:.8s;" alt="">
+<img class="float-icon" src="https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png" style="width:44px;height:44px;top:55%;left:3%;--r:6deg;animation-duration:5s;animation-delay:1.5s;" alt="">
+<img class="float-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" style="width:46px;height:46px;top:70%;right:5%;--r:-12deg;animation-duration:4.5s;animation-delay:.4s;" alt="">
+
+<div class="page">
+  <div class="inner">
+
+    <!-- Wordmark -->
+    <div class="wordmark">
+      <div class="logo-icon">
+        <img src="https://playcash.co/assets/img/icon-256.png" alt="PlayCash">
+      </div>
+      <div class="wordmark-text"><span class="w1">Play</span><span class="w2">Cash</span></div>
+    </div>
+
+    <!-- Step Bar -->
+    <div class="step-bar">
+      <div class="step-item">
+        <div class="step-num active" id="sn1">1</div>
+        <div class="step-lbl active" id="sl1">Choose</div>
+      </div>
+      <div class="step-connector" id="sc1"></div>
+      <div class="step-item">
+        <div class="step-num" id="sn2">2</div>
+        <div class="step-lbl" id="sl2">Sign Up</div>
+      </div>
+      <div class="step-connector" id="sc2"></div>
+      <div class="step-item">
+        <div class="step-num" id="sn3">3</div>
+        <div class="step-lbl" id="sl3">Earn</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 1: Game Picker -->
+    <div class="screen" id="screen1">
+      <div class="pick-head">
+        <div class="pick-eyebrow">Step 1 of 3</div>
+        <h1 class="pick-title">Choose Your Game</h1>
+        <p class="pick-sub">Pick a game below to start earning real cash while you play</p>
+      </div>
+
+      <div class="game-grid">
+        <div class="game-card-wrap" onclick="selectGame(this,'Block Blast','https://i.ibb.co/7d28L07C/app-blocks-BETcljm-M.png')">
+          <canvas class="arc-canvas"></canvas>
+          <div class="game-card">
+            <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <img class="game-icon" src="https://i.ibb.co/7d28L07C/app-blocks-BETcljm-M.png" alt="Block Blast">
+            <div class="game-meta">
+              <div class="game-tag">Get Paid To Play</div>
+              <div class="game-name">Block Blast</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-card-wrap" onclick="selectGame(this,'Clash Royale','https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png')">
+          <canvas class="arc-canvas"></canvas>
+          <div class="game-card">
+            <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <img class="game-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" alt="Clash Royale">
+            <div class="game-meta">
+              <div class="game-tag">Get Paid To Play</div>
+              <div class="game-name">Clash Royale</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-card-wrap" onclick="selectGame(this,'Subway Surfers','https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png')">
+          <canvas class="arc-canvas"></canvas>
+          <div class="game-card">
+            <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <img class="game-icon" src="https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png" alt="Subway Surfers">
+            <div class="game-meta">
+              <div class="game-tag">Get Paid To Play</div>
+              <div class="game-name">Subway Surfers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-card-wrap" onclick="selectGame(this,'Roblox','https://upload.wikimedia.org/wikipedia/commons/1/1e/Roblox_Logo_2025.png')">
+          <canvas class="arc-canvas"></canvas>
+          <div class="game-card">
+            <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <img class="game-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Roblox_Logo_2025.png" alt="Roblox">
+            <div class="game-meta">
+              <div class="game-tag">Get Paid To Play</div>
+              <div class="game-name">Roblox</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-strip">
+        <div class="proof-item"><strong>$500K+</strong><span>Paid Out</span></div>
+        <div class="proof-divider"></div>
+        <div class="proof-item"><strong>2M+</strong><span>Players</span></div>
+        <div class="proof-divider"></div>
+        <div class="proof-item"><strong>Fast</strong><span>Cashout</span></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Main LP -->
+    <div class="screen hidden" id="screen2">
+
+      <button class="back-btn" onclick="goBack()">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back
+      </button>
+
+      <div class="hero">
+        <h1>Get Paid to <span class="hl">Play</span></h1>
+        <p>Earn real cash playing games &amp; completing tasks!</p>
+        <div class="badge-row">
+          <div class="game-pill" id="gamePill">
+            <img id="pillImg" src="" alt="">
+            <span id="pillName">Block Blast</span>
+          </div>
+        </div>
+        <p class="hero-sub">🎮 Play games, take surveys &amp; watch videos for cash</p>
+      </div>
+
+      <a class="cta-btn" href="https://www.google.com" onclick="handleClick(event)">Download Now — It's Free →</a>
+
+      <div class="trust">
+        <div class="trust-item">Free</div>
+        <div class="trust-item">Instant Payout</div>
+        <div class="trust-item">No Credit Card</div>
+      </div>
+
+      <div class="earn-calc">
+        <div class="earn-calc-title">See what you could <span class="t-grad">earn back</span></div>
+        <div class="earn-calc-sub">Drag the slider — based on real average payouts on in-game milestones.</div>
+        <div class="earn-cards">
+          <div class="earn-card">
+            <div class="earn-card-label">You Spend</div>
+            <div class="earn-card-value" id="spend-val">$60</div>
+          </div>
+          <div class="earn-card highlighted">
+            <div class="earn-card-label">You Earn</div>
+            <div class="earn-card-value" id="earn-val">$480</div>
+          </div>
+        </div>
+        <input class="earn-slider" type="range" id="earn-slider" min="20" max="200" step="5" value="60">
+        <div class="slider-labels"><span>$20</span><span>$200</span></div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-title">HOW IT WORKS</div>
+        <div class="how-item">
+          <div class="how-num n1">1</div>
+          <div class="how-text">
+            <b>Download the free PlayCash app</b>
+            <span>Available on iOS &amp; Android — install in seconds and open your dashboard</span>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num n2">2</div>
+          <div class="how-text">
+            <b>Play games &amp; test apps</b>
+            <span>Download featured games, reach milestones, or test new apps for instant credit</span>
+          </div>
+        </div>
+        <div class="how-item" style="border-bottom:none;">
+          <div class="how-num n3">3</div>
+          <div class="how-text">
+            <b>Cash out your rewards</b>
+            <span>Redeem for gift cards, PayPal, crypto, or other payout options — fast</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="activation-banner">
+        <div class="activation-tag">Activation Required</div>
+        <div class="activation-inner">
+          <div class="activation-title">One quick step to unlock full rewards</div>
+          <div class="activation-sub">Complete <strong>2 qualifying tasks</strong> after installing to unlock the full game &amp; app earning experience.</div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <span>2M+ Players</span>
+        <span class="stats-sep">·</span>
+        <span>$500K+ Paid Out</span>
+        <span class="stats-sep">·</span>
+        <span>🇺🇸 US</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  const layer = document.getElementById('bgLayer');
+  const colors = ['#f472b6','#a855f7','#7c3aed','#38bdf8','#c084fc'];
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random()*4+1.5;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
+    layer.appendChild(p);
+  }
+})();
+
+const canvases = document.querySelectorAll('canvas.arc-canvas');
+let arcAngle = 0;
+
+function initCanvas(cv){
+  const wrap = cv.parentElement;
+  const r = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio||1;
+  cv.width=r.width*dpr; cv.height=r.height*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  cv._w=r.width; cv._h=r.height;
+}
+
+function drawArc(cv,angle){
+  const ctx=cv.getContext('2d'); const w=cv._w,h=cv._h;
+  if(!w)return;
+  ctx.clearRect(0,0,w,h);
+  const radius=20,lw=3,half=lw/2;
+  const x=half,y=half,rw=w-lw,rh=h-lw;
+  ctx.beginPath();
+  ctx.moveTo(x+radius,y); ctx.lineTo(x+rw-radius,y);
+  ctx.arcTo(x+rw,y,x+rw,y+radius,radius);
+  ctx.lineTo(x+rw,y+rh-radius);
+  ctx.arcTo(x+rw,y+rh,x+rw-radius,y+rh,radius);
+  ctx.lineTo(x+radius,y+rh);
+  ctx.arcTo(x,y+rh,x,y+rh-radius,radius);
+  ctx.lineTo(x,y+radius);
+  ctx.arcTo(x,y,x+radius,y,radius);
+  ctx.closePath();
+  const perim=2*((rw-2*radius)+(rh-2*radius))+2*Math.PI*radius;
+  const arcLen=perim*0.28;
+  const grad=ctx.createLinearGradient(0,0,w,h);
+  grad.addColorStop(0,'rgba(244,114,182,0)');
+  grad.addColorStop(0.25,'#f472b6');
+  grad.addColorStop(0.5,'#a855f7');
+  grad.addColorStop(0.75,'#38bdf8');
+  grad.addColorStop(1,'rgba(56,189,248,0.8)');
+  ctx.strokeStyle=grad; ctx.lineWidth=lw; ctx.lineCap='round';
+  ctx.setLineDash([arcLen,perim-arcLen]);
+  ctx.lineDashOffset=-angle*perim;
+  ctx.shadowColor='#a855f7'; ctx.shadowBlur=8;
+  ctx.stroke();
+}
+
+function arcLoop(){
+  arcAngle=(arcAngle+0.008)%1;
+  canvases.forEach(cv=>{
+    if(cv.parentElement.classList.contains('seq-glow')||cv.parentElement.classList.contains('selected-card')){
+      drawArc(cv,arcAngle);
+    }
+  });
+  requestAnimationFrame(arcLoop);
+}
+window.addEventListener('load',()=>{canvases.forEach(initCanvas);arcLoop();});
+window.addEventListener('resize',()=>canvases.forEach(initCanvas));
+
+let _seqIndex=0,_seqTimer=null;
+function startSequence(){
+  const wraps=document.querySelectorAll('.game-card-wrap');
+  function step(){
+    wraps.forEach(w=>w.classList.remove('seq-glow'));
+    wraps[_seqIndex].classList.add('seq-glow');
+    _seqIndex=(_seqIndex+1)%wraps.length;
+    _seqTimer=setTimeout(step,900);
+  }
+  step();
+}
+function stopSequence(){
+  clearTimeout(_seqTimer);
+  document.querySelectorAll('.game-card-wrap').forEach(w=>w.classList.remove('seq-glow'));
+}
+startSequence();
+
+let _selectedGame=null,_selectedImg=null;
+function selectGame(wrap,name,img){
+  stopSequence();
+  document.querySelectorAll('.game-card-wrap').forEach(c=>c.classList.remove('selected-card'));
+  wrap.classList.add('selected-card');
+  _selectedGame=name; _selectedImg=img;
+  setTimeout(goToStep2,380);
+}
+function goToStep2(){
+  if(!_selectedGame)return;
+  document.getElementById('sn1').classList.replace('active','done');
+  document.getElementById('sl1').classList.remove('active');
+  document.getElementById('sc1').classList.add('done');
+  document.getElementById('sn2').classList.add('active');
+  document.getElementById('sl2').classList.add('active');
+  document.getElementById('pillName').textContent=_selectedGame;
+  document.getElementById('pillImg').src=_selectedImg;
+  document.getElementById('screen1').classList.add('hidden');
+  const s2=document.getElementById('screen2');
+  s2.classList.remove('hidden'); s2.classList.add('enter');
+  window.scrollTo(0,0);
+}
+function goBack(){
+  document.getElementById('sn1').classList.add('active');
+  document.getElementById('sn1').classList.remove('done');
+  document.getElementById('sl1').classList.add('active');
+  document.getElementById('sc1').classList.remove('done');
+  document.getElementById('sn2').classList.remove('active');
+  document.getElementById('sl2').classList.remove('active');
+  document.querySelectorAll('.game-card-wrap').forEach(c=>c.classList.remove('selected-card','seq-glow'));
+  document.getElementById('screen2').classList.add('hidden');
+  document.getElementById('screen1').classList.remove('hidden');
+  _seqIndex=0; startSequence(); window.scrollTo(0,0);
+}
+
+async function handleClick(event){
+  event.preventDefault();
+  const urlParams=new URLSearchParams(window.location.search);
+  const ttclid=urlParams.get('ttclid')||'';
+  try{
+    if(window.ttq){
+      ttq.track('AddToCart',{content_type:'product',content_id:'playcash-offers',value:1.00,currency:'USD'});
+      ttq.track('CompleteRegistration',{content_type:'product',content_id:'playcash-offers',value:1.00,currency:'USD'});
+      ttq.track('Purchase',{content_type:'product',content_id:'playcash-offers',value:1.00,currency:'USD'});
+    }
+  }catch(e){}
+  const events=['AddToCart','CompleteRegistration','Purchase'];
+  const prefixes=['atc_','reg_','pur_'];
+  for(let i=0;i<events.length;i++){
+    try{
+      await fetch('/api/cpi',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({event_name:events[i],event_id:prefixes[i]+Date.now()+'_'+Math.random().toString(36).substr(2,9),
+          ttclid,user_agent:navigator.userAgent,page_url:window.location.href,
+          referrer_url:document.referrer,selected_game:_selectedGame})});
+    }catch(e){}
+  }
+  const baseUrl='https://www.google.com';
+  const qs=window.location.search;
+  window.location.href=qs?baseUrl+(baseUrl.includes('?')?'&':'?')+qs.substring(1):baseUrl;
+}
+
+// Earn Calculator
+(function(){
+  const slider = document.getElementById('earn-slider');
+  if(!slider) return;
+  const spendEl = document.getElementById('spend-val');
+  const earnEl  = document.getElementById('earn-val');
+  function update(){
+    const spend = parseInt(slider.value);
+    spendEl.textContent = '$' + spend;
+    earnEl.textContent  = '$' + (spend * 8);
+    const pct = (spend - 20) / (200 - 20) * 100;
+    slider.style.background = `linear-gradient(to right, #a855f7 0%, #f472b6 ${pct}%, #2d2540 ${pct}%, #2d2540 100%)`;
+  }
+  slider.addEventListener('input', update);
+  update();
+})();
+</script>
+</body>
+</html>
