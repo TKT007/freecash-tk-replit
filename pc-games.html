@@ -410,36 +410,40 @@
     .how-text b { font-size: .95rem; font-weight: 700; color: var(--text); }
     .how-text span { font-size: .8rem; color: var(--muted); line-height: 1.45; }
 
-    /* ── Activation banner ── */
-    .activation-banner {
+    /* ── Urgency banner ── */
+    .urgency-banner {
       width: 100%;
-      background: linear-gradient(135deg, rgba(220,38,38,.12) 0%, rgba(168,85,247,.08) 100%);
-      border: 1px solid rgba(220,38,38,.35);
+      background: linear-gradient(135deg, rgba(220,38,38,.1) 0%, rgba(168,85,247,.1) 100%);
+      border: 1px solid rgba(220,38,38,.3);
       border-radius: 14px;
       padding: 0;
       display: flex; flex-direction: column;
       margin-bottom: 22px; overflow: hidden;
       animation: fadeUp .68s .22s ease both;
     }
-    .activation-tag {
+    .urgency-tag {
       align-self: flex-start;
       background: #dc2626;
       color: #fff; font-size: .62rem; font-weight: 800; letter-spacing: .08em;
       padding: 5px 12px; border-radius: 0 0 8px 0;
-      text-transform: uppercase;
+      text-transform: uppercase; display: flex; align-items: center; gap: 7px;
     }
-    .activation-inner {
-      padding: 12px 16px 16px;
-    }
-    .activation-title {
+    .urgency-timer {
       font-family: 'Nunito', sans-serif;
-      font-size: 1rem; font-weight: 900; color: var(--text);
-      line-height: 1.3; margin-bottom: 6px;
+      font-size: .75rem; font-weight: 900; letter-spacing: .04em;
+      background: rgba(255,255,255,.2); border-radius: 4px; padding: 1px 7px;
     }
-    .activation-sub {
-      font-size: .8rem; color: var(--muted); line-height: 1.5;
+    .urgency-inner { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+    .urgency-item { display: flex; flex-direction: column; gap: 4px; }
+    .urgency-item-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: .95rem; font-weight: 900; color: var(--text); line-height: 1.3;
     }
-    .activation-sub strong { color: var(--text); font-weight: 700; }
+    .urgency-item-body {
+      font-size: .78rem; color: var(--muted); line-height: 1.5;
+    }
+    .urgency-item-body strong { color: var(--text); font-weight: 700; }
+    .urgency-divider { height: 1px; background: rgba(168,85,247,.15); }
 
     /* ── Stats ── */
     .stats {
@@ -495,10 +499,10 @@
 
 <div class="bg-layer" id="bgLayer"></div>
 
-<img class="float-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" style="width:58px;height:58px;top:8%;left:6%;--r:-10deg;animation-duration:4.2s;" alt="">
+<img class="float-icon" src="https://m.media-amazon.com/images/I/81I2fdZn92L.png" style="width:58px;height:58px;top:8%;left:6%;--r:-10deg;animation-duration:4.2s;" alt="">
 <img class="float-icon" src="https://i.ibb.co/7d28L07C/app-blocks-BETcljm-M.png" style="width:50px;height:50px;top:22%;right:7%;--r:9deg;animation-duration:3.7s;animation-delay:.8s;" alt="">
-<img class="float-icon" src="https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png" style="width:44px;height:44px;top:55%;left:3%;--r:6deg;animation-duration:5s;animation-delay:1.5s;" alt="">
-<img class="float-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" style="width:46px;height:46px;top:70%;right:5%;--r:-12deg;animation-duration:4.5s;animation-delay:.4s;" alt="">
+<img class="float-icon" src="https://yt3.googleusercontent.com/5N_8D_pXSXN8nPZkzUUnpA1nWfZYBYafjrTEfgRpXXWzfQdrY5PRVVwk3KNax08btarjnDzX=s900-c-k-c0x00ffffff-no-rj" style="width:44px;height:44px;top:55%;left:3%;--r:6deg;animation-duration:5s;animation-delay:1.5s;" alt="">
+<img class="float-icon" src="https://play-lh.googleusercontent.com/3fC7fxsF2qHgmAfs3XuMNNbLu9qFuKBIR-rtCe_pfoFijW34s3UYUJqxAl4dTJM8wytyaIjGRnjsXDxzmVTnCRM" style="width:46px;height:46px;top:70%;right:5%;--r:-12deg;animation-duration:4.5s;animation-delay:.4s;" alt="">
 
 <div class="page">
   <div class="inner">
@@ -550,38 +554,38 @@
           </div>
         </div>
 
-        <div class="game-card-wrap" onclick="selectGame(this,'Clash Royale','https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png')">
+        <div class="game-card-wrap" onclick="selectGame(this,'Candy Crush','https://m.media-amazon.com/images/I/81I2fdZn92L.png')">
           <canvas class="arc-canvas"></canvas>
           <div class="game-card">
             <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <img class="game-icon" src="https://i.ibb.co/1JvCb59p/app-clash-BDO5fjxc.png" alt="Clash Royale">
+            <img class="game-icon" src="https://m.media-amazon.com/images/I/81I2fdZn92L.png" alt="Candy Crush">
             <div class="game-meta">
               <div class="game-tag">Get Paid To Play</div>
-              <div class="game-name">Clash Royale</div>
+              <div class="game-name">Candy Crush</div>
             </div>
           </div>
         </div>
 
-        <div class="game-card-wrap" onclick="selectGame(this,'Subway Surfers','https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png')">
+        <div class="game-card-wrap" onclick="selectGame(this,'Dice Dreams','https://yt3.googleusercontent.com/5N_8D_pXSXN8nPZkzUUnpA1nWfZYBYafjrTEfgRpXXWzfQdrY5PRVVwk3KNax08btarjnDzX=s900-c-k-c0x00ffffff-no-rj')">
           <canvas class="arc-canvas"></canvas>
           <div class="game-card">
             <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <img class="game-icon" src="https://i.ibb.co/8nKMJnnX/app-subway-DW2-AKz-Zj.png" alt="Subway Surfers">
+            <img class="game-icon" src="https://yt3.googleusercontent.com/5N_8D_pXSXN8nPZkzUUnpA1nWfZYBYafjrTEfgRpXXWzfQdrY5PRVVwk3KNax08btarjnDzX=s900-c-k-c0x00ffffff-no-rj" alt="Dice Dreams">
             <div class="game-meta">
               <div class="game-tag">Get Paid To Play</div>
-              <div class="game-name">Subway Surfers</div>
+              <div class="game-name">Dice Dreams</div>
             </div>
           </div>
         </div>
 
-        <div class="game-card-wrap" onclick="selectGame(this,'Roblox','https://upload.wikimedia.org/wikipedia/commons/1/1e/Roblox_Logo_2025.png')">
+        <div class="game-card-wrap" onclick="selectGame(this,'Fish of Fortune','https://play-lh.googleusercontent.com/3fC7fxsF2qHgmAfs3XuMNNbLu9qFuKBIR-rtCe_pfoFijW34s3UYUJqxAl4dTJM8wytyaIjGRnjsXDxzmVTnCRM')">
           <canvas class="arc-canvas"></canvas>
           <div class="game-card">
             <div class="check-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <img class="game-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Roblox_Logo_2025.png" alt="Roblox">
+            <img class="game-icon" src="https://play-lh.googleusercontent.com/3fC7fxsF2qHgmAfs3XuMNNbLu9qFuKBIR-rtCe_pfoFijW34s3UYUJqxAl4dTJM8wytyaIjGRnjsXDxzmVTnCRM" alt="Fish of Fortune">
             <div class="game-meta">
               <div class="game-tag">Get Paid To Play</div>
-              <div class="game-name">Roblox</div>
+              <div class="game-name">Fish of Fortune</div>
             </div>
           </div>
         </div>
@@ -607,12 +611,6 @@
       <div class="hero">
         <h1>Get Paid to <span class="hl">Play</span></h1>
         <p>Earn real cash playing games &amp; completing tasks!</p>
-        <div class="badge-row">
-          <div class="game-pill" id="gamePill">
-            <img id="pillImg" src="" alt="">
-            <span id="pillName">Block Blast</span>
-          </div>
-        </div>
         <p class="hero-sub">🎮 Play games, take surveys &amp; watch videos for cash</p>
       </div>
 
@@ -666,11 +664,16 @@
         </div>
       </div>
 
-      <div class="activation-banner">
-        <div class="activation-tag">Activation Required</div>
-        <div class="activation-inner">
-          <div class="activation-title">One quick step to unlock full rewards</div>
-          <div class="activation-sub">Complete <strong>2 qualifying tasks</strong> after installing to unlock the full game &amp; app earning experience.</div>
+      <div class="urgency-banner">
+        <div class="urgency-tag">
+          Limited bonus expires in
+          <span class="urgency-timer" id="countdown">05:00</span>
+        </div>
+        <div class="urgency-inner">
+          <div class="urgency-item">
+            <div class="urgency-item-title">💡 Pro Strategy</div>
+            <div class="urgency-item-body">In-app purchases instantly boost your earnings and level you up. Earn up to <strong>5× the amount you spend</strong> in-game, plus speed up your milestone completions!</div>
+          </div>
         </div>
       </div>
 
@@ -786,8 +789,7 @@ function goToStep2(){
   document.getElementById('sc1').classList.add('done');
   document.getElementById('sn2').classList.add('active');
   document.getElementById('sl2').classList.add('active');
-  document.getElementById('pillName').textContent=_selectedGame;
-  document.getElementById('pillImg').src=_selectedImg;
+
   document.getElementById('screen1').classList.add('hidden');
   const s2=document.getElementById('screen2');
   s2.classList.remove('hidden'); s2.classList.add('enter');
@@ -841,12 +843,28 @@ async function handleClick(event){
   function update(){
     const spend = parseInt(slider.value);
     spendEl.textContent = '$' + spend;
-    earnEl.textContent  = '$' + (spend * 8);
+    earnEl.textContent  = '$' + (spend * 6);
     const pct = (spend - 20) / (200 - 20) * 100;
     slider.style.background = `linear-gradient(to right, #a855f7 0%, #f472b6 ${pct}%, #2d2540 ${pct}%, #2d2540 100%)`;
   }
   slider.addEventListener('input', update);
   update();
+})();
+
+// 5-minute countdown timer
+(function(){
+  let secs = 5 * 60;
+  const el = document.getElementById('countdown');
+  if(!el) return;
+  function tick(){
+    if(secs <= 0){ el.textContent = '00:00'; return; }
+    const m = String(Math.floor(secs/60)).padStart(2,'0');
+    const s = String(secs%60).padStart(2,'0');
+    el.textContent = m+':'+s;
+    secs--;
+    setTimeout(tick, 1000);
+  }
+  tick();
 })();
 </script>
 </body>
