@@ -843,7 +843,7 @@ async function handleClick(event){
   function update(){
     const spend = parseInt(slider.value);
     spendEl.textContent = '$' + spend;
-    earnEl.textContent  = '$' + (spend * 6);
+    earnEl.textContent  = '$' + (spend * 5);
     const pct = (spend - 20) / (200 - 20) * 100;
     slider.style.background = `linear-gradient(to right, #a855f7 0%, #f472b6 ${pct}%, #2d2540 ${pct}%, #2d2540 100%)`;
   }
