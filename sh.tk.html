@@ -238,6 +238,81 @@
     .device-btn-sub { font-size: .75rem; color: rgba(255,255,255,.65); display: block; }
     .device-btn.secondary .device-btn-title { color: var(--text); }
     .device-btn.secondary .device-btn-sub { color: var(--muted); }
+
+    /* ═══ ONE LAST STEP POPUP ═══ */
+    .popup-overlay {
+      position: fixed; inset: 0; z-index: 9998;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .popup-overlay.open { opacity: 1; pointer-events: auto; }
+    .popup-modal {
+      width: 100%; max-width: 400px;
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid rgba(232,71,10,.15);
+      box-shadow: 0 24px 60px rgba(0,0,0,.12);
+      padding: 32px 24px 28px;
+      text-align: center;
+      transform: scale(.93) translateY(16px);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .popup-overlay.open .popup-modal { transform: scale(1) translateY(0); }
+    .popup-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(232,71,10,.1);
+      border: 1px solid rgba(232,71,10,.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .popup-icon svg { width: 26px; height: 26px; color: var(--primary); }
+    .popup-label {
+      font-size: .65rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .popup-title {
+      font-size: 1.45rem; font-weight: 900; color: var(--text);
+      line-height: 1.2; margin-bottom: 12px; letter-spacing: -.02em;
+    }
+    .popup-title .hl { color: var(--primary); }
+    .popup-desc {
+      font-size: .88rem; color: var(--muted); line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .popup-desc strong { color: var(--text); font-weight: 700; }
+    .popup-callout {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--surface);
+      border: 1.5px solid rgba(232,71,10,.18);
+      border-radius: 14px; padding: 14px 16px;
+      text-align: left; margin-bottom: 20px;
+    }
+    .popup-callout-num {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; font-weight: 900; flex-shrink: 0;
+    }
+    .popup-callout-text { flex: 1; }
+    .popup-callout-title { font-size: .92rem; font-weight: 800; color: var(--text); display: block; margin-bottom: 2px; }
+    .popup-callout-sub { font-size: .75rem; color: var(--muted); display: block; }
+    .popup-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 16px;
+      background: var(--primary); border: none; border-radius: 14px;
+      font-size: 1rem; font-weight: 900; color: #fff; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(232,71,10,.3);
+      transition: transform .12s;
+      font-family: inherit; text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .popup-btn:active { transform: scale(.97); }
   </style>
 </head>
 <body>
@@ -441,14 +516,25 @@ document.body.style.overflow = 'hidden';
 var BASE_URL = 'https://t.afftrackr.com/?OO=aSsJCv5TeypVFu%2Fp9qvwE8EpBthNoGP9vQJDRoz7h5U%3D';
 var _s1 = new URLSearchParams(window.location.search).get('s1') || '';
 var offerUrl = _s1 ? BASE_URL + '&s1=' + encodeURIComponent(_s1) : BASE_URL;
-// Apply offer URL via JS listener — href never visible
+// Main CTAs open popup
 document.getElementById('mainCta').addEventListener('click', function(e) {
   e.preventDefault();
-  window.location.href = offerUrl;
+  document.getElementById('popupOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 });
 document.getElementById('stickyCtaBtn').addEventListener('click', function(e) {
   e.preventDefault();
-  window.location.href = offerUrl;
+  document.getElementById('popupOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+
+// Got it button — fires pixel events then redirects
+document.getElementById('gotItBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  firePixelEvents();
+  setTimeout(function() {
+    window.location.href = offerUrl;
+  }, 350);
 });
 
 // ─── DEVICE GATE ─────────────────────────────────────────────
@@ -464,5 +550,29 @@ function selectDevice() {
 </script>
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"59eb6002b3fc487cb4dde57789441691","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<!-- ONE LAST STEP POPUP -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-modal">
+    <div class="popup-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </div>
+    <div class="popup-label">One Last Step</div>
+    <h2 class="popup-title">Select <span class="hl">18+</span> when you sign up</h2>
+    <p class="popup-desc">To unlock your <strong>$750 Shein Gift Card reward</strong>, you must select <strong>18+</strong> at signup. Use real info so we can verify and send your reward.</p>
+    <div class="popup-callout">
+      <div class="popup-callout-num">18+</div>
+      <div class="popup-callout-text">
+        <span class="popup-callout-title">Pick 18+ at signup</span>
+        <span class="popup-callout-sub">Required to unlock your $750 reward</span>
+      </div>
+    </div>
+    <a href="javascript:void(0)" class="popup-btn" id="gotItBtn">Got it &nbsp;→</a>
+  </div>
+</div>
 </body>
 </html>
