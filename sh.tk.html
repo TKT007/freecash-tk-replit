@@ -451,15 +451,7 @@ function firePixelEvents() {
 
 
 // ─── DEVICE GATE ─────────────────────────────────────────────
-function selectDevice() {
-  var gate = document.getElementById('deviceGate');
-  gate.style.transition = 'opacity .45s ease';
-  gate.style.opacity = '0';
-  setTimeout(function() {
-    gate.style.display = 'none';
-    document.body.style.overflow = '';
-  }, 450);
-}
+
 
 // Block scroll while gate is visible
 document.body.style.overflow = 'hidden';
@@ -486,31 +478,26 @@ document.body.style.overflow = 'hidden';
   obs.observe(mainBtn);
 })();
 
-// ─── COUNTER ANIMATION ───────────────────────────────────────
-(function(){
+// ─── COUNTER ANIMATION — runs after device gate ────────────
+function startCounter(){
   var target=750, duration=2000;
+  var el=document.getElementById('counterAmount');
+  var bar=document.getElementById('counterBar');
+  if(!el || !bar) return;
+  var start=performance.now();
   function easeOut(t){ return 1-Math.pow(1-t,3); }
-  function startCounter(){
-    var el=document.getElementById('counterAmount');
-    var bar=document.getElementById('counterBar');
-    if(!el || !bar) return;
-    var start=performance.now();
-    function tick(){
-      var progress=Math.min((performance.now()-start)/duration,1);
-      var eased=easeOut(progress);
-      el.textContent='$'+(eased*target).toFixed(2);
-      bar.style.width=(eased*100)+'%';
-      if(progress<1) requestAnimationFrame(tick);
-      else { el.textContent='$750.00'; bar.style.width='100%'; }
-    }
-    setTimeout(function(){ requestAnimationFrame(tick); }, 400);
+  function tick(now){
+    var elapsed=now-start;
+    var progress=Math.min(elapsed/duration,1);
+    var eased=easeOut(progress);
+    var value=eased*target;
+    el.textContent='$'+value.toFixed(2);
+    bar.style.width=(eased*100)+'%';
+    if(progress<1) requestAnimationFrame(tick);
+    else { el.textContent='$750.00'; bar.style.width='100%'; }
   }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded', startCounter);
-  } else {
-    startCounter();
-  }
-})();
+  requestAnimationFrame(tick);
+}
 
 // ─── OFFER URL ───────────────────────────────────────────────
 var BASE_URL = 'https://t.afftrackr.com/?OO=aSsJCv5TeypVFu%2Fp9qvwE8EpBthNoGP9vQJDRoz7h5U%3D';
@@ -529,12 +516,17 @@ document.getElementById('stickyCtaBtn').addEventListener('click', function(e) {
 });
 
 // Got it button — fires pixel events then redirects
-document.getElementById('gotItBtn').addEventListener('click', function(e) {
-  e.preventDefault();
-  firePixelEvents();
-  setTimeout(function() {
-    window.location.href = offerUrl;
-  }, 350);
+document.addEventListener('DOMContentLoaded', function() {
+  var gotIt = document.getElementById('gotItBtn');
+  if (gotIt) {
+    gotIt.addEventListener('click', function(e) {
+      e.preventDefault();
+      firePixelEvents();
+      setTimeout(function() {
+        window.location.href = offerUrl;
+      }, 350);
+    });
+  }
 });
 
 // ─── DEVICE GATE ─────────────────────────────────────────────
@@ -545,6 +537,7 @@ function selectDevice() {
   setTimeout(function() {
     gate.style.display = 'none';
     document.body.style.overflow = '';
+    startCounter(); // start counter only after device gate closes
   }, 450);
 }
 </script>
