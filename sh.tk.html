@@ -190,84 +190,86 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 360px) { .hero h1 { font-size: 1.75rem; } .counter-amount { font-size: 2.7rem; } .step-item { padding: 14px; gap: 10px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-    /* ═══ QUIZ MODAL ═══ */
-    .quiz-overlay {
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      display: flex; align-items: center; justify-content: center; padding: 16px;
-      opacity: 0; pointer-events: none; transition: opacity .25s ease;
-    }
-    .quiz-overlay.open { opacity: 1; pointer-events: auto; }
-    .quiz-modal {
-      width: 100%; max-width: 420px; background: #fff;
-      border-radius: 24px; border: 1px solid rgba(232,71,10,.2);
-      box-shadow: 0 24px 80px rgba(0,0,0,.15), 0 0 40px rgba(232,71,10,.1);
-      max-height: 88dvh; display: flex; flex-direction: column;
-      transform: translateY(20px) scale(.97);
-      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
-    }
-    .quiz-overlay.open .quiz-modal { transform: translateY(0) scale(1); }
-    .quiz-handle { display: none; }
-    .quiz-header { padding: 16px 20px 14px; flex-shrink: 0; }
-    .quiz-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .quiz-step-label { font-size: .65rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
-    .quiz-close { width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.06); border: none; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
-    .quiz-bar-track { width: 100%; height: 3px; border-radius: 3px; background: rgba(232,71,10,.15); overflow: hidden; }
-    .quiz-bar-fill { height: 100%; border-radius: 3px; background: var(--primary); transition: width .4s cubic-bezier(.4,0,.2,1); }
-    .quiz-body { flex: 1; overflow-y: auto; padding: 24px 20px 32px; -webkit-overflow-scrolling: touch; }
-    .quiz-slide { display: none; }
-    .quiz-slide.active { display: block; animation: qSlideIn .28s ease both; }
-    @keyframes qSlideIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
-    .quiz-q-text { font-size: 1.35rem; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 6px; }
-    .quiz-q-sub { font-size: .8rem; color: var(--muted); margin-bottom: 22px; line-height: 1.4; }
-    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
-    .quiz-option { display: flex; align-items: center; gap: 14px; padding: 15px 16px; background: #fafafa; border: 1.5px solid rgba(0,0,0,.08); border-radius: 16px; cursor: pointer; transition: border-color .15s, background .15s, transform .1s; -webkit-tap-highlight-color: transparent; }
-    .quiz-option:active { transform: scale(.98); }
-    .quiz-option.selected { border-color: var(--primary); background: rgba(232,71,10,.06); }
-    .qopt-icon-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(232,71,10,.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .quiz-option.selected .qopt-icon-box { background: rgba(232,71,10,.18); }
-    .qopt-texts { flex: 1; text-align: left; }
-    .qopt-title { font-size: .95rem; font-weight: 700; color: var(--text); display: block; }
-    .qopt-sub { font-size: .73rem; color: var(--muted); margin-top: 2px; display: block; }
-    .qopt-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(232,71,10,.3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: border-color .15s, background .15s; }
-    .quiz-option.selected .qopt-radio { border-color: var(--primary); background: var(--primary); }
-    .qopt-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0; transition: opacity .15s; }
-    .quiz-option.selected .qopt-radio::after { opacity: 1; }
-
-    /* RESULT */
-    .quiz-result { display: none; text-align: center; }
-    .quiz-result.active { display: block; animation: qSlideIn .35s ease both; }
-    .result-ready-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); color: #16a34a; font-size: .68rem; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 14px; }
-    .result-headline { font-size: 1.5rem; font-weight: 900; color: var(--text); line-height: 1.15; margin-bottom: 18px; }
-    .result-estimate-box { width: 100%; background: #fff5f0; border: 1px solid rgba(232,71,10,.2); border-radius: 16px; padding: 18px 16px; margin-bottom: 14px; }
-    .result-amount { font-size: 2.6rem; font-weight: 900; line-height: 1; color: var(--primary); letter-spacing: -.02em; }
-    .result-boost { width: 100%; position: relative; background: linear-gradient(135deg, #221705 0%, #1a1208 100%); border: 1px solid rgba(251,191,36,.4); border-radius: 16px; padding: 18px 16px 16px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 0 28px rgba(251,191,36,.18); }
-    .result-boost::before { content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 130%; height: 90%; background: radial-gradient(ellipse at center, rgba(251,191,36,.16) 0%, transparent 65%); pointer-events: none; }
-    .result-boost-top { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
-    .result-boost-label { font-size: .65rem; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; color: #fbbf24; }
-    .result-boost-limited { position: relative; display: inline-flex; align-items: center; gap: 5px; border: 1px solid rgba(251,191,36,.4); border-radius: 999px; color: #fbbf24; font-size: .6rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 3px 10px; margin-bottom: 12px; }
-    .result-boost-amount { position: relative; font-size: 2.3rem; font-weight: 900; line-height: 1; background: linear-gradient(90deg, #fbbf24, #f59e0b, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 14px; letter-spacing: -.02em; }
-    .result-boost-divider { position: relative; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .result-boost-divider::before, .result-boost-divider::after { content: ''; flex: 1; height: 1px; background: rgba(251,191,36,.25); }
-    .result-boost-divider span { font-size: .58rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: rgba(251,191,36,.7); }
-    .result-boost-text { position: relative; font-size: .76rem; color: #a89bbf; line-height: 1.55; }
-    .result-boost-text b { color: #fbbf24; font-weight: 800; }
-    .result-urgency { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: .72rem; color: var(--muted); margin-bottom: 16px; }
-    .result-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(34,197,94,.2); animation: pulse-dot 1.5s ease-in-out infinite; }
-    @keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,.2); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,.08); } }
-    #resultViewers { color: var(--text); font-weight: 700; }
-    .result-claim { width: 100%; padding: 17px; background: var(--primary); border: none; border-radius: 16px; font-size: 1.05rem; font-weight: 900; color: #fff; cursor: pointer; box-shadow: 0 6px 28px rgba(232,71,10,.4); transition: transform .12s; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; margin-bottom: 10px; animation: claim-pulse 2.5s ease-in-out infinite; }
-    @keyframes claim-pulse { 0%,100% { box-shadow: 0 6px 28px rgba(232,71,10,.4); } 50% { box-shadow: 0 8px 40px rgba(232,71,10,.65); } }
-    .result-claim:active { transform: scale(.97); }
-    .result-claim svg { width: 17px; height: 17px; }
-    .result-foot { font-size: .68rem; color: var(--muted2); text-align: center; }
-    .result-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 24px; }
-    .conf-dot { position: absolute; border-radius: 50%; animation: confFall 1s ease-out both; }
     @keyframes confFall { 0% { transform: translateY(-8px) scale(0); opacity: 1; } 80% { opacity: .8; } 100% { transform: translateY(90px) scale(1); opacity: 0; } }
+
+    /* ═══ DEVICE GATE SCREEN ═══ */
+    .device-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #ffffff;
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px 24px;
+      transition: opacity .5s ease;
+    }
+    .device-gate-inner {
+      max-width: 420px; width: 100%; text-align: center;
+      animation: fadeUp .5s ease both;
+    }
+    .device-gate h2 {
+      font-size: 2rem; font-weight: 900; color: var(--text);
+      line-height: 1.15; margin-bottom: 12px; letter-spacing: -.02em;
+    }
+    .device-gate h2 .hl { color: var(--primary); }
+    .device-gate p {
+      font-size: .9rem; color: var(--muted); margin-bottom: 36px; line-height: 1.6;
+    }
+    .device-gate p strong { color: var(--text); }
+    .device-btn {
+      width: 100%; display: flex; align-items: center; gap: 16px;
+      padding: 18px 20px; border-radius: 16px; border: none; cursor: pointer;
+      margin-bottom: 12px; transition: transform .12s, opacity .12s;
+      -webkit-tap-highlight-color: transparent; text-align: left;
+    }
+    .device-btn:active { transform: scale(.97); opacity: .85; }
+    .device-btn.primary {
+      background: var(--primary);
+      box-shadow: 0 6px 24px rgba(232,71,10,.3);
+    }
+    .device-btn.secondary {
+      background: var(--surface);
+      border: 1.5px solid rgba(232,71,10,.2);
+    }
+    .device-btn-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .device-btn-icon svg, .device-btn-icon img { width: 28px; height: 28px; }
+    .device-btn-text { flex: 1; }
+    .device-btn-title { font-size: 1rem; font-weight: 800; color: #fff; display: block; margin-bottom: 2px; }
+    .device-btn-sub { font-size: .75rem; color: rgba(255,255,255,.65); display: block; }
+    .device-btn.secondary .device-btn-title { color: var(--text); }
+    .device-btn.secondary .device-btn-sub { color: var(--muted); }
   </style>
 </head>
 <body>
+
+
+<!-- DEVICE GATE -->
+<div class="device-gate" id="deviceGate">
+  <div class="device-gate-inner">
+    <h2>Confirm your device to<br><span class="hl">unlock</span></h2>
+    <p>Reserved for users who complete a quick verification.<br><strong>Takes under 2 minutes.</strong></p>
+
+    <button class="device-btn primary" onclick="selectDevice()">
+      <div class="device-btn-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" style="fill:#fff"/></svg>
+      </div>
+      <div class="device-btn-text">
+        <span class="device-btn-title">I'm on iPhone / iPad</span>
+        <span class="device-btn-sub">Native Shein payout</span>
+      </div>
+    </button>
+
+    <button class="device-btn secondary" onclick="selectDevice()">
+      <div class="device-btn-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.523 15.341c-.5 0-.904-.405-.904-.904 0-.499.405-.904.904-.904.499 0 .904.405.904.904 0 .499-.405.904-.904.904m-11.046 0c-.5 0-.904-.405-.904-.904 0-.499.405-.904.904-.904.499 0 .904.405.904.904 0 .499-.405.904-.904.904m11.37-6.018l1.806-3.13a.376.376 0 0 0-.138-.513.376.376 0 0 0-.513.138l-1.83 3.169A11.428 11.428 0 0 0 12 7.842a11.43 11.43 0 0 0-5.172 1.145l-1.83-3.169a.376.376 0 0 0-.513-.138.376.376 0 0 0-.138.513l1.806 3.13C2.871 11.073.5 14.291 0 18.087h24c-.5-3.796-2.871-7.014-6.153-8.764" style="fill:#fff"/></svg>
+      </div>
+      <div class="device-btn-text">
+        <span class="device-btn-title">I'm on Android / Other</span>
+        <span class="device-btn-sub">Payout via PayPal or wire</span>
+      </div>
+    </button>
+  </div>
+</div>
 
 <div class="bg-layer" id="bgLayer"></div>
 
@@ -297,7 +299,7 @@
       </div>
     </div>
 
-    <a href="javascript:void(0)" class="cta-btn" id="mainCta" onclick="openQuiz()">Unlock My Shein Gift Card →</a>
+    <a href="javascript:void(0)" class="cta-btn" id="mainCta">Claim Your Rewards →</a>
 
     <div class="trust">
       <span>No Credit Card</span>
@@ -336,49 +338,13 @@
 </div>
 
 <div class="sticky-cta" id="stickyCta">
-  <a id="stickyCtaBtn" href="#" onclick="openQuiz(); return false;">
-    Unlock My Shein Gift Card →
+  <a href="javascript:void(0)" id="stickyCtaBtn">
+    Claim Your Rewards →
     <svg style="display:none""width:16px;height:16px;display:inline-block;vertical-align:middle;margin-left:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
   </a>
 </div>
 
-<!-- QUIZ MODAL -->
-<div class="quiz-overlay" id="quizOverlay" onclick="handleOverlayClick(event)">
-  <div class="quiz-modal" id="quizModal" style="position:relative;">
-    <div class="result-confetti" id="confettiLayer"></div>
-    <div class="quiz-handle"></div>
-    <div class="quiz-header">
-      <div class="quiz-header-row">
-        <span class="quiz-step-label" id="stepLabel">STEP 1 OF 1</span>
-        <button class="quiz-close" onclick="closeQuiz()">✕</button>
-      </div>
-      <div class="quiz-bar-track">
-        <div class="quiz-bar-fill" id="quizBarFill" style="width:100%"></div>
-      </div>
-    </div>
-    <div class="quiz-body">
-      <!-- STEP 1 -->
-      <div class="quiz-slide active" id="slide-0">
-        <div class="quiz-q-text">What device do you use?</div>
-        <div class="quiz-q-sub">Pick one. We'll tailor your estimate.</div>
-        <div class="quiz-options">
-          <div class="quiz-option" onclick="selectAndAdvance(this, 0, 1)">
-            <div class="qopt-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8470a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg></div>
-            <div class="qopt-texts"><b class="qopt-title">iPhone (iOS)</b><span class="qopt-sub">Any iPhone model</span></div>
-            <div class="qopt-radio"></div>
-          </div>
-          <div class="quiz-option" onclick="selectAndAdvance(this, 0, 0)">
-            <div class="qopt-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8470a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg></div>
-            <div class="qopt-texts"><b class="qopt-title">Android</b><span class="qopt-sub">Samsung, Motorola, Pixel, and others</span></div>
-            <div class="qopt-radio"></div>
-          </div>
-        </div>
-      </div>
-</div>
-    </div>
-  </div>
-</div>
-</div>
+
 
 <script>
 // ─── HELPERS ─────────────────────────────────────────────────
@@ -407,6 +373,21 @@ function firePixelEvents() {
     } catch(e) {}
   });
 }
+
+
+// ─── DEVICE GATE ─────────────────────────────────────────────
+function selectDevice() {
+  var gate = document.getElementById('deviceGate');
+  gate.style.transition = 'opacity .45s ease';
+  gate.style.opacity = '0';
+  setTimeout(function() {
+    gate.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 450);
+}
+
+// Block scroll while gate is visible
+document.body.style.overflow = 'hidden';
 
 // ─── PARTICLES ───────────────────────────────────────────────
 (function(){
@@ -460,40 +441,26 @@ function firePixelEvents() {
 var BASE_URL = 'https://t.afftrackr.com/?OO=aSsJCv5TeypVFu%2Fp9qvwE8EpBthNoGP9vQJDRoz7h5U%3D';
 var _s1 = new URLSearchParams(window.location.search).get('s1') || '';
 var offerUrl = _s1 ? BASE_URL + '&s1=' + encodeURIComponent(_s1) : BASE_URL;
-document.getElementById('stickyCtaBtn').href = offerUrl;
+// Apply offer URL via JS listener — href never visible
+document.getElementById('mainCta').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.location.href = offerUrl;
+});
+document.getElementById('stickyCtaBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.location.href = offerUrl;
+});
 
-// ─── QUIZ ────────────────────────────────────────────────────
-var answers=[null,null,null];
-var TOTAL=1;
-
-function openQuiz(){
-  document.getElementById('quizOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+// ─── DEVICE GATE ─────────────────────────────────────────────
+function selectDevice() {
+  var gate = document.getElementById('deviceGate');
+  gate.style.transition = 'opacity .45s ease';
+  gate.style.opacity = '0';
+  setTimeout(function() {
+    gate.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 450);
 }
-function closeQuiz(){
-  document.getElementById('quizOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-function handleOverlayClick(e){
-  if(e.target===document.getElementById('quizOverlay')) closeQuiz();
-}
-function setProgress(step){
-  var pct=Math.round((step/TOTAL)*100);
-  if(pct>100) pct=100;
-  document.getElementById('quizBarFill').style.width=pct+'%';
-  document.getElementById('stepLabel').textContent=step<=TOTAL?'STEP '+step+' OF '+TOTAL:'';
-}
-function selectAndAdvance(el, qIdx, optIdx){
-  el.parentNode.querySelectorAll('.quiz-option').forEach(function(o){ o.classList.remove('selected'); });
-  el.classList.add('selected');
-  // Fire pixel events then redirect
-  firePixelEvents();
-  setTimeout(function(){
-    window.location.href = offerUrl;
-  }, 400);
-}
-
-
 </script>
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"59eb6002b3fc487cb4dde57789441691","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
