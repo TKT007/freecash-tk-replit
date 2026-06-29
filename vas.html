@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D0F14;
+      --surface:   #161B24;
+      --surface2:  #1E2533;
+      --border:    #2A3040;
+      --border-s:  #3B4560;
+      --text:      #E2E8F0;
+      --text-2:    #94A3B8;
+      --text-3:    #4A5568;
+      --accent:    #3B82F6;
+      --accent-bg: rgba(59,130,246,.12);
+      --accent-b:  rgba(59,130,246,.35);
+      --success:   #22C55E;
+      --success-bg:rgba(34,197,94,.12);
+      --success-b: rgba(34,197,94,.35);
+      --danger:    #F87171;
+      --danger-bg: rgba(248,113,113,.12);
+      --danger-b:  rgba(248,113,113,.35);
+      --warn-bg:   rgba(251,191,36,.12);
+      --warn-b:    rgba(251,191,36,.35);
+      --warn:      #FBB724;
+      --radius:    8px;
+      --mono:      'Courier New', monospace;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header { margin-bottom: 2rem; }
+    .header h1 {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header h1 svg { color: var(--accent); }
+    .header p { font-size: 13px; color: var(--text-2); margin-top: 5px; }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Fields */
+    .field { margin-bottom: 1rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      height: 38px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      padding: 0 12px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--accent-b);
+      box-shadow: 0 0 0 3px var(--accent-bg);
+    }
+    .field input.error {
+      border-color: var(--danger-b) !important;
+      box-shadow: 0 0 0 3px var(--danger-bg) !important;
+    }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+    .hint { font-size: 11px; color: var(--text-3); margin-top: 5px; }
+    .err-hint { font-size: 11px; color: var(--danger); margin-top: 5px; display: none; }
+
+    /* BC input with prefix */
+    .bc-wrap { display: flex; }
+    .bc-prefix {
+      display: flex;
+      align-items: center;
+      height: 38px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-right: none;
+      border-radius: var(--radius) 0 0 var(--radius);
+      padding: 0 12px;
+      font-size: 13px;
+      color: var(--text-2);
+      font-family: var(--mono);
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .bc-wrap input {
+      border-radius: 0 var(--radius) var(--radius) 0 !important;
+      border-left: none !important;
+    }
+
+    /* Slug display */
+    .slug-display {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      word-break: break-all;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color .15s;
+      line-height: 1.5;
+    }
+    .slug-display:hover { border-color: var(--accent-b); }
+    .slug-text { flex: 1; }
+    .slug-display svg { flex-shrink: 0; color: var(--text-3); transition: color .15s; }
+    .slug-display:hover svg { color: var(--accent); }
+
+    /* Row layouts */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Toggle buttons */
+    .toggle-row { display: flex; gap: 8px; }
+    .toggle-btn {
+      flex: 1;
+      height: 38px;
+      border: 0.5px solid var(--border);
+      background: var(--surface2);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      color: var(--text-2);
+      transition: all .15s;
+    }
+    .toggle-btn:hover { border-color: var(--border-s); color: var(--text); }
+    .toggle-btn.active {
+      background: var(--accent-bg);
+      border-color: var(--accent-b);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* EST chip */
+    .est-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--warn-bg);
+      border: 0.5px solid var(--warn-b);
+      border-radius: var(--radius);
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--warn);
+      font-family: var(--mono);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* Separator */
+    .sep { height: 0.5px; background: var(--border); margin: 1.25rem 0; }
+
+    /* Generate button */
+    .gen-btn {
+      width: 100%;
+      height: 42px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1rem;
+      transition: opacity .15s, transform .1s;
+    }
+    .gen-btn:hover { opacity: .88; }
+    .gen-btn:active { transform: scale(.98); }
+
+    /* Result card */
+    .result-card { display: none; margin-top: 1rem; }
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      margin-bottom: 1rem;
+    }
+    .result-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      flex-shrink: 0;
+    }
+    .final-link {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--accent);
+      word-break: break-all;
+      line-height: 1.6;
+      min-height: 44px;
+    }
+    .copy-btn {
+      width: 100%;
+      height: 38px;
+      background: var(--surface2);
+      color: var(--text-2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      transition: all .15s;
+    }
+    .copy-btn:hover { border-color: var(--border-s); color: var(--text); }
+    .copy-btn.copied {
+      border-color: var(--success-b);
+      color: var(--success);
+      background: var(--success-bg);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="header">
+      <h1>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+        Link Builder
+      </h1>
+      <p>Generate a tracked campaign URL for launch</p>
+    </div>
+
+    <!-- Base URL -->
+    <div class="card">
+      <div class="card-title">Base URL</div>
+
+      <div class="field">
+        <label for="base-url">Worker URL</label>
+        <input type="text" id="base-url" value="https://curly-hill-3116.scle.workers.dev/" autocomplete="off" spellcheck="false" />
+        <div class="hint">Paste the Cloudflare Workers base URL — slug added automatically</div>
+      </div>
+
+      <div class="field">
+        <label>Generated slug</label>
+        <div class="slug-display" id="slug-preview" role="button" tabindex="0" title="Click to regenerate" aria-label="Generated slug — click to regenerate">
+          <span class="slug-text" id="slug-val"></span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+            <path d="M21 3v5h-5"/>
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+            <path d="M8 16H3v5"/>
+          </svg>
+        </div>
+        <div class="hint">Click to regenerate · 7-character alphanumeric</div>
+      </div>
+    </div>
+
+    <!-- Campaign parameters -->
+    <div class="card">
+      <div class="card-title">Campaign parameters</div>
+
+      <div class="field">
+        <label for="bc-number">TikTok Business Center number</label>
+        <div class="bc-wrap">
+          <span class="bc-prefix">BC-</span>
+          <input type="text" id="bc-number" placeholder="Enter BC number" inputmode="numeric" autocomplete="off" />
+        </div>
+        <div class="hint" id="bc-hint">The BC number for this launch</div>
+        <div class="err-hint" id="bc-err">Enter the BC number before generating</div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="field">
+        <label for="va-name">VA name</label>
+        <select id="va-name">
+          <option value="VA-NAME1">VA-NAME1</option>
+          <option value="VA-NAME2">VA-NAME2</option>
+          <option value="VA-NAME3">VA-NAME3</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="country">Country</label>
+          <select id="country">
+            <option value="US">🇺🇸 US — United States</option>
+            <option value="CA">🇨🇦 CA — Canada</option>
+            <option value="UK">🇬🇧 UK — United Kingdom</option>
+            <option value="AU">🇦🇺 AU — Australia</option>
+            <option value="DE">🇩🇪 DE — Germany</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Traffic type</label>
+          <div class="toggle-row">
+            <button class="toggle-btn active" id="btn-dir" onclick="setType('DIR', this)">Direct</button>
+            <button class="toggle-btn" id="btn-indir" onclick="setType('INDIR', this)">Indirect</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="field">
+        <label>
+          Launch time
+          <span class="est-chip">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="est-now">—</span>
+          </span>
+        </label>
+        <div class="hint">Captured automatically when you click "Generate link" — EST</div>
+      </div>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Generate link
+    </button>
+
+    <!-- Result -->
+    <div class="card result-card" id="result-card">
+      <div class="result-header">
+        <span class="result-dot"></span>
+        Ready to use
+      </div>
+      <div class="final-link" id="final-link"></div>
+      <button class="copy-btn" id="copy-btn" onclick="copyLink()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        Copy link
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let currentSlug = '';
+    let trafficType = 'DIR';
+
+    function genSlug() {
+      let s = '';
+      for (let i = 0; i < 7; i++) s += CHARS[Math.floor(Math.random() * CHARS.length)];
+      return s;
+    }
+
+    function getEST() {
+      const now = new Date();
+      const opts = {
+        timeZone: 'America/New_York',
+        month: 'short', day: '2-digit',
+        hour: '2-digit', minute: '2-digit',
+        hour12: true
+      };
+      const parts = new Intl.DateTimeFormat('en-US', opts).formatToParts(now);
+      const get = t => parts.find(p => p.type === t)?.value || '';
+      const mon  = get('month').toUpperCase();
+      const day  = get('day').replace(/^0/, '');
+      const hh   = get('hour');
+      const mm   = get('minute');
+      const ampm = get('dayPeriod').replace(/\./g, '').toUpperCase();
+      return {
+        display: `${mon} ${day} · ${hh}:${mm} ${ampm} EST`,
+        param:   `${mon}${day}-${hh}${mm}${ampm}`
+      };
+    }
+
+    function refreshSlug() {
+      currentSlug = genSlug();
+      const base = document.getElementById('base-url').value.replace(/\/$/, '');
+      document.getElementById('slug-val').textContent = base + '/' + currentSlug;
+    }
+
+    function setType(val, btn) {
+      trafficType = val;
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function tickClock() {
+      const el = document.getElementById('est-now');
+      if (el) el.textContent = getEST().display;
+    }
+
+    function generate() {
+      const bcInput = document.getElementById('bc-number');
+      const bcVal   = bcInput.value.trim();
+
+      if (!bcVal) {
+        bcInput.classList.add('error');
+        document.getElementById('bc-hint').style.display = 'none';
+        document.getElementById('bc-err').style.display  = 'block';
+        bcInput.focus();
+        return;
+      }
+
+      bcInput.classList.remove('error');
+      document.getElementById('bc-hint').style.display = 'block';
+      document.getElementById('bc-err').style.display  = 'none';
+
+      const base    = document.getElementById('base-url').value.replace(/\/$/, '');
+      const va      = document.getElementById('va-name').value;
+      const country = document.getElementById('country').value;
+      const t       = getEST();
+
+      const source   = `BC-${bcVal}-${va}-${t.param}-${country}-${trafficType}`;
+      const finalUrl = `${base}/${currentSlug}?source=${source}`;
+
+      document.getElementById('final-link').textContent = finalUrl;
+
+      const card = document.getElementById('result-card');
+      card.style.display = 'block';
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      refreshSlug();
+    }
+
+    function copyLink() {
+      const text = document.getElementById('final-link').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.innerHTML = `
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Copied!`;
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = `
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            Copy link`;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Event listeners
+    document.getElementById('slug-preview').addEventListener('click', refreshSlug);
+    document.getElementById('slug-preview').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') refreshSlug();
+    });
+    document.getElementById('base-url').addEventListener('input', refreshSlug);
+    document.getElementById('bc-number').addEventListener('input', function () {
+      this.classList.remove('error');
+      document.getElementById('bc-hint').style.display = 'block';
+      document.getElementById('bc-err').style.display  = 'none';
+    });
+
+    // Init
+    refreshSlug();
+    tickClock();
+    setInterval(tickClock, 30000);
+  </script>
+</body>
+</html>
