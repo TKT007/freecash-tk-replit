@@ -309,9 +309,9 @@
       <div class="card-title">Base URL</div>
 
       <div class="field">
-        <label for="base-url">Worker URL</label>
-        <input type="text" id="base-url" value="https://curly-hill-3116.scle.workers.dev/" autocomplete="off" spellcheck="false" />
-        <div class="hint">Paste the Cloudflare Workers base URL — slug added automatically</div>
+        <label for="base-url">Campaign link</label>
+        <input type="text" id="base-url" placeholder="Paste the campaign link here" autocomplete="off" spellcheck="false" />
+        <div class="hint">Paste the campaign link — slug will be appended automatically</div>
       </div>
 
       <div class="field">
@@ -444,7 +444,7 @@
     function refreshSlug() {
       currentSlug = genSlug();
       const base = document.getElementById('base-url').value.replace(/\/$/, '');
-      document.getElementById('slug-val').textContent = base + '/' + currentSlug;
+      document.getElementById('slug-val').textContent = base ? base + '/' + currentSlug : currentSlug;
     }
 
     function setType(val, btn) {
