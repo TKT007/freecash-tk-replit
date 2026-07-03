@@ -666,12 +666,10 @@
   // ─── SCREEN NAVIGATION ───────────────────────────────────
   // Botões da screen1 disparam ViewContent de clique e vão pra screen2
   document.getElementById('btnIphone').addEventListener('click', function() {
-    firePixelEvents();
     goToScreen2();
   });
 
   document.getElementById('btnAndroid').addEventListener('click', function() {
-    firePixelEvents();
     goToScreen2();
   });
 
@@ -698,9 +696,14 @@
   }
 
   // Botão do modal — dispara pixels e deixa o link redirecionar
-  document.getElementById('modalBtn').addEventListener('click', function() {
+  document.getElementById('modalBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+
     firePixelEvents();
-    // NÃO previne default — href redireciona para tk.unlockbonusapp.com/click
+
+    setTimeout(function() {
+      window.location.href = "https://tk.unlockbonusapp.com/click";
+    }, 300);
   });
   </script>
 
