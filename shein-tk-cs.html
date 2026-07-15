@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +21,12 @@
   <style>
     :root {
       --bg:      #ffffff;
-      --surface: #fff5f0;
-      --primary: #e8470a;
-      --primary2:#c23a06;
-      --text:    #1a0a05;
-      --muted:   #6b4030;
-      --muted2:  #b89080;
+      --surface: #f4f4f5;
+      --primary: #0a0a0a;
+      --primary2:#000000;
+      --text:    #171717;
+      --muted:   #6b6b6b;
+      --muted2:  #b3b3b3;
       --green:   #1a7a3c;
     }
 
@@ -45,8 +47,8 @@
     .bg-layer::before {
       content: ''; position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(232,71,10,.07) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(194,58,6,.05) 0%, transparent 55%);
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,0,0,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,0,.04) 0%, transparent 55%);
     }
 
     .particle { position: absolute; border-radius: 50%; opacity: 0; animation: rise linear infinite; }
@@ -73,30 +75,30 @@
     .hero h1 { font-size: 2rem; font-weight: 900; line-height: 1.1; color: var(--text); }
     .hero h1 .hl { color: var(--primary); }
     .hero p { margin-top: 7px; font-size: .9rem; color: var(--muted); }
-    .badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; background: rgba(232,71,10,.07); border: 1px solid rgba(232,71,10,.22); border-radius: 999px; padding: 5px 14px; font-size: .73rem; font-weight: 700; color: var(--primary); }
+    .badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; background: rgba(0,0,0,.07); border: 1px solid rgba(0,0,0,.22); border-radius: 999px; padding: 5px 14px; font-size: .73rem; font-weight: 700; color: var(--primary); }
     .badge svg { width: 12px; height: 12px; flex-shrink: 0; }
 
     /* VALUE COUNTER */
-    .value-counter { width: 100%; background: var(--surface); border: 1px solid rgba(232,71,10,.18); border-radius: 18px; padding: 22px 20px 18px; text-align: center; margin-bottom: 4px; animation: fadeUp .58s .08s ease both; box-shadow: 0 4px 20px rgba(232,71,10,.07); }
+    .value-counter { width: 100%; background: var(--surface); border: 1px solid rgba(0,0,0,.18); border-radius: 18px; padding: 22px 20px 18px; text-align: center; margin-bottom: 4px; animation: fadeUp .58s .08s ease both; box-shadow: 0 4px 20px rgba(0,0,0,.07); }
     .counter-amount { font-size: 3.2rem; font-weight: 900; color: var(--primary); line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
     .counter-label { font-size: .8rem; font-weight: 700; color: var(--muted); margin-top: 4px; }
-    .counter-bar-wrap { width: 100%; height: 6px; background: rgba(232,71,10,.15); border-radius: 99px; margin-top: 14px; overflow: hidden; }
-    .counter-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #f07040, var(--primary)); border-radius: 99px; transition: width 2s cubic-bezier(.1,.9,.2,1); }
+    .counter-bar-wrap { width: 100%; height: 6px; background: rgba(0,0,0,.15); border-radius: 99px; margin-top: 14px; overflow: hidden; }
+    .counter-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #404040, var(--primary)); border-radius: 99px; transition: width 2s cubic-bezier(.1,.9,.2,1); }
 
     /* CTA */
     .cta-btn {
       width: 100%; margin: 14px 0 10px; padding: 17px;
       background: var(--primary); border: none; border-radius: 14px;
       font-size: 1.08rem; font-weight: 800; color: #fff; cursor: pointer;
-      box-shadow: 0 6px 24px rgba(232,71,10,.3);
+      box-shadow: 0 6px 24px rgba(0,0,0,.3);
       transition: transform .15s, box-shadow .15s;
       animation: fadeUp .6s .1s ease both, cta-pulse 3s 1s ease-in-out infinite;
       display: block; text-decoration: none; text-align: center; line-height: normal;
       touch-action: manipulation; -webkit-appearance: none; letter-spacing: .01em;
     }
     @keyframes cta-pulse {
-      0%,100% { box-shadow: 0 6px 24px rgba(232,71,10,.3); }
-      50%      { box-shadow: 0 8px 36px rgba(194,58,6,.55); }
+      0%,100% { box-shadow: 0 6px 24px rgba(0,0,0,.3); }
+      50%      { box-shadow: 0 8px 36px rgba(0,0,0,.5); }
     }
     .cta-btn:active { transform: scale(.97); }
 
@@ -105,23 +107,23 @@
     .trust span::before { content: '✓ '; color: var(--primary); font-weight: 700; }
 
     /* STEPS */
-    .steps-card { width: 100%; background: var(--surface); border: 1px solid rgba(232,71,10,.15); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(232,71,10,.08); margin-bottom: 18px; animation: fadeUp .65s .2s ease both; }
-    .steps-title { font-size: .68rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; padding: 16px 0; border-bottom: 1px solid rgba(232,71,10,.1); }
-    .step-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid rgba(232,71,10,.08); }
+    .steps-card { width: 100%; background: var(--surface); border: 1px solid rgba(0,0,0,.15); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,.08); margin-bottom: 18px; animation: fadeUp .65s .2s ease both; }
+    .steps-title { font-size: .68rem; font-weight: 700; text-align: center; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,.1); }
+    .step-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,.08); }
     .step-item:last-child { border-bottom: none; }
-    .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 800; color: #fff; flex-shrink: 0; box-shadow: 0 0 10px rgba(232,71,10,.3); }
+    .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 800; color: #fff; flex-shrink: 0; box-shadow: 0 0 10px rgba(0,0,0,.3); }
     .step-body { flex: 1; text-align: left; }
     .step-body b { display: block; font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
     .step-body span { font-size: .76rem; color: var(--muted); line-height: 1.4; }
 
     /* BANNER */
-    .challenge-banner { width: 100%; background: #fff5f0; border: 1px solid rgba(232,71,10,.22); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; position: relative; overflow: hidden; animation: fadeUp .68s .22s ease both; }
+    .challenge-banner { width: 100%; background: var(--surface); border: 1px solid rgba(0,0,0,.22); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; position: relative; overflow: hidden; animation: fadeUp .68s .22s ease both; }
     .ch-badge { position: absolute; top: -1px; right: -1px; background: var(--primary); border-radius: 0 16px 0 10px; padding: 4px 10px; font-size: .58rem; font-weight: 800; letter-spacing: 1px; color: #fff; text-transform: uppercase; }
     .challenge-icon { font-size: 1.5rem; flex-shrink: 0; }
     .challenge-body { flex: 1; text-align: left; }
     .challenge-label { font-size: .58rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--primary); margin-bottom: 3px; }
     .challenge-title { font-size: .88rem; color: var(--text); line-height: 1.4; font-weight: 400; }
-    .challenge-title .green { color: var(--green); font-weight: 700; }
+    .challenge-title .green { color: var(--primary); font-weight: 700; }
 
     /* STATS */
     .stats { display: flex; align-items: center; justify-content: center; font-size: .71rem; color: var(--muted); animation: fadeUp .7s .25s ease both; }
@@ -129,7 +131,7 @@
     /* STICKY CTA */
     .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%); transform: translateY(110%); transition: transform .3s ease; pointer-events: none; }
     .sticky-cta.visible { transform: translateY(0); pointer-events: auto; }
-    .sticky-cta a { display: block; width: 100%; max-width: 400px; margin: 0 auto; padding: 16px; background: var(--primary); border-radius: 14px; font-size: 1.05rem; font-weight: 800; color: #fff; text-decoration: none; text-align: center; box-shadow: 0 6px 24px rgba(232,71,10,.4); animation: cta-pulse 3s ease-in-out infinite; }
+    .sticky-cta a { display: block; width: 100%; max-width: 400px; margin: 0 auto; padding: 16px; background: var(--primary); border-radius: 14px; font-size: 1.05rem; font-weight: 800; color: #fff; text-decoration: none; text-align: center; box-shadow: 0 6px 24px rgba(0,0,0,.4); animation: cta-pulse 3s ease-in-out infinite; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -216,7 +218,7 @@
 // ─── PARTICLES ───────────────────────────────────────────────
 (function(){
   var layer = document.getElementById('bgLayer');
-  var colors = ['#e8470a','#c23a06','#f07040','#f5a080','#fdd0b8'];
+  var colors = ['#0a0a0a','#1a1a1a','#333333','#555555','#808080'];
   for(var i=0;i<18;i++){
     var p = document.createElement('div');
     p.className = 'particle';
@@ -315,5 +317,6 @@ function makeId(){
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"026d1f61bbfb423a96f53124a981a0a5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"026d1f61bbfb423a96f53124a981a0a5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
